@@ -1,0 +1,23 @@
+1. Open Command Prompt
+
+Navigate to the project folder:
+
+cd Facial-attendance-and-timetable-\backend
+2. Create Virtual Environment Using Python 3.11
+py -3.11 -m venv venv
+3. Activate Virtual Environment
+venv\Scripts\activate
+4. Upgrade Pip
+python -m pip install --upgrade pip
+5. Install Project Dependencies
+pip install -r requirements.txt
+6. Install Additional Required Package
+pip install email-validator
+7. Verify Python Version
+python --version
+
+Expected:
+
+Python 3.11.x
+8. Run the Backend
+python app.py

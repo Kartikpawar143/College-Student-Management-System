@@ -1,12 +1,13 @@
 "use client";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import Navbar from "@/components/Navbar";
 import { IconSparkles } from "@tabler/icons-react";
 
 function AdminShell({ children }: { children: React.ReactNode }) {
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const { user, isLoading } = useAuth();
   const router = useRouter();
 
@@ -38,20 +39,20 @@ function AdminShell({ children }: { children: React.ReactNode }) {
   if (!user || user.role !== "admin") return null;
 
   return (
-    <div className="flex bg-[#070b14] min-h-screen font-sans selection:bg-indigo-500/30">
+    <div className="flex bg-[#07111d] min-h-screen font-sans selection:bg-cyan-300/30">
       {/* Sidebar (Left) */}
-      <Sidebar />
+      <Sidebar mobileOpen={mobileNavOpen} onClose={() => setMobileNavOpen(false)} onNavigate={() => setMobileNavOpen(false)} />
       
       {/* Main Content (Right) */}
-      <main className="flex-1 flex flex-col h-screen overflow-hidden relative">
-        <div className="absolute top-0 right-0 w-[600px] h-[300px] bg-indigo-500/5 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
+      <main className="admin-shell min-w-0 flex-1 flex flex-col min-h-screen lg:h-screen lg:overflow-hidden relative">
+        <div className="absolute top-0 right-0 w-[600px] h-[300px] bg-cyan-400/[0.04] rounded-full blur-[120px] -z-10 pointer-events-none"></div>
 
         {/* Navbar (Top) */}
-        <Navbar />
+        <Navbar onMenuClick={() => setMobileNavOpen(true)} />
         
         {/* Dynamic Viewport (Content) */}
         <div className="flex-1 overflow-y-auto scroll-smooth">
-          <div className="min-h-full">
+          <div id="admin-content" className="min-h-full">
             {children}
           </div>
         </div>

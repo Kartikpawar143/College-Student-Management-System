@@ -8,8 +8,8 @@ import {
 
 export default function AdminSettingsPage() {
     return (
-        <main className="p-8 space-y-8">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <main className="admin-feature-page admin-settings-page p-8 space-y-8">
+            <div className="settings-heading flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
                     <h2 className="text-3xl font-black text-slate-800 tracking-tighter uppercase">System Settings</h2>
                     <p className="text-slate-400 font-bold uppercase text-[10px] tracking-[0.2em] mt-1">Configure SmartCampus parameters and profiles</p>
@@ -19,9 +19,9 @@ export default function AdminSettingsPage() {
                 </button>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div className="settings-layout grid grid-cols-1 lg:grid-cols-12 gap-8">
                 {/* Navigation Menu */}
-                <div className="lg:col-span-4 space-y-2">
+                <div className="settings-navigation lg:col-span-4 space-y-2">
                     {[
                         { icon: IconUser, label: "Admin Profile", active: true },
                         { icon: IconShieldLock, label: "Security & Privacy", active: false },
@@ -30,7 +30,7 @@ export default function AdminSettingsPage() {
                         { icon: IconDatabase, label: "Data Management", active: false },
                         { icon: IconCloudUpload, label: "Cloud Syncing", active: false },
                     ].map((item, idx) => (
-                        <button key={idx} className={`w-full flex items-center justify-between p-6 rounded-3xl transition-all ${
+                        <button key={idx} className={`settings-nav-item w-full flex items-center justify-between p-6 rounded-3xl transition-all ${
                             item.active ? 'bg-white shadow-xl shadow-slate-100 border border-slate-100' : 'hover:bg-white/50 text-slate-400'
                         }`}>
                             <div className="flex items-center gap-4">
@@ -43,7 +43,7 @@ export default function AdminSettingsPage() {
                         </button>
                     ))}
                     
-                    <button className="w-full flex items-center gap-4 p-6 rounded-3xl text-rose-500 hover:bg-rose-50 transition-all mt-8">
+                    <button className="settings-logout w-full flex items-center gap-4 p-6 rounded-3xl text-rose-500 hover:bg-rose-50 transition-all mt-8">
                          <div className="w-10 h-10 rounded-xl bg-rose-100 flex items-center justify-center">
                             <IconLogout size={20} />
                         </div>
@@ -52,13 +52,13 @@ export default function AdminSettingsPage() {
                 </div>
 
                 {/* Form Content */}
-                <div className="lg:col-span-8 bg-white border border-slate-100 rounded-[3rem] p-10 shadow-sm space-y-10">
-                    <div>
+                <div className="settings-content lg:col-span-8 bg-white border border-slate-100 rounded-[3rem] p-10 shadow-sm space-y-10">
+                    <div className="settings-section-heading">
                         <h3 className="text-xl font-black text-slate-800 tracking-tighter uppercase mb-2">Profile Credentials</h3>
                         <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Manage your administrative access details</p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="settings-fields grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="space-y-2">
                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Full Identity Name</label>
                            <input type="text" defaultValue="Administrator" className="w-full bg-slate-50 border border-slate-100 rounded-[1.8rem] px-6 py-4 text-sm font-bold text-slate-800 focus:outline-none focus:ring-4 focus:ring-blue-100 transition-all" />
@@ -77,7 +77,7 @@ export default function AdminSettingsPage() {
                         </div>
                     </div>
 
-                    <div className="pt-8 border-t border-slate-50">
+                    <div className="settings-security pt-8 border-t border-slate-50">
                         <h3 className="text-xl font-black text-slate-800 tracking-tighter uppercase mb-6">Security Protocols</h3>
                         <div className="space-y-6">
                             {[
@@ -85,7 +85,7 @@ export default function AdminSettingsPage() {
                                 { label: "Automatic Session Termination", desc: "Logs out after 15 minutes of inactivity.", status: false },
                                 { label: "Cloud Backup Engine", desc: "Sync all records to the secure node at midnight.", status: true },
                             ].map((toggle, idx) => (
-                                <div key={idx} className="flex items-center justify-between p-6 bg-slate-50 rounded-3xl border border-slate-100">
+                                <div key={idx} className="settings-toggle-row flex items-center justify-between p-6 bg-slate-50 rounded-3xl border border-slate-100">
                                     <div>
                                         <h4 className="text-[11px] font-black text-slate-800 uppercase tracking-wider mb-1">{toggle.label}</h4>
                                         <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{toggle.desc}</p>

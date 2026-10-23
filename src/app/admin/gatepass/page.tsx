@@ -5,7 +5,7 @@ import {
     IconDoor, IconCheck, IconX, IconClock, 
     IconUser, IconMapPin, IconCalendarEvent,
     IconSearch, IconShieldCheck, IconLogout2,
-    IconFingerprint, IconScan, IconActivity, IconSparkles, IconLock, IconShield, IconWalk
+    IconFingerprint, IconScan, IconActivity, IconSparkles, IconLock, IconWalk
 } from "@tabler/icons-react";
 
 export default function AdminShortLeavesPage() {
@@ -42,10 +42,12 @@ export default function AdminShortLeavesPage() {
         p.studentName.toLowerCase().includes(searchQuery.toLowerCase()) ||
         (p.rollNo && p.rollNo.toLowerCase().includes(searchQuery.toLowerCase()))
     );
+    const studentsInQueue = new Set(approvedPasses.map(pass => pass.studentId || pass.studentName).filter(Boolean)).size;
+    const requestsWithReason = approvedPasses.filter(pass => Boolean(pass.reason?.trim())).length;
 
     return (
-        <main className="min-h-screen bg-[#070b14] p-8 lg:p-12 font-sans text-slate-200 uppercase tracking-tight">
-            <div className="max-w-7xl mx-auto space-y-12 relative font-sans">
+        <main className="admin-feature-page admin-short-leaves-page min-h-screen bg-[#070b14] p-8 lg:p-12 font-sans text-slate-200 uppercase tracking-tight">
+            <div className="max-w-7xl mx-auto space-y-12 relative font-sans short-leave-workspace">
                 <div className="absolute top-0 right-0 w-[50rem] h-[50rem] bg-indigo-600/5 blur-[200px] rounded-full pointer-events-none"></div>
                 
                 <header className="flex flex-col md:flex-row md:items-center justify-between gap-10 pb-12 border-b border-white/5 relative z-10 font-sans uppercase tracking-[0.3em]">
@@ -61,21 +63,21 @@ export default function AdminShortLeavesPage() {
                     <div className="flex flex-wrap items-center gap-6 font-sans uppercase tracking-widest font-black">
                          <div className="px-8 py-4 bg-[#0f172a] border border-white/5 rounded-2xl flex items-center gap-4 shadow-xl font-sans group">
                              <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-ping"></div>
-                             <span className="text-[10px] text-slate-500 font-black uppercase">Institutional Status: <span className="text-white">Synched</span></span>
+                             <span className="text-[10px] text-slate-500 font-black uppercase">Pending in queue: <span className="text-white">{approvedPasses.length}</span></span>
                          </div>
                     </div>
                 </header>
 
                 {/* Tactical Stats Row */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10 font-sans uppercase">
+                <div className="short-leave-stats grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10 font-sans uppercase">
                     {[
-                        { label: "Pending Authorization", val: approvedPasses.length, icon: IconClock, color: "text-indigo-400", bg: "bg-indigo-500/10" },
-                        { label: "Authorized Exits", val: "12", icon: IconWalk, color: "text-emerald-400", bg: "bg-emerald-500/10" },
-                        { label: "Node Denials", val: "02", icon: IconX, color: "text-rose-400", bg: "bg-rose-500/10" },
-                        { label: "Shield Level", val: "Alpha", icon: IconShield, color: "text-slate-400", bg: "bg-slate-500/10" },
+                        { label: "Pending requests", val: approvedPasses.length, icon: IconClock, color: "text-indigo-400", bg: "bg-indigo-500/10" },
+                        { label: "Students in queue", val: studentsInQueue, icon: IconUser, color: "text-cyan-200", bg: "bg-cyan-500/10" },
+                        { label: "Requests with reason", val: requestsWithReason, icon: IconCheck, color: "text-emerald-400", bg: "bg-emerald-500/10" },
+                        { label: "Search results", val: filteredPasses.length, icon: IconSearch, color: "text-amber-300", bg: "bg-amber-500/10" },
                     ].map((stat, i) => (
-                        <div key={i} className="bg-[#0f172a] p-8 rounded-[3.5rem] border border-white/5 shadow-2xl group hover:border-indigo-500/20 transition-all flex items-center gap-8">
-                            <div className={`w-14 h-14 ${stat.bg} ${stat.color} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-500 shadow-xl border border-white/5`}>
+                        <div key={i} className="short-leave-stat bg-[#0f172a] p-8 rounded-[3.5rem] border border-white/5 shadow-2xl group hover:border-indigo-500/20 transition-all flex items-center gap-8">
+                            <div className={`short-leave-stat-icon w-14 h-14 ${stat.bg} ${stat.color} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-500 shadow-xl border border-white/5`}>
                                 <stat.icon size={26} />
                             </div>
                             <div>
@@ -86,10 +88,10 @@ export default function AdminShortLeavesPage() {
                     ))}
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 font-sans relative z-10">
+                <div className="short-leave-layout grid grid-cols-1 lg:grid-cols-12 gap-10 font-sans relative z-10">
                     {/* Security Ledger */}
-                    <div className="lg:col-span-8 bg-[#0f172a] border border-white/5 rounded-[4.5rem] shadow-3xl overflow-hidden min-h-[650px] flex flex-col relative group uppercase">
-                        <div className="p-12 border-b border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-10 bg-white/[0.02] relative z-20">
+                    <div className="leave-queue-panel lg:col-span-8 bg-[#0f172a] border border-white/5 rounded-[4.5rem] shadow-3xl overflow-hidden min-h-[650px] flex flex-col relative group uppercase">
+                        <div className="leave-queue-toolbar p-12 border-b border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-10 bg-white/[0.02] relative z-20">
                             <div className="flex items-center gap-6">
                                 <div className="w-5 h-5 bg-indigo-500 rounded-full animate-pulse shadow-[0_0_15px_rgba(99,102,241,0.5)]"></div>
                                 <h3 className="font-black text-white text-sm uppercase tracking-widest leading-none">Validation Queue</h3>
@@ -106,7 +108,7 @@ export default function AdminShortLeavesPage() {
                             </div>
                         </div>
 
-                        <div className="flex-1 divide-y divide-white/5 relative z-10 font-sans uppercase">
+                        <div className="leave-queue-list flex-1 divide-y divide-white/5 relative z-10 font-sans uppercase">
                             {loading ? (
                                 <div className="py-48 text-center flex flex-col items-center gap-10 grayscale opacity-40">
                                     <div className="p-12 bg-[#070b14] rounded-[3rem] border border-white/5 shadow-2xl">
@@ -116,14 +118,14 @@ export default function AdminShortLeavesPage() {
                                 </div>
                             ) : filteredPasses.length > 0 ? (
                                 filteredPasses.map((request) => (
-                                    <div key={request._id} className="p-12 group/item hover:bg-white/[0.02] transition-all relative overflow-hidden uppercase font-sans">
+                                    <div key={request._id} className="leave-request-card p-12 group/item hover:bg-white/[0.02] transition-all relative overflow-hidden uppercase font-sans">
                                         <div className="absolute top-0 right-0 w-80 h-full bg-indigo-600/0 group-hover/item:bg-indigo-600/[0.02] transition-colors skew-x-12 translate-x-20"></div>
-                                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-12 relative z-10">
-                                            <div className="flex items-start gap-10 font-sans">
-                                                <div className="w-20 h-20 rounded-[2.5rem] bg-[#070b14] border border-white/5 flex items-center justify-center text-slate-800 group-hover/item:text-indigo-400 group-hover/item:scale-110 transition-all duration-700 shadow-2xl">
+                                        <div className="leave-request-layout flex flex-col md:flex-row md:items-center justify-between gap-12 relative z-10">
+                                            <div className="leave-student flex items-start gap-10 font-sans">
+                                                <div className="leave-avatar w-20 h-20 rounded-[2.5rem] bg-[#070b14] border border-white/5 flex items-center justify-center text-slate-800 group-hover/item:text-indigo-400 transition-colors">
                                                     <IconUser size={36} />
                                                 </div>
-                                                <div className="space-y-4 font-sans uppercase tracking-tight">
+                                                <div className="leave-details space-y-4 font-sans uppercase tracking-tight">
                                                     <div className="flex items-center gap-6 font-sans">
                                                         <h4 className="text-3xl font-black text-white tracking-tighter uppercase leading-none group-hover/item:text-indigo-400 transition-colors uppercase">{request.studentName}</h4>
                                                         <span className="text-[10px] font-black px-4 py-1.5 bg-emerald-500/10 text-emerald-400 rounded-xl uppercase tracking-widest border border-emerald-500/20 animate-pulse">Pending Commit</span>
@@ -144,7 +146,7 @@ export default function AdminShortLeavesPage() {
                                                 </div>
                                             </div>
 
-                                            <div className="flex items-center gap-6 relative z-10">
+                                            <div className="leave-actions flex items-center gap-6 relative z-10">
                                                 <button 
                                                     onClick={() => handleAction(request._id, 'Rejected')}
                                                     className="p-5 rounded-2xl border border-white/5 text-slate-800 hover:text-rose-400 hover:bg-rose-500/10 hover:border-rose-500/20 transition-all active:scale-90 shadow-xl bg-[#070b14]"
@@ -178,7 +180,7 @@ export default function AdminShortLeavesPage() {
 
                     {/* Security Control Panel */}
                     <div className="lg:col-span-4 space-y-10 font-sans uppercase">
-                        <div className="bg-[#070b14] rounded-[4rem] p-12 text-white shadow-3xl border border-white/5 relative overflow-hidden group font-sans uppercase transition-all hover:border-indigo-500/20">
+                        <div className="leave-rules-card bg-[#070b14] rounded-[4rem] p-12 text-white shadow-3xl border border-white/5 relative overflow-hidden group font-sans uppercase transition-all hover:border-indigo-500/20">
                             <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-600/5 blur-[100px] rounded-bl-full pointer-events-none"></div>
                             <div className="flex items-center gap-6 mb-12 relative z-10">
                                 <div className="p-4 bg-[#0f172a] rounded-2xl border border-white/5 shadow-2x">
@@ -204,7 +206,7 @@ export default function AdminShortLeavesPage() {
                             </div>
                         </div>
 
-                        <div className="bg-[#0f172a] border border-white/5 rounded-[4rem] p-14 shadow-2xl text-center group hover:border-indigo-500/20 transition-all font-sans relative overflow-hidden uppercase">
+                        <div className="leave-clearance-card bg-[#0f172a] border border-white/5 rounded-[4rem] p-14 shadow-2xl text-center group hover:border-indigo-500/20 transition-all font-sans relative overflow-hidden uppercase">
                              <div className="absolute inset-0 bg-indigo-600/0 group-hover:bg-indigo-600/[0.02] transition-colors pointer-events-none"></div>
                              <div className="w-24 h-24 bg-[#070b14] text-indigo-500 rounded-[2.8rem] mx-auto flex items-center justify-center mb-10 shadow-3xl border border-white/5 group-hover:scale-110 transition-all duration-700">
                                 <IconFingerprint size={48} stroke={1.5} />

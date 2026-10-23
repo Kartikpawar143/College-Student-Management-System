@@ -4,11 +4,11 @@ import { useAuth } from "@/context/AuthContext";
 import { 
     IconSearch, IconBell, IconUser, IconChevronDown, 
     IconCommand, IconSettings, IconLogout, IconLayoutGrid,
-    IconBroadcast, IconSparkles, IconActivity, IconShieldCheck
+    IconBroadcast, IconSparkles, IconActivity, IconShieldCheck, IconMenu2
 } from "@tabler/icons-react";
 import { usePathname } from "next/navigation";
 
-export default function Navbar() {
+export default function Navbar({ onMenuClick }: { onMenuClick?: () => void } = {}) {
     const { user, logout } = useAuth();
     const pathname = usePathname();
     const [scrolled, setScrolled] = useState(false);
@@ -28,25 +28,26 @@ export default function Navbar() {
     };
 
     return (
-        <nav className={`h-20 flex items-center justify-between px-8 sticky top-0 z-[45] transition-all duration-500 font-sans border-b border-white/5 ${
-            scrolled ? "bg-[#070b14]/90 backdrop-blur-xl shadow-2xl" : "bg-[#070b14]"
+        <nav className={`h-[4.5rem] sm:h-20 flex items-center justify-between gap-3 px-4 sm:px-6 lg:px-8 sticky top-0 z-[45] transition-all duration-500 font-sans border-b border-white/[0.08] ${
+            scrolled ? "bg-[#07111d]/90 backdrop-blur-xl shadow-lg shadow-black/10" : "bg-[#07111d]"
         }`}>
             {/* Left: Section Identity */}
             <div className="flex items-center gap-6">
-                <div className="hidden lg:flex flex-col">
+                {onMenuClick && <button type="button" onClick={onMenuClick} aria-label="Open navigation" className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-slate-200 transition hover:bg-white/10 lg:hidden"><IconMenu2 size={20} /></button>}
+                <div className="flex flex-col">
                     <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.2em] text-slate-500">
-                        <IconActivity size={10} className="text-indigo-500" />
-                        <span>Status / {user?.role || "user"}</span>
+                        <IconActivity size={10} className="text-cyan-200" />
+                        <span className="hidden sm:inline">Campus portal / {user?.role || "user"}</span>
                     </div>
-                    <h2 className="text-lg font-black text-white tracking-tight leading-tight mt-0.5 uppercase">
+                    <h2 className="text-sm sm:text-lg font-semibold text-white tracking-tight leading-tight mt-0.5 capitalize">
                         {getSectionName()}
                     </h2>
                 </div>
 
                 {/* Status Badge */}
                 <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-indigo-500/10 rounded-xl border border-indigo-500/20 group cursor-default">
-                    <div className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-pulse shadow-[0_0_8px_#818cf8]"></div>
-                    <span className="text-[8px] font-black uppercase tracking-widest text-indigo-400">System Working</span>
+                    <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full"></div>
+                    <span className="text-[8px] font-semibold uppercase tracking-wider text-slate-300">Online</span>
                 </div>
             </div>
 
@@ -80,7 +81,7 @@ export default function Navbar() {
                 <div className="relative">
                     <div 
                         onClick={() => setShowProfile(!showProfile)}
-                        className={`flex items-center gap-3 p-1.5 pr-4 rounded-xl cursor-pointer transition-all active:scale-95 border border-transparent ${
+                        className={`flex items-center gap-3 p-1.5 pr-3 rounded-lg cursor-pointer transition-colors border border-transparent ${
                             showProfile ? "bg-white border-white shadow-xl" : "hover:bg-white/5"
                         }`}
                     >

@@ -87,8 +87,8 @@ export default function AdminNoticesPage() {
     );
 
     return (
-        <main className="min-h-screen bg-[#070b14] p-8 lg:p-12 font-sans text-slate-200">
-            <div className="max-w-7xl mx-auto space-y-12 relative">
+        <main className="admin-feature-page admin-notices-page min-h-screen bg-[#070b14] p-8 lg:p-12 font-sans text-slate-200">
+            <div className="max-w-7xl mx-auto space-y-12 relative notices-workspace">
                 <div className="absolute top-0 right-0 w-[50rem] h-[50rem] bg-indigo-600/5 blur-[200px] rounded-full pointer-events-none"></div>
 
                 <header className="flex flex-col md:flex-row md:items-center justify-between gap-10 pb-12 border-b border-white/5 relative z-10 text-left">
@@ -110,7 +110,7 @@ export default function AdminNoticesPage() {
                 </header>
 
                 <div className="bg-[#0f172a] rounded-[4.5rem] border border-white/5 shadow-3xl overflow-hidden min-h-[600px] flex flex-col relative group">
-                    <div className="p-12 border-b border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-10 bg-white/[0.02] relative z-20">
+                    <div className="notice-toolbar p-12 border-b border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-10 bg-white/[0.02] relative z-20">
                         <div className="flex items-center gap-6">
                             <div className="w-4 h-4 bg-indigo-500 rounded-full animate-pulse shadow-[0_0_15px_rgba(99,102,241,0.5)]"></div>
                             <h3 className="font-black text-white text-sm uppercase tracking-widest leading-none">Notice History</h3>
@@ -137,17 +137,17 @@ export default function AdminNoticesPage() {
                             </div>
                         ) : filteredNotices.length > 0 ? (
                             filteredNotices.map((notice) => (
-                                <div key={notice._id} className="p-14 group/item hover:bg-white/[0.02] transition-all relative overflow-hidden text-left">
+                                <article key={notice._id} className="notice-card p-14 group/item hover:bg-white/[0.02] transition-all relative overflow-hidden text-left">
                                      <div className="absolute top-0 right-0 w-80 h-full bg-indigo-600/0 group-hover/item:bg-indigo-600/[0.02] transition-colors skew-x-12 translate-x-20"></div>
-                                    <div className="flex flex-col lg:flex-row justify-between gap-12 relative z-10">
-                                        <div className="flex-1 space-y-8">
-                                            <div className="flex items-center gap-6">
-                                                <span className={`text-[9px] font-black px-4 py-1.5 rounded-lg uppercase tracking-widest border transition-all ${
+                                        <div className="notice-card-layout flex flex-col lg:flex-row justify-between gap-12 relative z-10">
+                                        <div className="notice-card-content flex-1 space-y-8">
+                                            <div className="notice-card-heading flex items-center gap-6">
+                                                <span className={`notice-category text-[9px] font-black px-4 py-1.5 rounded-lg uppercase tracking-widest border transition-all ${
                                                     notice.type === 'Urgent' ? 'bg-rose-500/10 text-rose-400 border-rose-500/20 shadow-[0_0_15px_rgba(244,63,94,0.3)] animate-pulse' : 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20'
                                                 }`}>{notice.type}</span>
                                                 <h4 className="text-3xl font-black text-white tracking-tighter uppercase leading-tight group-hover/item:text-indigo-400 transition-colors">{notice.title}</h4>
                                             </div>
-                                            <p className="text-base text-slate-400 font-medium leading-[1.8] max-w-5xl tracking-normal opacity-80 group-hover/item:opacity-100 transition-opacity whitespace-pre-line">
+                                            <p className="notice-body text-base text-slate-400 font-medium leading-[1.8] max-w-5xl tracking-normal opacity-80 group-hover/item:opacity-100 transition-opacity whitespace-pre-line">
                                                 {notice.content}
                                             </p>
 
@@ -165,14 +165,14 @@ export default function AdminNoticesPage() {
                                                 </div>
                                             )}
 
-                                            <div className="flex flex-wrap items-center gap-12 pt-6">
-                                                <div className="flex items-center gap-4">
+                                            <div className="notice-meta flex flex-wrap items-center gap-12 pt-6">
+                                                <div className="notice-meta-item flex items-center gap-4">
                                                     <div className="w-10 h-10 rounded-2xl bg-[#070b14] flex items-center justify-center text-slate-700 group-hover/item:text-indigo-400 transition-all border border-white/5 shadow-xl">
                                                         <IconCalendar size={18} />
                                                     </div>
                                                     <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">{notice.date}</span>
                                                 </div>
-                                                <div className="flex items-center gap-4">
+                                                <div className="notice-meta-item flex items-center gap-4">
                                                     <div className="w-10 h-10 rounded-2xl bg-[#070b14] flex items-center justify-center text-slate-700 group-hover/item:text-emerald-400 transition-all border border-white/5 shadow-xl">
                                                         <IconUser size={18} />
                                                     </div>
@@ -180,7 +180,7 @@ export default function AdminNoticesPage() {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="flex items-center gap-6">
+                                        <div className="notice-actions flex items-center gap-6">
                                             <button
                                                 onClick={() => handleDelete(notice._id)}
                                                 className="p-5 bg-[#070b14] border border-white/5 rounded-3xl text-slate-700 hover:text-rose-400 hover:border-rose-500/20 hover:shadow-2xl transition-all active:scale-90"
@@ -192,7 +192,7 @@ export default function AdminNoticesPage() {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </article>
                             ))
                         ) : (
                             <div className="p-48 text-center space-y-10 flex flex-col items-center justify-center grayscale group">

@@ -48,7 +48,7 @@ export default function AdminTimetablePage() {
     const timeSlots = Array.from(new Set(filteredSchedule.map(s => s.time))).sort();
 
     return (
-        <main className="min-h-screen bg-[#070b14] p-8 lg:p-12 font-sans text-slate-200">
+        <main className="admin-feature-page min-h-screen bg-[#070b14] p-8 lg:p-12 font-sans text-slate-200">
             <div className="max-w-[1600px] mx-auto space-y-12 relative">
                 <div className="absolute top-0 right-0 w-[50rem] h-[50rem] bg-indigo-600/5 blur-[200px] rounded-full pointer-events-none"></div>
                 

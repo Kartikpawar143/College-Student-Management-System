@@ -1,178 +1,141 @@
 "use client";
+
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/context/AuthContext";
-import { 
-    IconLogin, IconUserCircle, IconUserStar, IconShieldLock, 
-    IconArrowRight, IconSchool, IconCheck, IconMail, IconLock,
-    IconSparkles, IconUserPlus, IconId, IconArrowLeft
-} from "@tabler/icons-react";
 import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
+import {
+    IconArrowLeft, IconArrowRight, IconBook2, IconCheck, IconFingerprint,
+    IconLock, IconMail, IconSchool, IconShieldCheck, IconSparkles,
+    IconUserCircle, IconUserStar,
+} from "@tabler/icons-react";
+
+const roles = [
+    { id: "student", label: "Student", icon: IconUserCircle },
+    { id: "teacher", label: "Teacher", icon: IconUserStar },
+    { id: "admin", label: "Admin", icon: IconShieldCheck },
+];
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [role, setRole] = useState("student");
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
     const router = useRouter();
     const { login } = useAuth();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setError("");
         setLoading(true);
         try {
-            // Unified login data using Email and Password for all roles
-            const loginData = { email, password, role };
-            await login(loginData);
+            await login({ email, password, role });
             router.push(`/${role}/dashboard`);
-        } catch (err) {
-            alert("Login Failed. Please check your Email and Password.");
+        } catch {
+            setError("We couldn't sign you in. Check your details and try again.");
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <main className="min-h-screen bg-[#070b14] flex font-sans selection:bg-indigo-500/30 overflow-hidden">
-            
-            {/* Left: Branding & Visual */}
-            <div className="hidden lg:flex lg:w-1/2 relative flex-col justify-center p-20 overflow-hidden border-r border-white/5 bg-[#0a101d]">
-                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-indigo-600/10 via-transparent to-transparent"></div>
-                <div className="absolute -bottom-20 -right-20 w-[600px] h-[600px] bg-indigo-600/5 blur-[150px] rounded-full"></div>
-                
-                <div className="relative z-10 space-y-10 group">
-                    <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-2xl shadow-indigo-600/30">
-                            <IconSchool size={28} />
-                        </div>
-                        <h1 className="text-2xl font-black text-white tracking-tighter uppercase font-sans leading-none">GHRUA Studion</h1>
-                        <p className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.4em] leading-none mt-2">Student Management System</p>
-                    </div>
-                    
-                    <div className="space-y-4 font-sans uppercase">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-full">
-                            <IconSparkles size={12} className="text-indigo-400" />
-                            <span className="text-[9px] font-black text-indigo-400 uppercase tracking-widest leading-none">Safe Sign In</span>
-                        </div>
-                        <h2 className="text-6xl font-black text-white leading-[1.1] tracking-tighter uppercase">
-                            Smart <br />
-                            <span className="text-indigo-500">Campus App.</span>
-                        </h2>
-                        <p className="text-slate-400 text-lg font-bold leading-relaxed max-w-md normal-case">
-                            One unified gateway to access your attendance, recruitment pipelines, and academic documents daily.
-                        </p>
-                    </div>
-
-                    <div className="p-8 bg-[#0f172a] rounded-[2.5rem] border border-white/5 inline-flex flex-col gap-6 shadow-2xl relative overflow-hidden">
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-600/5 blur-3xl rounded-full"></div>
-                        <div className="flex items-center gap-5 relative z-10">
-                            <div className="w-12 h-12 bg-emerald-500/10 rounded-2xl flex items-center justify-center text-emerald-400 border border-emerald-500/20">
-                                <IconCheck size={24} />
-                            </div>
-                            <div className="text-left">
-                                <h4 className="text-white font-black uppercase text-xs tracking-tight">Access Node Verified</h4>
-                                <p className="text-slate-500 font-bold uppercase text-[9px] tracking-widest mt-1">Synchronization: Active</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <main className="relative isolate flex min-h-screen overflow-hidden bg-[#07111d] text-white selection:bg-cyan-300/30">
+            <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+                <div className="absolute -left-40 top-10 h-[32rem] w-[32rem] rounded-full bg-cyan-400/10 blur-[140px]" />
+                <div className="absolute -right-40 bottom-0 h-[34rem] w-[34rem] rounded-full bg-violet-500/10 blur-[150px]" />
             </div>
 
-            {/* Right: Login Form */}
-            <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-8 sm:p-12 relative bg-[#070b14]">
-                <div className="absolute top-[20%] right-[10%] w-64 h-64 bg-indigo-600/5 blur-[120px] rounded-full"></div>
-                
-                {/* Back to Home Button */}
-                <div className="absolute top-8 left-8 z-20">
-                    <Link 
-                        href="/" 
-                        className="flex items-center gap-3 px-5 py-2.5 bg-[#0f172a] border border-white/5 rounded-2xl text-[9px] font-black text-slate-500 uppercase tracking-widest hover:text-white hover:border-indigo-500/30 transition-all active:scale-95 shadow-2xl shadow-[#070b14]"
-                    >
-                        <IconArrowLeft size={14} stroke={3} />
-                        Home
-                    </Link>
+            <Link href="/" className="absolute left-5 top-5 z-20 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2.5 text-sm font-medium text-slate-300 backdrop-blur-xl transition hover:border-white/20 hover:text-white sm:left-8 sm:top-7">
+                <IconArrowLeft size={17} /> <span>Home</span>
+            </Link>
+
+            <section className="hidden w-1/2 flex-col justify-between border-r border-white/[0.08] px-12 py-10 lg:flex xl:px-20 xl:py-12">
+                <Link href="/" className="flex w-fit items-center gap-3" aria-label="GHRUA home">
+                    <span className="flex h-11 w-11 items-center justify-center rounded-2xl border border-cyan-200/20 bg-cyan-200/10 text-cyan-100"><IconSchool size={23} /></span>
+                    <span><span className="block text-sm font-bold tracking-wide">GHRUA</span><span className="mt-0.5 block text-[9px] font-semibold uppercase tracking-[0.2em] text-slate-400">Campus portal</span></span>
+                </Link>
+
+                <div className="mx-auto w-full max-w-xl py-12">
+                    <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-200/15 bg-cyan-200/[0.06] px-3.5 py-2 text-[11px] font-semibold text-cyan-100">
+                        <IconSparkles size={15} /> Your campus, connected
+                    </div>
+                    <h1 className="text-5xl font-semibold leading-[1.08] tracking-[-0.055em] xl:text-6xl">Welcome back to <span className="bg-gradient-to-r from-cyan-200 via-sky-200 to-indigo-300 bg-clip-text text-transparent">your campus.</span></h1>
+                    <p className="mt-6 max-w-lg text-base leading-7 text-slate-300">Sign in to stay on top of class resources, campus notices, and the services that support your studies.</p>
+
+                    <div className="mt-10 grid gap-3 sm:grid-cols-2">
+                        <div className="rounded-2xl border border-white/10 bg-white/[0.045] p-5 backdrop-blur-xl">
+                            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-200/10 text-cyan-100"><IconFingerprint size={21} /></span>
+                            <p className="mt-4 text-sm font-semibold">Everything in one place</p><p className="mt-1 text-xs leading-5 text-slate-400">Attendance, study materials, schedules, and more.</p>
+                        </div>
+                        <div className="rounded-2xl border border-white/10 bg-white/[0.045] p-5 backdrop-blur-xl">
+                            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-300/10 text-violet-200"><IconBook2 size={21} /></span>
+                            <p className="mt-4 text-sm font-semibold">Made for your role</p><p className="mt-1 text-xs leading-5 text-slate-400">A focused workspace for students and staff.</p>
+                        </div>
+                    </div>
                 </div>
 
-                <div className="w-full max-w-md space-y-12 relative z-10 uppercase font-sans mt-20 lg:mt-0">
-                    <div className="text-center lg:text-left space-y-4">
-                        <h3 className="text-4xl font-black text-white tracking-tighter uppercase leading-none">Authentication</h3>
-                        <p className="text-slate-500 font-black uppercase text-[9px] tracking-[0.4em]">Initialize identity synchronization</p>
+                <p className="text-xs text-slate-500">A simpler way to keep campus life moving.</p>
+            </section>
+
+            <section className="flex min-h-screen w-full items-center justify-center px-5 pb-10 pt-24 sm:px-8 lg:w-1/2 lg:px-12 lg:py-16">
+                <div className="w-full max-w-md">
+                    <div className="mb-8 lg:hidden">
+                        <Link href="/" className="inline-flex items-center gap-3" aria-label="GHRUA home">
+                            <span className="flex h-11 w-11 items-center justify-center rounded-2xl border border-cyan-200/20 bg-cyan-200/10 text-cyan-100"><IconSchool size={23} /></span>
+                            <span><span className="block text-sm font-bold">GHRUA</span><span className="mt-0.5 block text-[9px] font-semibold uppercase tracking-[0.2em] text-slate-400">Campus portal</span></span>
+                        </Link>
                     </div>
 
-                    {/* Role Selector */}
-                    <div className="grid grid-cols-3 gap-3 p-2 bg-[#0f172a] rounded-[2.2rem] border border-white/5">
-                        {[
-                            { id: "student", label: "Student", icon: IconUserCircle },
-                            { id: "teacher", label: "Teacher", icon: IconUserStar },
-                            { id: "admin", label: "Admin", icon: IconShieldLock }
-                        ].map((r) => (
-                            <button
-                                key={r.id}
-                                onClick={() => setRole(r.id)}
-                                className={`flex flex-col items-center gap-3 py-5 rounded-[1.8rem] transition-all duration-500 ${
-                                    role === r.id 
-                                    ? "bg-indigo-600 text-white shadow-[0_20px_40px_rgba(79,70,229,0.3)]" 
-                                    : "text-slate-600 hover:text-white"
-                                }`}
-                            >
-                                <r.icon size={22} stroke={2.5} />
-                                <span className="text-[9px] font-black uppercase tracking-widest">{r.label}</span>
+                    <div className="rounded-[1.75rem] border border-white/10 bg-[#0d1a29]/80 p-5 shadow-2xl shadow-black/25 backdrop-blur-2xl sm:p-8">
+                        <div>
+                            <p className="text-xs font-bold uppercase tracking-[0.2em] text-cyan-200">Welcome back</p>
+                            <h2 className="mt-2 text-3xl font-semibold tracking-[-0.04em] sm:text-[2.1rem]">Sign in to your portal</h2>
+                            <p className="mt-2 text-sm leading-6 text-slate-400">Choose your account type and enter your sign-in details.</p>
+                        </div>
+
+                        <div className="mt-7 grid grid-cols-3 gap-2 rounded-2xl border border-white/10 bg-[#07111d]/70 p-1.5" aria-label="Account type">
+                            {roles.map((item) => (
+                                <button key={item.id} type="button" onClick={() => setRole(item.id)} aria-pressed={role === item.id}
+                                    className={`flex min-h-14 items-center justify-center gap-2 rounded-xl px-2 text-xs font-semibold transition sm:min-h-12 sm:text-sm ${role === item.id ? "bg-cyan-200 text-[#07111d] shadow-lg shadow-cyan-950/25" : "text-slate-400 hover:bg-white/[0.06] hover:text-white"}`}>
+                                    <item.icon size={17} /> <span>{item.label}</span>
+                                </button>
+                            ))}
+                        </div>
+
+                        <form onSubmit={handleSubmit} className="mt-6 space-y-5">
+                            <div>
+                                <label htmlFor="email" className="mb-2 block text-sm font-medium text-slate-200">Email address</label>
+                                <div className="relative">
+                                    <IconMail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" />
+                                    <input id="email" required type="email" autoComplete="username" placeholder="you@college.edu" value={email} onChange={(e) => setEmail(e.target.value)}
+                                        className="w-full rounded-xl border border-white/10 bg-[#07111d]/80 py-3.5 pl-11 pr-4 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-200/50 focus:ring-4 focus:ring-cyan-200/10" />
+                                </div>
+                            </div>
+                            <div>
+                                <div className="mb-2 flex items-center justify-between gap-3"><label htmlFor="password" className="text-sm font-medium text-slate-200">Password</label></div>
+                                <div className="relative">
+                                    <IconLock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" />
+                                    <input id="password" required type="password" autoComplete="current-password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)}
+                                        className="w-full rounded-xl border border-white/10 bg-[#07111d]/80 py-3.5 pl-11 pr-4 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-200/50 focus:ring-4 focus:ring-cyan-200/10" />
+                                </div>
+                            </div>
+
+                            {error && <p role="alert" className="rounded-xl border border-rose-300/20 bg-rose-300/[0.08] px-4 py-3 text-sm text-rose-200">{error}</p>}
+
+                            <button type="submit" disabled={loading} className="group flex w-full items-center justify-center gap-2 rounded-xl bg-cyan-200 px-5 py-3.5 text-sm font-bold text-[#07111d] shadow-lg shadow-cyan-950/25 transition hover:-translate-y-0.5 hover:bg-white disabled:cursor-wait disabled:opacity-60">
+                                {loading ? "Signing in…" : <>Sign in <IconArrowRight size={18} className="transition-transform group-hover:translate-x-1" /></>}
                             </button>
-                        ))}
-                    </div>
+                        </form>
 
-                    <form onSubmit={handleSubmit} className="space-y-10 group/form">
-                        <div className="space-y-8">
-                            <div className="space-y-3 group/input text-left">
-                                <label className="text-[9px] font-black text-slate-800 uppercase tracking-widest ml-6 transition-colors group-focus-within/input:text-indigo-500">Official Email ID</label>
-                                <div className="relative">
-                                    <IconMail className="absolute left-8 top-1/2 -translate-y-1/2 text-slate-800 group-focus-within/input:text-indigo-500 transition-colors" size={20} />
-                                    <input 
-                                        required
-                                        type="email" 
-                                        placeholder="institutional@mail.edu"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        className="w-full bg-[#0f172a] border border-white/5 rounded-[2.5rem] pl-20 pr-8 py-6 text-sm font-black text-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500/20 transition-all placeholder:text-slate-900 lowercase"
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="space-y-3 group/input text-left">
-                                <label className="text-[9px] font-black text-slate-800 uppercase tracking-widest ml-6 transition-colors group-focus-within/input:text-indigo-500">Security Password</label>
-                                <div className="relative">
-                                    <IconLock className="absolute left-8 top-1/2 -translate-y-1/2 text-slate-800 group-focus-within/input:text-indigo-500 transition-colors" size={20} />
-                                    <input 
-                                        required
-                                        type="password" 
-                                        placeholder="••••••••"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        className="w-full bg-[#0f172a] border border-white/5 rounded-[2.5rem] pl-20 pr-8 py-6 text-sm font-black text-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500/20 transition-all placeholder:text-slate-900"
-                                    />
-                                </div>
-                            </div>
+                        <div className="mt-6 flex items-start gap-3 border-t border-white/[0.08] pt-5 text-xs leading-5 text-slate-400">
+                            <IconCheck size={17} className="mt-0.5 shrink-0 text-cyan-200" /> Your account type helps us open the right campus workspace.
                         </div>
-
-                        <button 
-                            type="submit" 
-                            disabled={loading}
-                            className="w-full bg-white text-[#0f172a] py-8 rounded-[4rem] font-black uppercase text-[11px] tracking-[0.5em] flex items-center justify-center gap-6 hover:bg-indigo-600 hover:text-white transition-all shadow-3xl active:scale-95 disabled:opacity-50 group shadow-indigo-500/5 mt-4"
-                        >
-                            {loading ? (
-                                <span className="flex items-center gap-4">CONNECTING...</span>
-                            ) : (
-                                <span className="flex items-center gap-4">Log into Hub <IconArrowRight size={22} className="group-hover:translate-x-2 transition-transform" /></span>
-                            )}
-                        </button>
-                    </form>
-
-                    <div className="text-center pt-10">
-                        <p className="text-[9px] font-black text-slate-800 uppercase tracking-[0.4em] inline-block mr-3">Access Denied?</p>
-                        <button className="text-[10px] font-black text-indigo-400 uppercase tracking-widest hover:text-white transition-all border-b-2 border-indigo-500/10 pb-1">Request Credentials</button>
+                        <p className="mt-5 text-center text-sm text-slate-400">Need an account? <Link href="/signup" className="font-semibold text-cyan-200 transition hover:text-white">Get started</Link></p>
                     </div>
+                    <p className="mt-5 text-center text-xs text-slate-500">Secure access for students and campus staff</p>
                 </div>
-            </div>
+            </section>
         </main>
     );
 }

@@ -73,10 +73,12 @@ export default function AdminPlacementsPage() {
     );
 
     const appsForJob = applications.filter(app => app.jobId === (viewingAppsFor?._id || viewingAppsFor?.id));
+    const companyCount = new Set(jobs.map(job => job.company?.trim()).filter(Boolean)).size;
+    const averageApplicationsPerDrive = jobs.length ? (applications.length / jobs.length).toFixed(1) : "0";
 
     return (
-        <main className="min-h-screen bg-[#070b14] p-8 lg:p-12 font-sans text-slate-200">
-            <div className="max-w-7xl mx-auto space-y-12 relative text-left">
+        <main className="admin-feature-page admin-placements-page min-h-screen bg-[#070b14] p-8 lg:p-12 font-sans text-slate-200">
+            <div className="max-w-7xl mx-auto space-y-12 relative text-left placement-workspace">
                 <div className="absolute top-0 right-0 w-[50rem] h-[50rem] bg-indigo-600/5 blur-[200px] rounded-full pointer-events-none"></div>
 
                 <header className="flex flex-col md:flex-row md:items-center justify-between gap-10 pb-12 border-b border-white/5 relative z-10">
@@ -97,15 +99,15 @@ export default function AdminPlacementsPage() {
                     </button>
                 </header>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
+                <div className="placement-stats grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
                     {[
-                        { label: "Active Drives", val: jobs.length, icon: IconBriefcase, color: "text-indigo-400", bg: "bg-indigo-500/10" },
+                        { label: "Placement drives", val: jobs.length, icon: IconBriefcase, color: "text-indigo-400", bg: "bg-indigo-500/10" },
                         { label: "Total Applications", val: applications.length, icon: IconUsers, color: "text-blue-400", bg: "bg-blue-500/10" },
-                        { label: "Pending Reviews", val: "14", icon: IconTarget, color: "text-emerald-400", bg: "bg-emerald-500/10" },
-                        { label: "Hired Nodes", val: "128", icon: IconTrophy, color: "text-amber-400", bg: "bg-amber-500/10" },
+                        { label: "Hiring companies", val: companyCount, icon: IconBuilding, color: "text-emerald-400", bg: "bg-emerald-500/10" },
+                        { label: "Avg. applications / drive", val: averageApplicationsPerDrive, icon: IconChartBar, color: "text-amber-400", bg: "bg-amber-500/10" },
                     ].map((stat, i) => (
-                        <div key={i} className="bg-[#0f172a] p-8 rounded-[3.5rem] border border-white/5 shadow-2xl group hover:border-indigo-500/20 transition-all flex items-center gap-8">
-                            <div className={`w-16 h-16 ${stat.bg} ${stat.color} rounded-3xl flex items-center justify-center group-hover:scale-110 transition-transform duration-700 shadow-xl border border-white/5`}>
+                        <div key={i} className="placement-stat-card bg-[#0f172a] p-8 rounded-[3.5rem] border border-white/5 shadow-2xl group hover:border-indigo-500/20 transition-all flex items-center gap-8">
+                            <div className={`placement-stat-icon w-16 h-16 ${stat.bg} ${stat.color} rounded-3xl flex items-center justify-center group-hover:scale-110 transition-transform duration-700 shadow-xl border border-white/5`}>
                                 <stat.icon size={32} />
                             </div>
                             <div>
@@ -116,8 +118,8 @@ export default function AdminPlacementsPage() {
                     ))}
                 </div>
 
-                <div className="bg-[#0f172a] rounded-[4.5rem] border border-white/5 shadow-3xl overflow-hidden min-h-[600px] flex flex-col relative group">
-                    <div className="p-12 border-b border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-10 bg-white/[0.02] relative z-20 uppercase font-sans">
+                <div className="placement-list-panel bg-[#0f172a] rounded-[4.5rem] border border-white/5 shadow-3xl overflow-hidden min-h-[600px] flex flex-col relative group">
+                    <div className="placement-list-toolbar p-12 border-b border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-10 bg-white/[0.02] relative z-20 uppercase font-sans">
                         <div className="flex items-center gap-6">
                             <div className="w-5 h-5 bg-indigo-500 rounded-full animate-pulse shadow-[0_0_15px_rgba(79,70,229,0.5)]"></div>
                             <h3 className="font-black text-white text-sm uppercase tracking-widest leading-none">Operational recruitment Pipeline</h3>
@@ -134,7 +136,7 @@ export default function AdminPlacementsPage() {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-12 p-12 flex-1 relative z-10">
+                    <div className="placement-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-12 p-12 flex-1 relative z-10">
                         {loading ? (
                              <div className="col-span-full py-48 text-center flex flex-col items-center gap-10 grayscale">
                                  <IconActivity size={64} className="animate-pulse text-indigo-500" stroke={1} />
@@ -144,12 +146,12 @@ export default function AdminPlacementsPage() {
                             filteredJobs.map((job) => {
                                 const jobApps = applications.filter(a => a.jobId === (job._id || job.id));
                                 return (
-                                    <div key={job._id || job.id} className="bg-[#070b14]/50 border border-white/5 p-12 rounded-[4.5rem] hover:bg-[#070b14] hover:shadow-[0_50px_100px_rgba(0,0,0,0.5)] hover:border-indigo-500/20 transition-all group relative overflow-hidden flex flex-col scale-100 hover:scale-[1.02] duration-700 uppercase">
+                                    <div key={job._id || job.id} className="placement-card bg-[#070b14]/50 border border-white/5 p-12 rounded-[4.5rem] hover:bg-[#070b14] hover:border-cyan-200/20 transition-all group relative overflow-hidden flex flex-col">
                                         <div className="absolute top-0 right-0 w-48 h-48 bg-indigo-600/5 blur-[80px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
 
                                         <div className="relative z-10 flex flex-col h-full uppercase tracking-tighter">
                                             <div className="flex justify-between items-start mb-10">
-                                                <div className="w-20 h-20 bg-[#0f172a] rounded-[2.5rem] flex items-center justify-center shadow-2xl border border-white/5 text-slate-700 group-hover:text-indigo-400 group-hover:scale-110 transition-all duration-700">
+                                                <div className="placement-company-icon w-20 h-20 bg-[#0f172a] rounded-[2.5rem] flex items-center justify-center shadow-2xl border border-white/5 text-slate-700 group-hover:text-cyan-200 transition-colors">
                                                     <IconBuilding size={40} />
                                                 </div>
                                                 <button
@@ -166,11 +168,11 @@ export default function AdminPlacementsPage() {
                                             </div>
 
                                             <div className="grid grid-cols-2 gap-6 mb-12">
-                                                <div className="p-8 bg-[#0f172a] border border-white/5 rounded-[2.8rem] shadow-xl text-left">
+                                                <div className="placement-metric p-8 bg-[#0f172a] border border-white/5 rounded-[2.8rem] shadow-xl text-left">
                                                      <p className="text-[9px] font-black text-slate-700 uppercase tracking-widest mb-3 leading-none">Package</p>
                                                      <p className="text-lg font-black text-white uppercase leading-none tabular-nums">{job.package || job.salary}</p>
                                                 </div>
-                                                <div className="p-8 bg-[#0f172a] border border-white/5 rounded-[2.8rem] shadow-xl text-left">
+                                                <div className="placement-metric p-8 bg-[#0f172a] border border-white/5 rounded-[2.8rem] shadow-xl text-left">
                                                      <p className="text-[9px] font-black text-slate-700 uppercase tracking-widest mb-3 leading-none">Responses</p>
                                                      <p className="text-lg font-black text-indigo-400 uppercase leading-none tabular-nums">{jobApps.length} APPS</p>
                                                 </div>
@@ -178,7 +180,7 @@ export default function AdminPlacementsPage() {
 
                                             <button
                                                 onClick={() => setViewingAppsFor(job)}
-                                                className="w-full py-6 bg-white/2 hover:bg-indigo-600 text-slate-800 hover:text-white rounded-[2.5rem] text-[10px] font-black uppercase tracking-[0.4em] transition-all border border-white/5 flex items-center justify-center gap-4 group/btn mt-auto"
+                                                className="placement-applicants-button w-full py-6 bg-white/2 hover:bg-cyan-200 text-slate-200 hover:text-[#07111d] rounded-[2.5rem] text-[10px] font-black uppercase tracking-[0.4em] transition-all border border-white/10 flex items-center justify-center gap-4 group/btn mt-auto"
                                             >
                                                 VIEW APPLICANTS <IconArrowRight size={18} className="transition-transform group-hover/btn:translate-x-2" />
                                             </button>

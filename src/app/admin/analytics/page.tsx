@@ -41,8 +41,8 @@ export default function AdminAnalyticsPage() {
     }, []);
 
     return (
-        <main className="min-h-screen bg-[#070b14] p-8 lg:p-12 font-sans text-slate-200">
-            <div className="max-w-7xl mx-auto space-y-12 relative font-sans">
+        <main className="admin-feature-page admin-reports-page min-h-screen bg-[#070b14] p-8 lg:p-12 font-sans text-slate-200">
+            <div className="max-w-7xl mx-auto space-y-12 relative font-sans report-workspace">
                 <div className="absolute top-0 right-0 w-[50rem] h-[50rem] bg-indigo-600/5 blur-[200px] rounded-full pointer-events-none"></div>
                 
                 <header className="flex flex-col md:flex-row md:items-center justify-between gap-10 pb-12 border-b border-white/5 relative z-10 font-sans uppercase tracking-widest">
@@ -64,17 +64,17 @@ export default function AdminAnalyticsPage() {
                 </header>
 
                 {/* Tactical KPI Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10 font-sans uppercase">
+                <div className="report-kpis grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10 font-sans uppercase">
                     {[
                         { label: "Institutional Load", value: stats.totalStudents, trend: "+45", icon: IconUsers, color: "text-blue-400", bg: "bg-blue-500/10" },
                         { label: "Faculty Nodes", value: stats.totalTeachers, trend: "Sync", icon: IconTeacher, color: "text-indigo-400", bg: "bg-indigo-500/10" },
                         { label: "Engagement Hub", value: stats.attendanceRate, trend: "+2.4%", icon: IconActivity, color: "text-emerald-400", bg: "bg-emerald-500/10" },
                         { label: "Efficiency Tier", value: stats.efficiency, trend: "Elite", icon: IconTrophy, color: "text-amber-400", bg: "bg-amber-500/10" },
                     ].map((kpi, idx) => (
-                        <div key={idx} className="bg-[#0f172a] p-10 rounded-[4rem] border border-white/5 shadow-2xl space-y-6 hover:border-indigo-500/20 transition-all group relative overflow-hidden">
+                        <div key={idx} className="report-kpi bg-[#0f172a] p-10 rounded-[4rem] border border-white/5 shadow-2xl space-y-6 hover:border-indigo-500/20 transition-all group relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
                             <div className="flex justify-between items-start relative z-10">
-                                <div className={`w-14 h-14 ${kpi.bg} ${kpi.color} rounded-2xl flex items-center justify-center transition-all group-hover:scale-110 shadow-xl border border-white/5`}>
+                                <div className={`report-kpi-icon w-14 h-14 ${kpi.bg} ${kpi.color} rounded-2xl flex items-center justify-center transition-all group-hover:scale-110 shadow-xl border border-white/5`}>
                                     <kpi.icon size={28} />
                                 </div>
                                 <span className="flex items-center gap-1.5 text-[9px] font-black text-indigo-400 bg-white/5 px-3 py-1.5 rounded-xl uppercase tracking-widest border border-white/5 leading-none">
@@ -90,9 +90,9 @@ export default function AdminAnalyticsPage() {
                 </div>
 
                 {/* Primary Data Matrix */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 relative z-10 font-sans uppercase">
+                <div className="report-content-grid grid grid-cols-1 lg:grid-cols-12 gap-10 relative z-10 font-sans uppercase">
                     {/* Visual Analytics Hub */}
-                    <div className="lg:col-span-8 bg-[#0f172a] border border-white/5 rounded-[4.5rem] p-14 shadow-3xl relative overflow-hidden group">
+                    <div className="report-chart-card lg:col-span-8 bg-[#0f172a] border border-white/5 rounded-[4.5rem] p-14 shadow-3xl relative overflow-hidden group">
                         <div className="flex justify-between items-center mb-14 relative z-10">
                             <div className="flex items-center gap-6">
                                 <div className="w-4 h-4 bg-indigo-500 rounded-full animate-pulse shadow-[0_0_15px_rgba(99,102,241,0.5)]"></div>
@@ -103,7 +103,7 @@ export default function AdminAnalyticsPage() {
                             </button>
                         </div>
 
-                        <div className="h-[450px] bg-[#070b14]/50 border-2 border-dashed border-white/5 rounded-[3.5rem] flex flex-col items-center justify-center space-y-8 group-hover:bg-[#070b14] transition-all duration-700 shadow-inner group-hover:border-indigo-500/20">
+                        <div className="report-chart-placeholder h-[450px] bg-[#070b14]/50 border-2 border-dashed border-white/5 rounded-[3.5rem] flex flex-col items-center justify-center space-y-8 group-hover:bg-[#070b14] transition-all duration-700 shadow-inner group-hover:border-indigo-500/20">
                             <div className="w-24 h-24 bg-[#0f172a] rounded-[2.5rem] flex items-center justify-center text-slate-900 group-hover:text-indigo-500 group-hover:shadow-[0_20px_60px_rgba(99,102,241,0.2)] transition-all duration-700 border border-white/5">
                                 <IconChartBar size={56} stroke={1} />
                             </div>
@@ -116,7 +116,7 @@ export default function AdminAnalyticsPage() {
 
                     {/* Operational Intelligence */}
                     <div className="lg:col-span-4 space-y-10">
-                        <div className="bg-[#070b14] rounded-[4rem] p-12 text-white shadow-3xl border border-white/5 relative overflow-hidden group hover:border-indigo-500/20 transition-all">
+                        <div className="report-insights-card bg-[#070b14] rounded-[4rem] p-12 text-white shadow-3xl border border-white/5 relative overflow-hidden group hover:border-indigo-500/20 transition-all">
                             <div className="absolute top-0 right-0 w-56 h-56 bg-indigo-600/5 blur-[100px] rounded-bl-full pointer-events-none transition-all group-hover:bg-indigo-600/10"></div>
                             <div className="relative z-10 space-y-12">
                                 <div className="flex items-center gap-5">
@@ -134,7 +134,7 @@ export default function AdminAnalyticsPage() {
                             </div>
                         </div>
 
-                        <div className="bg-[#0f172a] border border-white/5 rounded-[4rem] p-12 shadow-2xl space-y-10 group hover:border-indigo-500/10 transition-all font-sans">
+                        <div className="report-departments-card bg-[#0f172a] border border-white/5 rounded-[4rem] p-12 shadow-2xl space-y-10 group hover:border-indigo-500/10 transition-all font-sans">
                             <h3 className="text-[11px] font-black text-slate-600 uppercase tracking-[0.5em] leading-none mb-4">Departmental Tier List</h3>
                             <div className="space-y-10 font-sans uppercase">
                                 {[

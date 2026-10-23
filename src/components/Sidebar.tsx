@@ -18,7 +18,7 @@ interface NavItem {
     icon: any;
 }
 
-export default function Sidebar() {
+export default function Sidebar({ mobileOpen = false, onNavigate, onClose }: { mobileOpen?: boolean; onNavigate?: () => void; onClose?: () => void } = {}) {
     const pathname = usePathname();
     const { user, logout } = useAuth();
     const role = user?.role || "student";
@@ -66,64 +66,66 @@ export default function Sidebar() {
     const menuItems = role === "admin" ? adminLinks : role === "teacher" ? teacherLinks : studentLinks;
 
     return (
-        <aside className="w-64 bg-[#0f172a] border-r border-white/5 flex flex-col h-screen sticky top-0 z-[50] font-sans transition-all duration-500">
+        <>
+        {onClose && mobileOpen && <button aria-label="Close navigation" onClick={onClose} className="fixed inset-0 z-[59] bg-slate-950/65 backdrop-blur-sm lg:hidden" />}
+        <aside className={`w-60 shrink-0 bg-[#0d1a29] border-r border-white/10 flex flex-col h-screen sticky top-0 z-[50] font-sans transition-transform duration-300 ${onClose ? (mobileOpen ? "fixed inset-y-0 left-0 translate-x-0 z-[60] lg:sticky lg:inset-auto" : "hidden lg:flex") : ""}`}>
             {/* Branding Section */}
-            <div className="p-10 pb-6 relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-600/5 blur-3xl rounded-full translate-x-12 -translate-y-12"></div>
-                <Link href="/" className="flex items-center gap-4 relative z-10 group/logo">
-                    <div className="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-[0_10px_30px_rgba(79,70,229,0.4)] group-hover/logo:rotate-12 transition-all duration-700">
+            <div className="px-5 py-6 relative overflow-hidden group">
+                <Link href="/" className="flex items-center gap-3 relative z-10 group/logo">
+                    <div className="w-10 h-10 bg-sky-100 rounded-xl flex items-center justify-center text-sky-800">
                         <IconSchool size={26} stroke={1.5} />
                     </div>
                     <div className="text-left">
-                        <h2 className="text-[15px] font-black text-white tracking-tighter leading-none group-hover/logo:text-indigo-400 transition-colors uppercase">GHRUA Studion</h2>
-                        <p className="text-[8px] text-slate-500 font-black uppercase tracking-widest mt-1">Student Management</p>
+                        <h2 className="text-sm font-bold text-white tracking-tight leading-none">GHRUA</h2>
+                        <p className="text-[10px] text-slate-400 font-medium mt-1">Campus portal</p>
                     </div>
                 </Link>
             </div>
 
             {/* Navigation Section */}
-            <nav className="flex-1 px-6 space-y-2 py-8 overflow-y-auto scrollbar-hide relative z-10 font-sans">
-                <p className="px-5 text-[10px] font-black text-slate-600 uppercase tracking-[0.4em] mb-8">Navigation Menu</p>
+            <nav className="flex-1 px-3 space-y-1 py-3 overflow-y-auto scrollbar-hide relative z-10 font-sans">
+                <p className="px-3 text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-3">Workspace</p>
                 {menuItems.map((item: NavItem) => {
                     const isActive = pathname === item.href;
                     return (
                         <Link 
                             key={item.label + item.href} 
                             href={item.href}
-                            className={`flex items-center gap-5 px-6 py-4 rounded-[1.8rem] transition-all duration-500 group relative overflow-hidden ${
+                            onClick={onNavigate}
+                            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors group relative overflow-hidden ${
                                 isActive 
-                                ? "bg-indigo-600 text-white shadow-[0_20px_40px_rgba(79,70,229,0.3)] scale-[1.02]" 
-                                : "text-slate-500 hover:bg-white/5 hover:text-white"
+                                ? "bg-cyan-200 text-[#07111d]" 
+                                : "text-slate-300 hover:bg-white/[0.07] hover:text-white"
                             }`}
                         >
                             <div className="absolute inset-0 bg-indigo-600/0 group-hover:bg-indigo-600/5 transition-colors"></div>
-                            <item.icon size={22} stroke={1.5} className={`${isActive ? "text-white" : "text-slate-600 group-hover:text-indigo-400"} transition-all duration-500 relative z-10`} />
-                            <span className="text-[11px] font-black uppercase tracking-widest relative z-10">{item.label}</span>
+                            <item.icon size={21} stroke={1.6} className={`${isActive ? "text-[#07111d]" : "text-slate-500 group-hover:text-cyan-100"} transition-all duration-300 relative z-10`} />
+                            <span className="text-sm font-medium relative z-10">{item.label}</span>
                         </Link>
                     )
                 })}
             </nav>
 
             {/* User Intelligence Section */}
-            <div className="p-8 mt-auto border-t border-white/5 relative z-10 bg-white/[0.02]">
-                <div className="p-5 bg-[#070b14] rounded-[2.5rem] border border-white/5 space-y-6 shadow-2xl relative overflow-hidden group/profile">
+            <div className="p-3 mt-auto border-t border-white/10 relative z-10">
+                <div className="p-3 bg-white/[0.04] rounded-xl border border-white/5 space-y-3 relative overflow-hidden group/profile">
                     <div className="absolute inset-0 bg-indigo-600/0 group-hover/profile:bg-indigo-600/[0.03] transition-colors"></div>
                     <div className="flex items-center gap-4 relative z-10">
-                        <div className="w-11 h-11 rounded-2xl bg-[#1e293b] flex items-center justify-center text-indigo-400 font-extrabold text-sm border border-white/5 shadow-xl group-hover/profile:scale-110 transition-transform duration-500">
+                        <div className="w-9 h-9 rounded-lg bg-[#1e293b] flex items-center justify-center text-sky-300 font-bold text-sm border border-white/5">
                             {user?.name?.charAt(0) || "U"}
                         </div>
                         <div className="flex-1 overflow-hidden">
-                            <p className="text-[11px] font-black text-white truncate uppercase tracking-tight leading-none mb-2">{user?.name || "User Node"}</p>
+                            <p className="text-xs font-semibold text-white truncate leading-none mb-2">{user?.name || "User"}</p>
                             <div className="flex items-center gap-2">
                                 <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
-                                <p className="text-[9px] text-slate-600 font-black uppercase tracking-widest leading-none">{role} context</p>
+                                <p className="text-[10px] text-slate-400 font-medium capitalize leading-none">{role}</p>
                             </div>
                         </div>
                     </div>
                     
                     <button 
                         onClick={logout}
-                        className="w-full flex items-center justify-center gap-3 py-4.5 rounded-[1.5rem] bg-indigo-600 text-white hover:bg-rose-600 transition-all text-[10px] font-black uppercase tracking-[0.3em] shadow-[0_15px_30px_rgba(79,70,229,0.2)] hover:shadow-rose-600/20 active:scale-95 relative z-10 font-sans"
+                        className="w-full flex items-center justify-center gap-2 py-2 rounded-lg bg-white/10 text-slate-200 hover:bg-white/15 transition-colors text-xs font-medium relative z-10 font-sans"
                     >
                         <IconLogout size={16} stroke={2} />
                         <span>Sign Out</span>
@@ -131,5 +133,6 @@ export default function Sidebar() {
                 </div>
             </div>
         </aside>
+        </>
     );
 }

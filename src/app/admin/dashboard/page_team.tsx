@@ -54,7 +54,7 @@ export default function AdminDashboardPage() {
         </div>
         <h2 className="text-2xl font-bold text-gray-800">Backend is Offline</h2>
         <p className="text-gray-600 max-w-md">
-          Cannot connect to the Vidya Rakshak Server. Please ensure <code>start_backend.bat</code> is running in the terminal.
+          Cannot connect to the GHRUA Server. Please ensure <code>start_backend.bat</code> is running in the terminal.
         </p>
         <button onClick={() => window.location.reload()} className="btn btn-primary">
           Retry Connection

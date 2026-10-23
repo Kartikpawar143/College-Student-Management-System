@@ -1,10 +1,10 @@
-# 🛡️ PROJECT DOCUMENTATION: VIDYA RAKSHAK
+# 🛡️ PROJECT DOCUMENTATION: GHRUA
 ### *Smart AI-Face Attendance & Campus Management System*
 
 ---
 
 ## 1. PROJECT OVERVIEW
-**Vidya Rakshak** is a high-security, automated campus ecosystem designed to streamline attendance and student activity monitoring. The system replaces traditional attendance methods with **Biometric Face Verification** and **GPS-based Geofencing**, ensuring that students are physically present on campus and verified by identity before their presence is logged.
+**GHRUA** is a high-security, automated campus ecosystem designed to streamline attendance and student activity monitoring. The system replaces traditional attendance methods with **Biometric Face Verification** and **GPS-based Geofencing**, ensuring that students are physically present on campus and verified by identity before their presence is logged.
 
 ---
 

@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { api, endpoints } from "@/lib/api";
+import { api, endpoints, API_URL } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { 
     IconFileDescription, IconSearch, IconFileDownload, 
@@ -133,7 +133,7 @@ export default function StudentNotesPage() {
                                                 </div>
                                             </div>
                                             <a 
-                                                href={`http://localhost:8001/public${file.filePath}`}
+                                                href={`${API_URL}/public${file.filePath}`}
                                                 target="_blank"
                                                 className="w-full md:w-auto bg-indigo-600 text-white rounded-[2.5rem] px-14 py-6 text-[11px] font-black uppercase tracking-[0.4em] hover:bg-indigo-500 transition-all shadow-[0_20px_40px_rgba(79,70,229,0.3)] active:scale-95 flex items-center justify-center gap-4 group-hover:shadow-indigo-500/40"
                                             >

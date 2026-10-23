@@ -1,4 +1,5 @@
 "use client";
+import { API_URL } from "@/lib/api";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { 
@@ -28,11 +29,11 @@ export default function TeacherDashboard() {
 
     const fetchTeacherData = async () => {
         try {
-            const res1 = await fetch(`http://localhost:8001/timetable/teacher/${encodeURIComponent(user?.name || "")}`);
+            const res1 = await fetch(`${API_URL}/timetable/teacher/${encodeURIComponent(user?.name || "")}`);
             const data1 = await res1.json();
             setTimetable(Array.isArray(data1) ? data1 : []);
 
-            const res2 = await fetch(`http://localhost:8001/stats/teacher/${encodeURIComponent(user?.name || "")}`);
+            const res2 = await fetch(`${API_URL}/stats/teacher/${encodeURIComponent(user?.name || "")}`);
             const data2 = await res2.json();
             setTeacherStats(data2);
         } catch (error) {

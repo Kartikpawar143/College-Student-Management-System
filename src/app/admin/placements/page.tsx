@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { api, endpoints } from "@/lib/api";
-import { 
+import { api, endpoints, API_URL } from "@/lib/api";
+import {
     IconBriefcase, IconChartBar, IconBuilding, IconCurrencyDollar,
     IconCalendarTime, IconSearch, IconPlus, IconExternalLink,
     IconMail, IconPhone, IconChevronRight, IconX, IconTrash,
@@ -31,7 +31,7 @@ export default function AdminPlacementsPage() {
         try {
             const res1 = await api.get(endpoints.placements.getAll);
             setJobs(res1.data);
-            
+
             const res2 = await api.get(endpoints.placements.getApplications);
             setApplications(res2.data);
         } catch (err) {
@@ -67,7 +67,7 @@ export default function AdminPlacementsPage() {
         }
     };
 
-    const filteredJobs = jobs.filter(job => 
+    const filteredJobs = jobs.filter(job =>
         job.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
         job.role.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -78,7 +78,7 @@ export default function AdminPlacementsPage() {
         <main className="min-h-screen bg-[#070b14] p-8 lg:p-12 font-sans text-slate-200">
             <div className="max-w-7xl mx-auto space-y-12 relative text-left">
                 <div className="absolute top-0 right-0 w-[50rem] h-[50rem] bg-indigo-600/5 blur-[200px] rounded-full pointer-events-none"></div>
-                
+
                 <header className="flex flex-col md:flex-row md:items-center justify-between gap-10 pb-12 border-b border-white/5 relative z-10">
                     <div className="space-y-4">
                         <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-full">
@@ -88,8 +88,8 @@ export default function AdminPlacementsPage() {
                         <h2 className="text-4xl font-black text-white tracking-tighter uppercase leading-none">Placement Drives</h2>
                         <p className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.4em] leading-none">Global opportunity nodes & recruitment pipelines</p>
                     </div>
-                    
-                    <button 
+
+                    <button
                         onClick={() => setIsCreateModalOpen(true)}
                         className="bg-indigo-600 hover:bg-indigo-500 text-white font-black px-12 py-5 rounded-[2.2rem] shadow-2xl transition-all flex items-center justify-center gap-4 uppercase text-[10px] tracking-widest active:scale-95 group"
                     >
@@ -124,12 +124,12 @@ export default function AdminPlacementsPage() {
                         </div>
                         <div className="relative group/search w-full md:w-96 text-left">
                             <IconSearch className="absolute left-7 top-1/2 -translate-y-1/2 text-slate-700 group-focus-within/search:text-indigo-400 transition-colors" size={18} />
-                            <input 
-                                type="text" 
-                                placeholder="QUERY CAREER DATABASE..." 
+                            <input
+                                type="text"
+                                placeholder="QUERY CAREER DATABASE..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full bg-[#070b14] border border-white/5 rounded-[2.5rem] pl-16 pr-8 py-5 text-[10px] font-black uppercase tracking-widest outline-none shadow-inner focus:ring-4 focus:ring-indigo-500/10 transition-all text-white placeholder:text-slate-900" 
+                                className="w-full bg-[#070b14] border border-white/5 rounded-[2.5rem] pl-16 pr-8 py-5 text-[10px] font-black uppercase tracking-widest outline-none shadow-inner focus:ring-4 focus:ring-indigo-500/10 transition-all text-white placeholder:text-slate-900"
                             />
                         </div>
                     </div>
@@ -146,20 +146,20 @@ export default function AdminPlacementsPage() {
                                 return (
                                     <div key={job._id || job.id} className="bg-[#070b14]/50 border border-white/5 p-12 rounded-[4.5rem] hover:bg-[#070b14] hover:shadow-[0_50px_100px_rgba(0,0,0,0.5)] hover:border-indigo-500/20 transition-all group relative overflow-hidden flex flex-col scale-100 hover:scale-[1.02] duration-700 uppercase">
                                         <div className="absolute top-0 right-0 w-48 h-48 bg-indigo-600/5 blur-[80px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                        
+
                                         <div className="relative z-10 flex flex-col h-full uppercase tracking-tighter">
                                             <div className="flex justify-between items-start mb-10">
                                                 <div className="w-20 h-20 bg-[#0f172a] rounded-[2.5rem] flex items-center justify-center shadow-2xl border border-white/5 text-slate-700 group-hover:text-indigo-400 group-hover:scale-110 transition-all duration-700">
                                                     <IconBuilding size={40} />
                                                 </div>
-                                                <button 
+                                                <button
                                                     onClick={() => handleDelete(job._id || job.id)}
                                                     className="p-4 bg-[#070b14] text-slate-800 hover:text-rose-500 hover:border-rose-500/20 transition-all rounded-2xl border border-white/5 shadow-xl"
                                                 >
                                                     <IconTrash size={24} />
                                                 </button>
                                             </div>
-                                            
+
                                             <div className="space-y-4 mb-12 text-left">
                                                 <h4 className="text-3xl font-black text-white tracking-tighter group-hover:text-indigo-400 transition-colors uppercase leading-[0.9]">{job.company}</h4>
                                                 <p className="text-[11px] text-slate-800 font-black uppercase tracking-widest leading-none">{job.role}</p>
@@ -176,7 +176,7 @@ export default function AdminPlacementsPage() {
                                                 </div>
                                             </div>
 
-                                            <button 
+                                            <button
                                                 onClick={() => setViewingAppsFor(job)}
                                                 className="w-full py-6 bg-white/2 hover:bg-indigo-600 text-slate-800 hover:text-white rounded-[2.5rem] text-[10px] font-black uppercase tracking-[0.4em] transition-all border border-white/5 flex items-center justify-center gap-4 group/btn mt-auto"
                                             >
@@ -201,7 +201,7 @@ export default function AdminPlacementsPage() {
                 <div className="fixed inset-0 z-[60] flex items-center justify-center p-6 bg-[#070b14]/95 backdrop-blur-3xl animate-in fade-in duration-500 font-sans">
                     <div className="bg-[#0f172a] w-full max-w-5xl rounded-[5rem] p-16 shadow-[0_50px_100px_rgba(0,0,0,0.8)] border border-white/10 animate-in zoom-in-95 duration-500 overflow-hidden relative flex flex-col max-h-[90vh]">
                          <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-indigo-600/5 blur-[150px] rounded-full translate-x-24 -translate-y-24"></div>
-                         
+
                         <div className="flex justify-between items-center mb-14 relative z-10 text-left shrink-0">
                             <div className="flex items-center gap-8">
                                 <div className="w-16 h-16 bg-indigo-600 rounded-[2rem] flex items-center justify-center text-white shadow-2xl">
@@ -233,9 +233,9 @@ export default function AdminPlacementsPage() {
                                             </div>
 
                                             {app.resumeUrl ? (
-                                                <a 
-                                                    href={`http://localhost:8001/public${app.resumeUrl}`} 
-                                                    target="_blank" 
+                                                <a
+                                                    href={`${API_URL}/public${app.resumeUrl}`}
+                                                    target="_blank"
                                                     rel="noreferrer"
                                                     className="inline-flex items-center gap-4 px-10 py-5 bg-white/2 border border-white/5 text-indigo-400 hover:bg-indigo-600 hover:text-white hover:border-indigo-600 rounded-[2rem] text-[10px] font-black uppercase tracking-[0.3em] transition-all active:scale-95 shadow-2xl group/dl"
                                                 >
@@ -264,7 +264,7 @@ export default function AdminPlacementsPage() {
                 <div className="fixed inset-0 z-[60] flex items-center justify-center p-6 bg-[#070b14]/90 backdrop-blur-3xl animate-in fade-in duration-500 font-sans">
                     <div className="bg-[#0f172a] w-full max-w-2xl rounded-[4.5rem] p-16 shadow-[0_50px_100px_rgba(0,0,0,0.8)] border border-white/10 animate-in zoom-in-95 duration-500 overflow-y-auto max-h-[90vh] scrollbar-hide relative overflow-hidden uppercase">
                         <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-600/10 blur-[120px] rounded-full translate-x-12 -translate-y-12"></div>
-                        
+
                         <div className="flex justify-between items-center mb-14 relative z-10 text-left">
                             <div className="flex items-center gap-6">
                                 <div className="w-16 h-16 bg-indigo-600 rounded-[1.8rem] flex items-center justify-center text-white shadow-2xl">

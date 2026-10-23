@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { api, endpoints } from "@/lib/api";
-import { 
+import { api, endpoints, API_URL } from "@/lib/api";
+import {
     IconBellRinging, IconCalendar, IconUser, IconNews, IconSearch, IconBell,
     IconBroadcast, IconFileDescription, IconArrowRight
 } from "@tabler/icons-react";
@@ -15,7 +15,7 @@ export default function TeacherNoticesPage() {
         try {
             const res = await api.get(endpoints.notices.getAll);
             // Filter notices for faculty
-            const filtered = res.data.filter((n: any) => 
+            const filtered = res.data.filter((n: any) =>
                 n.audience === "All Faculty" || n.audience === "Faculty Only" || n.audience === "All Students" || n.audience === "Departments"
             );
             setNotices(filtered);
@@ -30,8 +30,8 @@ export default function TeacherNoticesPage() {
         fetchNotices();
     }, []);
 
-    const filteredNotices = notices.filter(n => 
-        n.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    const filteredNotices = notices.filter(n =>
+        n.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         n.content.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
@@ -39,7 +39,7 @@ export default function TeacherNoticesPage() {
         <main className="min-h-screen bg-[#070b14] p-8 lg:p-10 font-sans text-slate-200">
             <div className="max-w-7xl mx-auto space-y-12 relative text-left">
                 <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-600/10 blur-[150px] rounded-full pointer-events-none"></div>
-                
+
                 <header className="flex flex-col md:flex-row md:items-center justify-between gap-10 pb-12 border-b border-white/5 relative">
                     <div className="flex items-center gap-10 relative z-10">
                         <div className="w-24 h-24 bg-[#0f172a] border border-white/5 rounded-[3rem] flex items-center justify-center text-indigo-500 shadow-2xl relative group overflow-hidden">
@@ -64,9 +64,9 @@ export default function TeacherNoticesPage() {
                         </h3>
                         <div className="relative group w-full md:w-[26rem]">
                             <IconSearch className="absolute left-8 top-1/2 -translate-y-1/2 text-slate-800 group-focus-within:text-indigo-500 transition-colors" size={24} />
-                            <input 
-                                type="text" 
-                                placeholder="SEARCH NOTICES..." 
+                            <input
+                                type="text"
+                                placeholder="SEARCH NOTICES..."
                                 className="w-full bg-[#070b14] border border-white/5 rounded-[3rem] pl-20 pr-10 py-6 text-[11px] font-black uppercase tracking-[0.3em] outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all text-white placeholder:text-slate-900 shadow-inner"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -89,13 +89,13 @@ export default function TeacherNoticesPage() {
                                         <div className="flex-1 space-y-10">
                                             <div className="flex items-center gap-6">
                                                 <span className={`text-[10px] font-black px-6 py-3 rounded-[1.2rem] uppercase tracking-[0.3em] border-2 shadow-2xl transition-all duration-700 ${
-                                                    notice.type === 'Urgent' 
-                                                    ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' 
+                                                    notice.type === 'Urgent'
+                                                    ? 'bg-rose-500/10 text-rose-400 border-rose-500/20'
                                                     : 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20'
                                                 }`}>{notice.type}</span>
                                                 <h4 className="text-4xl font-black text-white tracking-tighter uppercase leading-none group-hover:text-indigo-400 transition-all duration-700">{notice.title}</h4>
                                             </div>
-                                            
+
                                             <div className="space-y-8">
                                                 <p className="text-base text-slate-400 font-medium leading-[1.8] max-w-5xl tracking-normal whitespace-pre-line">
                                                     {notice.content}
@@ -103,9 +103,9 @@ export default function TeacherNoticesPage() {
 
                                                 {notice.pdfUrl && (
                                                     <div className="pt-4">
-                                                        <a 
-                                                            href={`http://localhost:8001/public${notice.pdfUrl}`} 
-                                                            target="_blank" 
+                                                        <a
+                                                            href={`${API_URL}/public${notice.pdfUrl}`}
+                                                            target="_blank"
                                                             rel="noreferrer"
                                                             className="inline-flex items-center gap-4 px-8 py-4 bg-indigo-600 text-white rounded-[2rem] text-[11px] font-black uppercase tracking-[0.2em] shadow-2xl hover:bg-indigo-500 hover:scale-105 active:scale-95 transition-all group/btn"
                                                         >

@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { api, endpoints } from "@/lib/api";
+import { api, endpoints, API_URL } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { 
     IconFileUpload, IconFileText, IconTrash, IconSearch,
@@ -155,7 +155,7 @@ export default function TeacherNotesPage() {
                                                     <IconTrash size={22} />
                                                 </button>
                                                 <a 
-                                                    href={`http://localhost:8001/public${file.filePath}`}
+                                                    href={`${API_URL}/public${file.filePath}`}
                                                     target="_blank"
                                                     className="p-4 bg-indigo-600 text-white rounded-[1.3rem] hover:bg-indigo-500 transition-all shadow-2xl shadow-indigo-600/20 active:scale-95"
                                                 >

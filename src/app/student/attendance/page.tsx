@@ -19,6 +19,8 @@ export default function StudentAttendancePage() {
     const [attendanceHistory, setAttendanceHistory] = useState<any[]>([]);
 
     const fetchAttendanceHistory = async () => {
+        if (!user?.id) return;
+
         try {
             const res = await api.get(`/attendance/student/${user.id}`);
             setAttendanceHistory(res.data.reverse().slice(0, 5));

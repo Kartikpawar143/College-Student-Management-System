@@ -1,4 +1,5 @@
 "use client";
+import { API_URL } from "@/lib/api";
 import React, { useState, useEffect } from "react";
 import { 
     IconUsers, IconChecklist, IconCalendarCheck, IconSearch, 
@@ -24,7 +25,7 @@ export default function TeacherAttendancePage() {
     const fetchData = async () => {
         setLoading(true);
         try {
-            const res = await fetch("http://localhost:8001/students/");
+            const res = await fetch(`${API_URL}/students/`);
             const allStudents = await res.json();
             
             // Filter by department

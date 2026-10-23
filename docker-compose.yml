@@ -1,12 +1,15 @@
 services:
   mongodb:
     image: mongo:latest
-    ports:
-      - "27017:27017"
     volumes:
       - mongodb_data:/data/db
     environment:
       - MONGO_INITDB_DATABASE=vidya-rakshak
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.runCommand({ ping: 1 }).ok"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
 
   backend:
     build:
@@ -16,19 +19,26 @@ services:
       - "8001:8001"
     env_file:
       - .env
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/smart-campus
     volumes:
       - ./backend/public:/app/backend/public
     depends_on:
-      - mongodb
+      mongodb:
+        condition: service_healthy
 
   frontend:
     build:
       context: .
       dockerfile: Dockerfile.frontend
+      args:
+        NEXT_PUBLIC_API_URL: http://${PUBLIC_IP:?Set PUBLIC_IP in .env}:8001
     ports:
-      - "3000:3000"
+      - "80:3000"
+    env_file:
+      - .env
     environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:8001
+      - NEXT_PUBLIC_API_URL=http://${PUBLIC_IP:?Set PUBLIC_IP in .env}:8001
     depends_on:
       - backend
 

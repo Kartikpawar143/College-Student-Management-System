@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { api, endpoints } from "@/lib/api";
-import { 
-    IconBell, IconCalendar, IconTrash, IconX, IconUser, IconAlertCircle, 
+import { api, endpoints, API_URL } from "@/lib/api";
+import {
+    IconBell, IconCalendar, IconTrash, IconX, IconUser, IconAlertCircle,
     IconPinned, IconMessageCircle, IconHistory, IconBroadcast, IconVolume,
     IconPlus, IconSearch, IconSparkles, IconActivity, IconSend, IconFileDescription, IconPaperclip, IconExternalLink
 } from "@tabler/icons-react";
@@ -14,7 +14,7 @@ export default function AdminNoticesPage() {
     const [uploading, setUploading] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
-    
+
     const [newNotice, setNewNotice] = useState({
         title: "",
         content: "",
@@ -55,10 +55,10 @@ export default function AdminNoticesPage() {
 
             await api.post(endpoints.notices.add, { ...newNotice, pdfUrl });
             setIsModalOpen(false);
-            setNewNotice({ 
-                title: "", 
-                content: "", 
-                type: "General", 
+            setNewNotice({
+                title: "",
+                content: "",
+                type: "General",
                 audience: "All Students",
                 date: new Date().toISOString().split('T')[0]
             });
@@ -81,7 +81,7 @@ export default function AdminNoticesPage() {
         }
     };
 
-    const filteredNotices = notices.filter(n => 
+    const filteredNotices = notices.filter(n =>
         n.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         n.content.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -90,7 +90,7 @@ export default function AdminNoticesPage() {
         <main className="min-h-screen bg-[#070b14] p-8 lg:p-12 font-sans text-slate-200">
             <div className="max-w-7xl mx-auto space-y-12 relative">
                 <div className="absolute top-0 right-0 w-[50rem] h-[50rem] bg-indigo-600/5 blur-[200px] rounded-full pointer-events-none"></div>
-                
+
                 <header className="flex flex-col md:flex-row md:items-center justify-between gap-10 pb-12 border-b border-white/5 relative z-10 text-left">
                     <div className="space-y-4">
                         <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-full">
@@ -100,8 +100,8 @@ export default function AdminNoticesPage() {
                         <h2 className="text-4xl font-black text-white tracking-tighter uppercase leading-none">Global Announcements</h2>
                         <p className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.4em] leading-none">Send notices and instructions to students</p>
                     </div>
-                    
-                    <button 
+
+                    <button
                         onClick={() => setIsModalOpen(true)}
                         className="bg-indigo-600 hover:bg-indigo-500 text-white font-black px-12 py-5 rounded-[2rem] shadow-2xl shadow-indigo-600/20 transition-all flex items-center justify-center gap-4 uppercase text-[10px] tracking-widest active:scale-95 group"
                     >
@@ -117,12 +117,12 @@ export default function AdminNoticesPage() {
                         </div>
                         <div className="relative group/search w-full md:w-96">
                             <IconSearch className="absolute left-7 top-1/2 -translate-y-1/2 text-slate-700 group-focus-within/search:text-indigo-400 transition-colors" size={18} />
-                            <input 
-                                type="text" 
-                                placeholder="SEARCH NOTICES..." 
+                            <input
+                                type="text"
+                                placeholder="SEARCH NOTICES..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full bg-[#070b14] border border-white/5 rounded-[2.5rem] pl-16 pr-8 py-5 text-[10px] font-black uppercase tracking-widest outline-none shadow-inner focus:ring-4 focus:ring-indigo-500/10 transition-all text-white placeholder:text-slate-900" 
+                                className="w-full bg-[#070b14] border border-white/5 rounded-[2.5rem] pl-16 pr-8 py-5 text-[10px] font-black uppercase tracking-widest outline-none shadow-inner focus:ring-4 focus:ring-indigo-500/10 transition-all text-white placeholder:text-slate-900"
                             />
                         </div>
                     </div>
@@ -153,9 +153,9 @@ export default function AdminNoticesPage() {
 
                                             {notice.pdfUrl && (
                                                 <div className="pt-4 flex items-center gap-4">
-                                                    <a 
-                                                        href={`http://localhost:8001/public${notice.pdfUrl}`} 
-                                                        target="_blank" 
+                                                    <a
+                                                        href={`${API_URL}/public${notice.pdfUrl}`}
+                                                        target="_blank"
                                                         rel="noreferrer"
                                                         className="inline-flex items-center gap-3 px-6 py-3 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl text-[10px] font-black text-emerald-400 uppercase tracking-widest hover:bg-emerald-500/20 transition-all shadow-xl shadow-emerald-500/5 group/btn"
                                                     >
@@ -181,7 +181,7 @@ export default function AdminNoticesPage() {
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-6">
-                                            <button 
+                                            <button
                                                 onClick={() => handleDelete(notice._id)}
                                                 className="p-5 bg-[#070b14] border border-white/5 rounded-3xl text-slate-700 hover:text-rose-400 hover:border-rose-500/20 hover:shadow-2xl transition-all active:scale-90"
                                             >
@@ -207,7 +207,7 @@ export default function AdminNoticesPage() {
                     <div className="fixed inset-0 z-[60] flex items-center justify-center p-6 bg-[#070b14]/90 backdrop-blur-3xl animate-in fade-in duration-500">
                         <div className="bg-[#0f172a] w-full max-w-2xl rounded-[4.5rem] p-16 shadow-[0_50px_100px_rgba(0,0,0,0.8)] border border-white/10 animate-in zoom-in-95 duration-500 overflow-y-auto max-h-[90vh] custom-scrollbar relative overflow-hidden">
                              <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-600/10 blur-[120px] rounded-full translate-x-12 -translate-y-12"></div>
-                             
+
                             <div className="flex justify-between items-center mb-14 relative z-10 text-left">
                                 <div className="flex items-center gap-6">
                                     <div className="w-16 h-16 bg-indigo-600 rounded-[1.8rem] flex items-center justify-center text-white shadow-2xl">
@@ -261,14 +261,14 @@ export default function AdminNoticesPage() {
                                 <div className="space-y-3">
                                     <label className="text-[10px] font-black text-slate-700 uppercase tracking-[0.3em] ml-6">Attach PDF (Instructions)</label>
                                     <div className="relative group/file">
-                                        <input 
-                                            type="file" 
-                                            accept=".pdf" 
+                                        <input
+                                            type="file"
+                                            accept=".pdf"
                                             onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
-                                            className="hidden" 
-                                            id="pdf-upload" 
+                                            className="hidden"
+                                            id="pdf-upload"
                                         />
-                                        <label 
+                                        <label
                                             htmlFor="pdf-upload"
                                             className="w-full bg-[#070b14] border-2 border-dashed border-white/5 rounded-3xl py-8 flex flex-col items-center justify-center gap-4 cursor-pointer hover:border-indigo-500/50 hover:bg-white/[0.02] transition-all group-hover/file:scale-[1.02]"
                                         >

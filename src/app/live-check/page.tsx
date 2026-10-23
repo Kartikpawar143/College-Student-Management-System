@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import Webcam from "react-webcam";
-import { api, endpoints } from "@/lib/api";
+import { api, endpoints, API_URL } from "@/lib/api";
 import { IconUser, IconScan, IconCheck, IconX, IconShieldCheck, IconArrowLeft } from "@tabler/icons-react";
 import Link from "next/link";
 
@@ -112,7 +112,7 @@ export default function LiveCheckPage() {
                                     <div className="absolute -inset-4 bg-indigo-500/10 blur-2xl rounded-full animate-pulse"></div>
                                     <div className="w-full h-full rounded-[3.2rem] bg-[#070b14] overflow-hidden border-4 border-[#070b14] relative z-10">
                                         <img
-                                            src={matchResult.profileImage ? `http://localhost:8001${matchResult.profileImage}` : "https://ui-avatars.com/api/?background=4f46e5&color=fff&name=" + matchResult.name}
+                                            src={matchResult.profileImage ? `${API_URL}${matchResult.profileImage}` : "https://ui-avatars.com/api/?background=4f46e5&color=fff&name=" + matchResult.name}
                                             className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
                                             alt={matchResult.name}
                                         />

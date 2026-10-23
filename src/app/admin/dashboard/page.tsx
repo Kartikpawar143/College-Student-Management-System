@@ -1,4 +1,5 @@
 "use client";
+import { API_URL } from "@/lib/api";
 import React, { useEffect, useState } from "react";
 import DashboardCard from "@/components/DashboardCard";
 import { 
@@ -26,7 +27,7 @@ export default function AdminDashboard() {
 
     const fetchStats = async () => {
         try {
-            const res = await fetch("http://localhost:8001/stats/admin");
+            const res = await fetch(`${API_URL}/stats/admin`);
             const data = await res.json();
             setStats(data);
         } catch (error) {

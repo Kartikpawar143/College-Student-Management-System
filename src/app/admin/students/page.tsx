@@ -1,10 +1,10 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
-import { api, endpoints } from "@/lib/api";
+import { api, endpoints, API_URL } from "@/lib/api";
 import { 
     IconPlus, IconTrash, IconSearch, IconPencil, 
     IconUserPlus, IconUsers, IconCamera, IconDeviceCameraPhone,
-    IconChevronRight, IconMail, IconId, IconPhone, IconUserCircle, IconCheck, IconX
+    IconChevronRight, IconMail, IconId, IconPhone, IconUserCircle, IconCheck, IconX, IconLoader2
 } from "@tabler/icons-react";
 import Webcam from "react-webcam";
 
@@ -175,7 +175,7 @@ export default function AdminStudentsPage() {
                       <div className="w-16 h-16 rounded-[2rem] overflow-hidden bg-[#070b14] border border-white/5 flex items-center justify-center text-slate-800 shadow-2xl group-hover/row:border-indigo-500/50 group-hover/row:text-indigo-400 transition-all">
                         {student.profileImage ? (
                           <img
-                            src={`http://localhost:8001${student.profileImage}`}
+                            src={`${API_URL}${student.profileImage}`}
                             alt={student.name}
                             className="w-full h-full object-cover"
                             onError={(e) => (e.currentTarget.src = 'https://ui-avatars.com/api/?name=' + student.name)}

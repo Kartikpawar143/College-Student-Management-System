@@ -1,4 +1,5 @@
 "use client";
+import { API_URL } from "@/lib/api";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { 
@@ -21,11 +22,11 @@ export default function StudentDashboard() {
         if (!user) return;
         try {
             const [profileRes, timetableRes, noticesRes, placementsRes, leaveRes] = await Promise.all([
-                fetch(`http://localhost:8001/students/${user.id}/profile`),
-                fetch(`http://localhost:8001/timetable/${encodeURIComponent(user.department || "CS")}/${user.semester || 1}`),
-                fetch(`http://localhost:8001/notices/`),
-                fetch(`http://localhost:8001/placements/`),
-                fetch(`http://localhost:8001/gatepass/student/${user.id}`)
+                fetch(`${API_URL}/students/${user.id}/profile`),
+                fetch(`${API_URL}/timetable/${encodeURIComponent(user.department || "CS")}/${user.semester || 1}`),
+                fetch(`${API_URL}/notices/`),
+                fetch(`${API_URL}/placements/`),
+                fetch(`${API_URL}/gatepass/student/${user.id}`)
             ]);
 
             const profileData = await profileRes.json();

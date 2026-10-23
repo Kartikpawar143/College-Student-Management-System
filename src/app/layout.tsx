@@ -8,8 +8,8 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata = {
-    title: "GHRCOE Studion - Student Management system",
-    description: "Professional all-in-one student management system for GHRCOE.",
+    title: "GHRUA Studion - Student Management system",
+    description: "Professional all-in-one student management system for GHRUA.",
 };
 
 

@@ -45,7 +45,7 @@ export default function LoginPage() {
                         <div className="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-2xl shadow-indigo-600/30">
                             <IconSchool size={28} />
                         </div>
-                        <h1 className="text-2xl font-black text-white tracking-tighter uppercase font-sans leading-none">DPCOE Studion</h1>
+                        <h1 className="text-2xl font-black text-white tracking-tighter uppercase font-sans leading-none">GHRCOE Studion</h1>
                         <p className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.4em] leading-none mt-2">Student Management System</p>
                     </div>
                     

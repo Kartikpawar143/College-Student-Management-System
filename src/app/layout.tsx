@@ -8,8 +8,8 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata = {
-    title: "DPCOE Studion - Student Management system",
-    description: "Professional all-in-one student management system for DPCOE.",
+    title: "GHRCOE Studion - Student Management system",
+    description: "Professional all-in-one student management system for GHRCOE.",
 };
 
 

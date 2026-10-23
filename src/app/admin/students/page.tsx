@@ -130,7 +130,7 @@ export default function AdminStudentsPage() {
                <IconUsers size={12} className="text-indigo-400" />
                <span className="text-[10px] font-black text-indigo-400 uppercase tracking-widest leading-none">Global Registrar</span>
           </div>
-          <h2 className="text-4xl font-black text-white tracking-tighter uppercase leading-none">DPCOE Studion</h2>
+          <h2 className="text-4xl font-black text-white tracking-tighter uppercase leading-none">GHRCOE Studion</h2>
           <p className="text-slate-500 font-bold uppercase text-[10px] tracking-[0.4em] mt-3 leading-none tracking-widest leading-tight">Institutional identity management and enrollment matrix</p>
         </div>
         <button 

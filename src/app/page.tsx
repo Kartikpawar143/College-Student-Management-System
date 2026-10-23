@@ -39,7 +39,7 @@ export default function Home() {
                             <IconSchool size={20} stroke={2.5} />
                         </div>
                         <div className="leading-tight text-left">
-                            <h1 className="text-lg font-black tracking-tight uppercase">DPCOE Studion</h1>
+                            <h1 className="text-lg font-black tracking-tight uppercase">GHRCOE Studion</h1>
                             <p className="text-[8px] text-slate-400 font-bold uppercase tracking-widest leading-none">Student Management system</p>
                         </div>
                     </div>
@@ -104,7 +104,7 @@ export default function Home() {
                         <div className="relative rounded-[3rem] overflow-hidden border border-white/10 shadow-2xl">
                              <img 
                                 src="/hero.png" 
-                                alt="DPCOE Studion" 
+                                alt="GHRCOE Studion" 
                                 className="w-full h-auto object-cover transform transition-transform duration-[3s] hover:scale-105"
                              />
                              <div className="absolute inset-0 bg-gradient-to-t from-[#070b14]/80 via-transparent to-transparent"></div>
@@ -215,7 +215,7 @@ export default function Home() {
                             <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/20">
                                 <IconSchool size={22} stroke={2.5} />
                             </div>
-                            <h4 className="text-xl font-black tracking-tighter uppercase">DPCOE Studion</h4>
+                            <h4 className="text-xl font-black tracking-tighter uppercase">GHRCOE Studion</h4>
                         </div>
                         <p className="text-slate-500 text-xs max-w-xs leading-relaxed font-medium">Student Management system built to make your daily college life easy and fast.</p>
                         <div className="flex gap-4">

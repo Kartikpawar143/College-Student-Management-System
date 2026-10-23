@@ -75,7 +75,7 @@ export default function Sidebar() {
                         <IconSchool size={26} stroke={1.5} />
                     </div>
                     <div className="text-left">
-                        <h2 className="text-[15px] font-black text-white tracking-tighter leading-none group-hover/logo:text-indigo-400 transition-colors uppercase">DPCOE Studion</h2>
+                        <h2 className="text-[15px] font-black text-white tracking-tighter leading-none group-hover/logo:text-indigo-400 transition-colors uppercase">GHRCOE Studion</h2>
                         <p className="text-[8px] text-slate-500 font-black uppercase tracking-widest mt-1">Student Management</p>
                     </div>
                 </Link>

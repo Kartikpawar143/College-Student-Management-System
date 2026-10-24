@@ -55,8 +55,10 @@ export const endpoints = {
         getAll: "/placements/",
         getById: (id: string) => `/placements/${id}`,
         add: "/placements/add",
+        update: (id: string) => `/placements/${id}`,
         delete: (id: string) => `/placements/${id}`,
         uploadResume: "/placements/upload_resume",
+        uploadNotice: "/placements/upload_notice",
         getApplications: "/placements/applications",
     },
     timetable: {

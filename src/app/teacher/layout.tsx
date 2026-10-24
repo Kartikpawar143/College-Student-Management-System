@@ -1,11 +1,13 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "@/components/Sidebar";
+import Navbar from "@/components/Navbar";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { IconSparkles } from "@tabler/icons-react";
 
 function TeacherShell({ children }: { children: React.ReactNode }) {
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const { user, isLoading } = useAuth();
   const router = useRouter();
 
@@ -39,15 +41,16 @@ function TeacherShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex bg-[#070b14] min-h-screen font-sans selection:bg-indigo-500/30">
       {/* Sidebar (Left) */}
-      <Sidebar />
+      <Sidebar mobileOpen={mobileNavOpen} onClose={() => setMobileNavOpen(false)} onNavigate={() => setMobileNavOpen(false)} />
       
       {/* Main Content (Right) */}
-      <main className="flex-1 flex flex-col h-screen overflow-hidden relative">
+      <main className="min-w-0 flex-1 flex flex-col min-h-screen lg:h-screen lg:overflow-hidden relative">
         <div className="absolute top-0 right-0 w-[600px] h-[300px] bg-indigo-500/5 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
         
         {/* Dynamic Viewport (Content) */}
+        <Navbar onMenuClick={() => setMobileNavOpen(true)} />
         <div className="flex-1 overflow-y-auto scroll-smooth">
-          <div className="min-h-full">
+          <div id="teacher-content" className="min-h-full">
             {children}
           </div>
         </div>

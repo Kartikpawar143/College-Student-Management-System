@@ -4,8 +4,8 @@ import { api, endpoints, API_URL } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { 
     IconFileUpload, IconFileText, IconTrash, IconSearch,
-    IconFileDescription, IconDotsVertical, IconCloudUpload,
-    IconFilePlus, IconFileDownload, IconChevronRight, IconAward, IconX, IconCheck, IconSparkles, IconActivity
+    IconCloudUpload, IconFilePlus, IconFileDownload,
+    IconAward, IconX, IconCheck, IconSparkles, IconActivity
 } from "@tabler/icons-react";
 
 export default function TeacherPYQsPage() {
@@ -85,26 +85,26 @@ export default function TeacherPYQsPage() {
     };
 
     return (
-        <main className="min-h-screen bg-[#070b14] p-8 lg:p-10 font-sans text-slate-200">
+        <main className="teacher-resource-page teacher-papers min-h-screen bg-[#07111d] p-5 font-sans text-slate-200 sm:p-7 xl:p-8">
             <div className="max-w-7xl mx-auto space-y-10">
                 
                 {/* Header Area */}
-                <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pb-8 border-b border-white/5 relative">
+                <header className="resource-page-header flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pb-8 relative">
                     <div className="absolute -top-10 -left-10 w-48 h-48 bg-indigo-600/10 blur-[100px] rounded-full"></div>
                     <div className="space-y-4 relative z-10">
                          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-amber-500/10 border border-amber-500/20 rounded-full">
                              <IconSparkles size={12} className="text-amber-400" />
                              <span className="text-[9px] font-black text-amber-400 uppercase tracking-widest leading-none">Papers Hub</span>
                         </div>
-                        <h2 className="text-4xl font-black text-white tracking-tight uppercase leading-none">Old Papers</h2>
+                        <h2 className="text-4xl font-black text-white tracking-tight leading-none">Old papers</h2>
                         <p className="text-sm font-bold text-slate-500 leading-none">
-                            Upload and <span className="text-amber-400">manage exam papers</span> for students to study.
+                            Upload and share past exam papers with your classes.
                         </p>
                     </div>
                     
                     <button 
                         onClick={() => setIsModalOpen(true)}
-                        className="flex items-center justify-center gap-3 px-10 py-4 bg-amber-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-amber-500 transition-all shadow-2xl shadow-amber-600/20 active:scale-95 group relative z-10"
+                        className="resource-upload-trigger flex items-center justify-center gap-2 px-5 py-3 bg-amber-600 text-white rounded-xl text-sm font-semibold hover:bg-amber-500 transition-all relative z-10"
                     >
                         <IconFileUpload size={18} /> Deploy New Paper
                     </button>
@@ -112,16 +112,16 @@ export default function TeacherPYQsPage() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                     {/* Left: Papers List */}
-                    <div className="lg:col-span-8 bg-[#0f172a] rounded-[3.5rem] border border-white/5 shadow-2xl overflow-hidden relative group font-sans min-h-[600px] flex flex-col">
-                        <div className="p-10 border-b border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-8 bg-[#070b14]/50">
+                    <div className="resource-list-panel lg:col-span-8 bg-[#0c1a29] rounded-2xl border border-white/[0.08] overflow-hidden relative group font-sans flex flex-col">
+                        <div className="resource-list-toolbar p-5 border-b border-white/[0.07] flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white/[0.02]">
                             <div className="space-y-2">
                                 <h3 className="text-xl font-black text-white tracking-tight uppercase flex items-center gap-4">
                                     <span className="w-2.5 h-2.5 bg-amber-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(245,158,11,0.8)]"></span>
-                                    Question Bank
+                                    Uploaded papers
                                 </h3>
-                                <p className="text-[9px] font-black text-slate-700 uppercase tracking-[0.3em] leading-none ml-6">Secured Exam Hub</p>
+                                <p className="text-xs text-slate-500 leading-none ml-6">Past exam materials for your classes</p>
                             </div>
-                            <div className="relative w-full md:w-[350px] group/search">
+                            <div className="relative w-full md:w-72 group/search">
                                 <IconSearch className="absolute left-7 top-1/2 -translate-y-1/2 text-slate-700 group-focus-within/search:text-amber-400 transition-colors" size={18} />
                                 <input type="text" placeholder="FIND PAPER..." className="w-full bg-[#070b14] border border-white/5 rounded-2xl pl-14 pr-8 py-4 text-[10px] font-black uppercase tracking-widest outline-none focus:ring-4 focus:ring-amber-500/10 transition-all text-white placeholder:text-slate-800" />
                             </div>
@@ -132,32 +132,34 @@ export default function TeacherPYQsPage() {
                                 <p className="py-24 text-center text-[10px] font-black uppercase tracking-[0.4em] text-slate-800 animate-pulse">Syncing Hub Data...</p>
                             ) : files.length > 0 ? (
                                 files.map((file) => (
-                                    <div key={file._id} className="p-10 group/item hover:bg-white/5 transition-all relative">
-                                        <div className="flex items-center justify-between gap-8 relative z-10">
-                                            <div className="flex items-center gap-8">
-                                                <div className="w-16 h-16 rounded-[2rem] bg-[#070b14] border border-white/5 text-slate-700 flex items-center justify-center shadow-2xl group-hover/item:scale-110 transition-all group-hover/item:text-amber-400">
-                                                    <IconFileText size={32} />
+                                    <div key={file._id} className="resource-entry p-5 group/item hover:bg-white/[0.025] transition-all relative">
+                                        <div className="flex items-center justify-between gap-4 relative z-10">
+                                            <div className="flex min-w-0 items-center gap-3">
+                                                <div className="resource-file-icon w-11 h-11 shrink-0 rounded-xl bg-[#081522] border border-white/[0.07] text-cyan-100 flex items-center justify-center">
+                                                    <IconFileText size={20} />
                                                 </div>
-                                                <div className="space-y-3">
-                                                    <h4 className="font-black text-white text-lg tracking-tight group-hover/item:text-amber-400 transition-colors uppercase leading-none">{file.title}</h4>
-                                                    <div className="flex items-center gap-6 text-slate-500">
-                                                        <span className="text-[10px] font-black uppercase tracking-widest bg-amber-500/10 px-3 py-1 rounded-lg border border-amber-500/10 text-amber-400">{file.subject}</span>
-                                                        <span className="text-[10px] font-black uppercase tracking-widest">• Unit {file.semester} Node</span>
-                                                        <span className="text-[10px] font-black uppercase tracking-widest">• {new Date(file.uploadedAt).toLocaleDateString()} Log</span>
+                                                <div className="min-w-0 space-y-2">
+                                                    <h4 className="break-words font-semibold text-white text-sm sm:text-base tracking-tight group-hover/item:text-cyan-100 transition-colors">{file.title}</h4>
+                                                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-slate-400">
+                                                        <span className="text-xs bg-cyan-100/[0.06] px-2 py-1 rounded-md border border-cyan-100/10 text-cyan-100">{file.subject}</span>
+                                                        <span className="text-xs">Semester {file.semester}</span>
+                                                        <span className="text-xs">{new Date(file.uploadedAt).toLocaleDateString()}</span>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="flex items-center gap-4">
+                                            <div className="flex shrink-0 items-center gap-2">
                                                 <button 
                                                     onClick={() => handleDelete(file._id)}
-                                                    className="p-4 bg-[#070b14] border border-white/5 text-slate-700 rounded-[1.3rem] hover:text-rose-400 hover:border-rose-500/20 transition-all active:scale-90 shadow-xl"
+                                                    aria-label={`Delete ${file.title}`}
+                                                    className="flex h-10 w-10 items-center justify-center bg-[#081522] border border-white/[0.07] text-slate-400 rounded-lg hover:text-rose-300 hover:border-rose-300/20 transition-all"
                                                 >
                                                     <IconTrash size={22} />
                                                 </button>
                                                 <a 
                                                     href={`${API_URL}/public${file.filePath}`}
                                                     target="_blank"
-                                                    className="p-4 bg-amber-600 text-white rounded-[1.3rem] hover:bg-amber-500 transition-all shadow-2xl shadow-amber-600/20 active:scale-95"
+                                                    aria-label={`Download ${file.title}`}
+                                                    className="flex h-10 w-10 items-center justify-center bg-cyan-200 text-[#07111d] rounded-lg hover:bg-cyan-100 transition-all"
                                                 >
                                                     <IconFileDownload size={22} />
                                                 </a>
@@ -177,41 +179,41 @@ export default function TeacherPYQsPage() {
                     </div>
 
                     {/* Right: Info & Status */}
-                    <div className="lg:col-span-4 space-y-10">
-                        <div className="bg-[#0f172a] rounded-[3.5rem] p-12 border border-white/5 shadow-2xl relative overflow-hidden group">
+                    <div className="lg:col-span-4 space-y-5">
+                        <div className="resource-side-card bg-[#0c1a29] rounded-2xl p-5 border border-white/[0.08] relative overflow-hidden group">
                             <div className="absolute top-0 right-0 w-48 h-48 bg-amber-600/5 blur-[100px] rounded-bl-full"></div>
-                            <h3 className="text-2xl font-black text-white tracking-tight uppercase mb-6 leading-none">Sync Status</h3>
-                            <p className="text-[10px] text-slate-600 leading-relaxed font-black uppercase tracking-widest mb-10">Papers are published to operational units instantly.</p>
+                            <h3 className="text-base font-semibold text-white mb-2">Archive status</h3>
+                            <p className="text-sm text-slate-400 leading-relaxed mb-5">Exam papers are available to students after upload.</p>
                             
                             <div className="space-y-6">
-                                <div className="p-8 bg-[#070b14]/50 border border-white/5 rounded-[2.5rem] space-y-6">
+                                <div className="p-4 bg-[#081522] border border-white/[0.07] rounded-xl space-y-3">
                                     <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest">
-                                        <span className="text-slate-600 tracking-widest">Archive Matrix</span>
+                                        <span className="text-slate-400 tracking-widest">Archive</span>
                                         <span className="text-emerald-500">Active</span>
                                     </div>
                                     <div className="h-2 bg-white/5 rounded-full overflow-hidden">
                                         <div className="h-full bg-amber-600 w-[78%] shadow-[0_0_15px_rgba(245,158,11,0.5)]"></div>
                                     </div>
                                 </div>
-                                <div className="p-8 bg-amber-600 group-hover:bg-amber-500 transition-all rounded-[2.5rem] shadow-2xl shadow-amber-600/20">
-                                     <div className="flex items-center gap-4 text-white">
+                                <div className="p-4 bg-cyan-200 text-[#07111d] transition-all rounded-xl">
+                                     <div className="flex items-center gap-4">
                                          <IconActivity size={24} />
                                          <div>
                                              <p className="text-[11px] font-black uppercase tracking-widest leading-none mb-1">Live Feed</p>
-                                             <p className="text-[8px] font-black uppercase tracking-widest text-amber-200">System Core Synchronized</p>
+                                             <p className="text-xs font-medium text-slate-700">System synchronized</p>
                                          </div>
                                      </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="bg-[#0f172a] rounded-[3rem] border border-white/5 p-10 shadow-2xl space-y-8">
+                        <div className="resource-side-card bg-[#0c1a29] rounded-2xl border border-white/[0.08] p-5 space-y-3">
                             <div className="flex items-center gap-4">
                                 <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></div>
-                                <h3 className="text-[11px] font-black text-slate-600 uppercase tracking-widest leading-none">Protocol Instructions</h3>
+                                <h3 className="text-sm font-semibold text-white leading-none">File guidance</h3>
                             </div>
-                            <p className="text-[10px] text-slate-500 leading-relaxed font-black uppercase tracking-widest">
-                                Deploy examination vectors for maximum compatibility with student units.
+                            <p className="text-sm text-slate-400 leading-relaxed">
+                                Upload clear, readable exam papers that students can open on their devices.
                             </p>
                         </div>
                     </div>

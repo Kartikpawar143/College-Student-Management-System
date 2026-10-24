@@ -4,10 +4,9 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { 
     IconCalendarEvent, IconFileUpload, IconChecklist, 
-    IconAlertCircle, IconSchool, IconExternalLink, 
-    IconArrowRight, IconPresentation, IconChartBar, IconDownload,
-    IconUsers, IconMessageCircle, IconClock, IconSparkles, IconSettings,
-    IconChevronRight, IconPlus, IconUserCheck, IconFileSettings
+    IconAlertCircle, IconPresentation, IconChartBar,
+    IconUsers, IconMessageCircle, IconClock, IconSparkles,
+    IconChevronRight
 } from "@tabler/icons-react";
 import Link from "next/link";
 
@@ -42,141 +41,126 @@ export default function TeacherDashboard() {
     };
 
     return (
-        <div className="min-h-screen bg-[#070b14] p-8 lg:p-10 font-sans text-slate-200">
-            <div className="max-w-7xl mx-auto space-y-10">
-                
-                {/* Header Area */}
-                <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pb-8 border-b border-white/5 relative">
-                    <div className="absolute -top-10 -left-10 w-48 h-48 bg-indigo-600/10 blur-[100px] rounded-full"></div>
-                    <div className="space-y-2 relative z-10">
-                        <div className="inline-flex items-center gap-2 px-2.5 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-full">
-                             <IconSparkles size={10} className="text-indigo-400" />
-                             <span className="text-[8px] font-black text-indigo-400 uppercase tracking-widest leading-none">Teacher Dashboard</span>
+        <main className="teacher-dashboard min-h-screen bg-[#07111d] p-5 text-slate-200 sm:p-7 xl:p-8">
+            <div className="mx-auto max-w-7xl space-y-6">
+                <header className="relative flex flex-col gap-5 overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-br from-[#102338] via-[#0d1b2b] to-[#10172a] p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+                    <div aria-hidden="true" className="pointer-events-none absolute -right-10 -top-24 h-72 w-72 rounded-full bg-cyan-400/10 blur-3xl" />
+                    <div className="relative min-w-0">
+                        <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-cyan-200/15 bg-cyan-200/[0.07] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-cyan-100">
+                            <IconSparkles size={13} /> Faculty workspace
                         </div>
-                        <h2 className="text-3xl font-black text-white tracking-tight uppercase leading-none">Welcome Back</h2>
-                        <p className="text-xs font-bold text-slate-500 leading-none">
-                            Hello, <span className="text-indigo-400">Prof. {user?.name || "Member"}</span> 👋 • Have a great day at college!
-                        </p>
+                        <h1 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">Good to see you, {user?.name || "Teacher"}</h1>
+                        <p className="mt-2 text-sm text-slate-400">Your classes, student activity, and teaching resources at a glance.</p>
                     </div>
-                    
-                    <div className="flex gap-3 w-full md:w-auto relative z-10">
-                        <Link href="/teacher/attendance" className="flex-1 md:flex-none flex items-center justify-center gap-2 px-8 py-4 bg-indigo-600 text-white rounded-2xl text-[9px] font-black uppercase tracking-widest hover:bg-indigo-500 transition-all shadow-xl shadow-indigo-500/10 active:scale-95">
-                            <IconPresentation size={18} /> Mark Attendance
-                        </Link>
-                    </div>
+                    <Link href="/teacher/attendance" className="relative inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-xl bg-cyan-200 px-5 py-3 text-sm font-semibold text-[#07111d] shadow-lg shadow-cyan-950/30 transition hover:bg-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200">
+                        <IconPresentation size={18} /> Mark attendance
+                    </Link>
                 </header>
 
-                {/* Dashboard Stats */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <section aria-label="Teaching overview" className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
                     {[
-                        { title: "Today's Classes", val: timetable.length, icon: IconCalendarEvent, color: "text-indigo-400", bg: "bg-indigo-500/10", desc: "My Daily Schedule" },
-                        { title: "Student Requests", val: teacherStats.pendingLeaves, icon: IconAlertCircle, color: "text-rose-400", bg: "bg-rose-500/10", desc: "Wait for My Approval" },
-                        { title: "My Files", val: teacherStats.totalFiles, icon: IconFileUpload, color: "text-purple-400", bg: "bg-purple-500/10", desc: "Notes & Material" },
-                        { title: "Total Students", val: teacherStats.totalStudents, icon: IconUsers, color: "text-emerald-400", bg: "bg-emerald-500/10", desc: "Enrolled in Classes" }
-                    ].map((stat, i) => (
-                        <div key={i} className="group p-8 rounded-[2.5rem] bg-[#0f172a] border border-white/5 shadow-xl hover:border-indigo-500/20 transition-all duration-300 cursor-pointer overflow-hidden relative">
-                            <div className={`absolute top-0 right-0 w-16 h-16 ${stat.color.replace('text', 'bg')} opacity-5 blur-2xl -translate-y-8 translate-x-8 rounded-full`}></div>
-                            <div className={`w-12 h-12 rounded-xl ${stat.bg} ${stat.color} flex items-center justify-center mb-8 border border-white/5 shadow-sm`}>
-                                <stat.icon size={22} />
+                        { title: "Today's classes", val: timetable.length, icon: IconCalendarEvent, accent: "text-cyan-200", iconBg: "bg-cyan-300/10", desc: "Scheduled for today" },
+                        { title: "Pending requests", val: teacherStats.pendingLeaves, icon: IconAlertCircle, accent: "text-amber-200", iconBg: "bg-amber-300/10", desc: "Awaiting your review" },
+                        { title: "Teaching resources", val: teacherStats.totalFiles, icon: IconFileUpload, accent: "text-violet-200", iconBg: "bg-violet-300/10", desc: "Notes and materials" },
+                        { title: "Total students", val: teacherStats.totalStudents, icon: IconUsers, accent: "text-emerald-200", iconBg: "bg-emerald-300/10", desc: "Across your classes" }
+                    ].map((stat) => (
+                        <article key={stat.title} className="rounded-2xl border border-white/[0.08] bg-[#0c1a29] p-5 transition hover:border-cyan-100/20 hover:bg-[#102033]">
+                            <div className="flex items-start justify-between gap-3">
+                                <div>
+                                    <p className="text-sm font-medium text-slate-400">{stat.title}</p>
+                                    <p className="mt-3 text-3xl font-semibold tracking-tight text-white">{stat.val}</p>
+                                </div>
+                                <span className={`flex h-10 w-10 items-center justify-center rounded-xl ${stat.iconBg} ${stat.accent}`}><stat.icon size={20} /></span>
                             </div>
-                            <h4 className="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] mb-2">{stat.title}</h4>
-                            <p className="text-3xl font-black text-white tracking-tight mb-3">{stat.val}</p>
-                            <p className="text-[8px] font-bold text-slate-600 uppercase tracking-widest leading-none">{stat.desc}</p>
-                        </div>
+                            <p className="mt-3 text-xs text-slate-500">{stat.desc}</p>
+                        </article>
                     ))}
-                </div>
+                </section>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                    {/* Timetable List */}
-                    <div className="lg:col-span-8 bg-[#0f172a] p-10 rounded-[3rem] shadow-xl border border-white/5 relative overflow-hidden group">
-                        <div className="flex justify-between items-center mb-10 relative z-10">
+                <div className="grid grid-cols-1 items-start gap-5 xl:grid-cols-[minmax(0,1.65fr)_minmax(19rem,1fr)]">
+                    <section className="min-w-0 overflow-hidden rounded-2xl border border-white/[0.08] bg-[#0c1a29]">
+                        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.07] px-5 py-4 sm:px-6">
                             <div>
-                                <h3 className="text-2xl font-black text-white tracking-tight uppercase leading-none">Class Schedule</h3>
-                                <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 mt-2">Checking your lectures today</p>
+                                <h2 className="text-lg font-semibold text-white">Today&apos;s schedule</h2>
+                                <p className="mt-1 text-xs text-slate-500">Your teaching timetable</p>
                             </div>
-                            <Link href="/teacher/timetable" className="flex items-center gap-2 px-4 py-1.5 bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 rounded-full font-black text-[9px] uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all">
-                                Full List <IconChevronRight size={12} />
+                            <Link href="/teacher/timetable" className="inline-flex items-center gap-1 rounded-lg px-3 py-2 text-xs font-semibold text-cyan-100 transition hover:bg-cyan-100/10">
+                                Open timetable <IconChevronRight size={15} />
                             </Link>
                         </div>
-
-                        {timetable.length > 0 ? (
-                            <div className="space-y-4 relative z-10">
+                        {timetable.length ? (
+                            <div className="divide-y divide-white/[0.06] px-5 sm:px-6">
                                 {timetable.map((item: any, idx: number) => (
-                                    <div key={idx} className="flex items-center justify-between p-6 bg-[#070b14]/40 rounded-[2rem] border border-white/5 hover:border-indigo-500/20 hover:bg-[#070b14]/70 transition-all group/item cursor-pointer">
-                                        <div className="flex items-center gap-6">
-                                            <div className="w-12 h-12 rounded-[1.2rem] bg-[#0f172a] border border-white/5 flex items-center justify-center text-slate-500 group-hover/item:text-indigo-400 transition-all">
-                                                <IconClock size={20} />
-                                            </div>
-                                            <div>
-                                                <p className="text-white font-black uppercase text-base tracking-tight group-hover/item:text-indigo-400 transition-colors leading-none">{item.subject}</p>
-                                                <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest mt-1.5 leading-none">Branch: {item.branch} • Sem {item.semester} • Rm: {item.room}</p>
+                                    <article key={idx} className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between">
+                                        <div className="flex min-w-0 items-center gap-3">
+                                            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.07] bg-white/[0.035] text-cyan-100"><IconClock size={18} /></span>
+                                            <div className="min-w-0">
+                                                <h3 className="truncate text-sm font-semibold text-white">{item.subject}</h3>
+                                                <p className="mt-1 truncate text-xs text-slate-500">{item.branch} <span className="px-1 text-slate-700">·</span> Semester {item.semester} <span className="px-1 text-slate-700">·</span> Room {item.room}</p>
                                             </div>
                                         </div>
-                                        <div className="text-right">
-                                            <div className="font-black text-indigo-400 text-xs mb-1 bg-indigo-500/10 px-4 py-2 rounded-full border border-indigo-500/10 leading-none">
-                                                {item.start_time} - {item.end_time}
-                                            </div>
-                                        </div>
-                                    </div>
+                                        <span className="ml-[3.25rem] inline-flex w-fit rounded-lg border border-cyan-100/10 bg-cyan-100/[0.06] px-3 py-1.5 text-xs font-medium tabular-nums text-cyan-100 sm:ml-0">
+                                            {item.start_time} – {item.end_time}
+                                        </span>
+                                    </article>
                                 ))}
                             </div>
                         ) : (
-                            <div className="flex-1 flex flex-col items-center justify-center py-20 bg-[#070b14]/20 rounded-[2.5rem] border-2 border-dashed border-white/5">
-                                <IconCalendarEvent size={48} className="text-white/5 mb-4" />
-                                <p className="text-[10px] font-black text-slate-600 uppercase tracking-[0.2em]">No classes today.</p>
+                            <div className="flex flex-col items-center justify-center px-5 py-12 text-center">
+                                <span className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-white/[0.04] text-slate-500"><IconCalendarEvent size={21} /></span>
+                                <p className="text-sm font-medium text-slate-300">No classes scheduled today</p>
+                                <p className="mt-1 text-xs text-slate-500">Your schedule will appear here when classes are listed.</p>
                             </div>
                         )}
-                    </div>
+                    </section>
 
-                    {/* Quick Tools Panel */}
-                    <div className="lg:col-span-4 space-y-8">
-                        {/* Student Updates */}
-                        <div className="bg-[#0f172a] p-10 rounded-[3rem] shadow-xl border border-white/5 relative overflow-hidden group font-sans">
-                            <div className="absolute top-0 right-0 w-48 h-48 bg-indigo-600/10 blur-[80px] rounded-full group-hover:bg-indigo-600/20 transition-all"></div>
-                            <div className="relative z-10 space-y-8">
-                                <div className="flex justify-between items-center">
-                                    <h3 className="text-xl font-black text-white tracking-tight uppercase leading-none">Recent News</h3>
-                                    <IconMessageCircle size={20} className="text-indigo-400" />
+                    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-1">
+                        <section className="rounded-2xl border border-white/[0.08] bg-[#0c1a29] p-5 sm:p-6">
+                            <div className="mb-4 flex items-center justify-between">
+                                <div>
+                                    <h2 className="text-base font-semibold text-white">Recent updates</h2>
+                                    <p className="mt-1 text-xs text-slate-500">A quick activity snapshot</p>
                                 </div>
-                                
-                                <div className="space-y-4">
-                                    {[
-                                        { title: "Attendance Marked", desc: "Batch 2021 attendance is now saved." },
-                                        { title: "New Leave Form", desc: "Rahul from CS Sem 4 applied for leave." }
-                                    ].map((news, i) => (
-                                        <div key={i} className="p-5 bg-[#070b14]/50 border border-white/5 rounded-[1.8rem] hover:bg-[#070b14]/80 transition-all cursor-pointer group/news">
-                                            <h4 className="font-black text-white text-[11px] group-hover:text-indigo-400 transition-colors leading-tight mb-2 uppercase tracking-tight">{news.title}</h4>
-                                            <p className="text-slate-500 text-[10px] font-medium leading-relaxed tracking-normal not-uppercase lowercase first-letter:uppercase">{news.desc}</p>
-                                        </div>
-                                    ))}
-                                </div>
-
-                                <button className="w-full py-4 bg-indigo-600 text-white rounded-2xl text-[9px] font-black uppercase tracking-[0.2em] hover:bg-indigo-500 transition-all shadow-lg shadow-indigo-600/10 active:scale-95">
-                                    View All
-                                </button>
+                                <IconMessageCircle size={19} className="text-cyan-100" />
                             </div>
-                        </div>
+                            <div className="space-y-3">
+                                {[
+                                    { title: "Attendance Marked", desc: "Batch 2021 attendance is now saved." },
+                                    { title: "New Leave Form", desc: "Rahul from CS Sem 4 applied for leave." }
+                                ].map((news, i) => (
+                                    <article key={i} className="rounded-xl border border-white/[0.06] bg-white/[0.025] p-4">
+                                        <h3 className="text-sm font-medium text-slate-200">{news.title}</h3>
+                                        <p className="mt-1.5 text-xs leading-relaxed text-slate-400">{news.desc}</p>
+                                    </article>
+                                ))}
+                            </div>
+                            <button type="button" className="mt-4 w-full rounded-lg border border-white/10 px-4 py-2.5 text-xs font-semibold text-slate-300 transition hover:border-cyan-100/20 hover:bg-cyan-100/[0.05] hover:text-white">
+                                View all
+                            </button>
+                        </section>
 
-                        {/* Teacher Fast Tools */}
-                        <div className="bg-[#0f172a] p-10 rounded-[3rem] shadow-xl border border-white/5 relative overflow-hidden">
-                             <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-8">Fast Tools</h4>
-                             <div className="grid grid-cols-2 gap-4 relative z-10">
-                                 {[
-                                     { name: "My Students", href: "/teacher/students", icon: IconUsers, color: "text-blue-400" },
-                                     { name: "Add Files", href: "/teacher/notes", icon: IconFileUpload, color: "text-emerald-400" },
-                                     { name: "Approvals", href: "/teacher/approvals", icon: IconChecklist, color: "text-indigo-400" },
-                                     { name: "Full Reports", href: "/teacher/attendance", icon: IconChartBar, color: "text-rose-400" },
-                                 ].map((tool, idx) => (
-                                     <Link key={idx} href={tool.href} className="flex flex-col items-center gap-3 p-4 bg-[#070b14]/40 rounded-[2.2rem] hover:bg-[#070b14]/60 hover:shadow-xl transition-all border border-transparent hover:border-white/5 group active:scale-95 text-center">
-                                         <tool.icon size={20} className={`${tool.color} group-hover:scale-110 transition-transform`} />
-                                         <span className="text-[9px] font-black text-slate-600 uppercase tracking-widest group-hover:text-slate-400">{tool.name}</span>
-                                     </Link>
-                                 ))}
-                             </div>
-                        </div>
+                        <section className="rounded-2xl border border-white/[0.08] bg-[#0c1a29] p-5 sm:p-6">
+                            <div className="mb-4">
+                                <h2 className="text-base font-semibold text-white">Quick access</h2>
+                                <p className="mt-1 text-xs text-slate-500">Frequently used tools</p>
+                            </div>
+                            <div className="grid grid-cols-[repeat(2,minmax(0,1fr))] gap-2.5">
+                                {[
+                                    { name: "My Students", href: "/teacher/students", icon: IconUsers, color: "text-blue-200" },
+                                    { name: "Study Notes", href: "/teacher/notes", icon: IconFileUpload, color: "text-emerald-200" },
+                                    { name: "Approvals", href: "/teacher/approvals", icon: IconChecklist, color: "text-violet-200" },
+                                    { name: "Attendance", href: "/teacher/attendance", icon: IconChartBar, color: "text-amber-200" },
+                                ].map((tool) => (
+                                    <Link key={tool.name} href={tool.href} className="flex min-h-20 flex-col justify-between rounded-xl border border-white/[0.06] bg-white/[0.025] p-3 transition hover:border-cyan-100/20 hover:bg-cyan-100/[0.05]">
+                                        <tool.icon size={18} className={tool.color} />
+                                        <span className="text-xs font-medium text-slate-300">{tool.name}</span>
+                                    </Link>
+                                ))}
+                            </div>
+                        </section>
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
     );
 }

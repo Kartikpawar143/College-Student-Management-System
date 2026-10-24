@@ -1,6 +1,7 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Sidebar from "@/components/Sidebar";
+import Navbar from "@/components/Navbar";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -11,6 +12,7 @@ export default function StudentLayout({
 }: {
     children: React.ReactNode;
 }) {
+    const [mobileNavOpen, setMobileNavOpen] = useState(false);
     const { user, isLoading } = useAuth();
     const router = useRouter();
 
@@ -37,22 +39,12 @@ export default function StudentLayout({
     }
 
     return (
-        <div className="flex min-h-screen bg-[#070b14] font-sans selection:bg-indigo-500/30">
-            {/* Sidebar */}
-            <div className="fixed inset-y-0 left-0 w-72 z-50">
-                <Sidebar />
-            </div>
-
-            {/* Main Content (Right) */}
-            <main className="flex-1 ml-72 flex flex-col h-screen overflow-y-auto relative custom-scrollbar">
-                {/* Global Theme Gradients */}
-                <div className="absolute top-0 right-0 w-[800px] h-[500px] bg-indigo-600/5 rounded-full blur-[150px] -z-10 pointer-events-none"></div>
-                <div className="absolute bottom-0 left-0 w-[600px] h-[400px] bg-purple-600/5 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
-                
-                <div className="flex-1">
-                    <div className="min-h-screen">
-                        {children}
-                    </div>
+        <div className="flex min-h-screen bg-[#07111d] font-sans selection:bg-cyan-300/30">
+            <Sidebar mobileOpen={mobileNavOpen} onClose={() => setMobileNavOpen(false)} onNavigate={() => setMobileNavOpen(false)} />
+            <main className="min-w-0 flex-1 flex flex-col min-h-screen lg:h-screen lg:overflow-hidden relative">
+                <Navbar onMenuClick={() => setMobileNavOpen(true)} />
+                <div className="flex-1 overflow-y-auto scroll-smooth">
+                    <div id="student-content" className="min-h-full">{children}</div>
                 </div>
             </main>
         </div>

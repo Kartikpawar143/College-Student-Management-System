@@ -1,11 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { api, endpoints } from "@/lib/api";
-import { 
-    IconCheck, IconX, IconClock, IconMessage2, 
-    IconCalendarEvent, IconUser, IconChevronRight,
-    IconFilter, IconDoor, IconPlaneDeparture,
-    IconSearch, IconActivity, IconShieldCheck, IconSparkles, IconWalk, IconScan, IconFingerprint
+import {
+    IconCheck, IconClock, IconCalendarEvent,
+    IconActivity, IconShieldCheck, IconSparkles, IconPlaneDeparture, IconWalk, IconScan
 } from "@tabler/icons-react";
 
 export default function TeacherApprovalsPage() {
@@ -25,7 +23,7 @@ export default function TeacherApprovalsPage() {
             ]);
             setLeaveRequests(leaveRes.data);
             setGateRequests(gateRes.data);
-            
+
             // Fetch all for history (optional, or just fetch on tab click)
             const allGateRes = await api.get('/gatepass/pending'); // This only gets pending, we need a better route for history
             // Actually, we should call a general history route if it exists
@@ -66,133 +64,75 @@ export default function TeacherApprovalsPage() {
         }
     };
 
+    const currentRequests = activeTab === 'leave' ? leaveRequests : gateRequests;
+
     return (
-        <main className="min-h-screen bg-[#070b14] p-8 lg:p-12 font-sans text-slate-200 uppercase tracking-tight">
-            <div className="max-w-7xl mx-auto space-y-12 relative font-sans">
-                <div className="absolute top-0 right-0 w-[50rem] h-[50rem] bg-indigo-600/5 blur-[200px] rounded-full pointer-events-none"></div>
-                
-                {/* Header Area */}
-                <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-10 pb-12 border-b border-white/5 relative z-10 font-sans uppercase tracking-[0.3em]">
-                    <div className="space-y-4">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-full">
-                            <IconSparkles size={12} className="text-indigo-400" />
-                            <span className="text-[10px] font-black text-indigo-400 leading-none">Faculty Approval Hub</span>
-                        </div>
-                        <h2 className="text-4xl font-black text-white tracking-tighter uppercase leading-none">Nodal Authorization</h2>
-                        <p className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.4em] leading-none">Checking and <span className="text-white">authorizing institutional movement</span> nodes</p>
+        <main className="min-h-screen bg-[#07111d] p-5 font-sans text-slate-200 sm:p-7 xl:p-8">
+            <div className="mx-auto max-w-6xl space-y-6">
+                <header className="flex flex-col gap-5 rounded-3xl border border-white/[0.08] bg-gradient-to-br from-[#102338] via-[#0d1b2b] to-[#10172a] p-6 sm:flex-row sm:items-end sm:justify-between sm:p-7">
+                    <div>
+                        <span className="inline-flex items-center gap-2 rounded-full border border-cyan-100/15 bg-cyan-100/[0.06] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-cyan-100"><IconSparkles size={13} /> Requests &amp; approvals</span>
+                        <h1 className="mt-3 text-2xl font-semibold tracking-tight text-white sm:text-3xl">Review student requests</h1>
+                        <p className="mt-1.5 text-sm text-slate-400">Check the details and record your decision.</p>
                     </div>
-                    
-                    <div className="flex bg-[#0f172a] p-2 rounded-[2rem] border border-white/5 relative z-10 shadow-2xl">
-                        <button 
-                            onClick={() => {setActiveTab('leave'); setShowHistory(false)}}
-                            className={`px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-500 ${
-                                activeTab === 'leave' && !showHistory ? 'bg-rose-600 text-white shadow-xl shadow-rose-600/20' : 'text-slate-500 hover:text-slate-300'
-                            }`}
-                        >
-                            Absence
-                        </button>
-                        <button 
-                            onClick={() => {setActiveTab('gate'); setShowHistory(false)}}
-                            className={`px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-500 ${
-                                activeTab === 'gate' && !showHistory ? 'bg-indigo-600 text-white shadow-xl shadow-indigo-600/20' : 'text-slate-500 hover:text-slate-300'
-                            }`}
-                        >
-                            Short Leaves
-                        </button>
+                    <div className="inline-flex w-fit rounded-xl border border-white/[0.08] bg-[#081522]/70 p-1">
+                        <button type="button" onClick={() => {setActiveTab('leave'); setShowHistory(false)}} className={`rounded-lg px-4 py-2.5 text-sm font-medium transition ${activeTab === 'leave' && !showHistory ? 'bg-cyan-200 text-[#07111d]' : 'text-slate-400 hover:text-white'}`}>Absence <span className="ml-1.5 text-xs opacity-75">{leaveRequests.length}</span></button>
+                        <button type="button" onClick={() => {setActiveTab('gate'); setShowHistory(false)}} className={`rounded-lg px-4 py-2.5 text-sm font-medium transition ${activeTab === 'gate' && !showHistory ? 'bg-cyan-200 text-[#07111d]' : 'text-slate-400 hover:text-white'}`}>Short leaves <span className="ml-1.5 text-xs opacity-75">{gateRequests.length}</span></button>
                     </div>
                 </header>
 
-                {/* Content Table Area */}
-                <div className="bg-[#0f172a] rounded-[5rem] border border-white/5 shadow-3xl overflow-hidden min-h-[650px] relative group uppercase font-sans flex flex-col">
-                    <div className="p-12 border-b border-white/5 flex items-center justify-between bg-white/[0.02] relative z-20">
-                        <div className="flex items-center gap-6">
-                            <div className={`w-3 h-3 rounded-full animate-pulse shadow-[0_0_15px_rgba(16,185,129,0.5)] ${activeTab === 'leave' ? 'bg-rose-500' : 'bg-indigo-500'}`}></div>
-                            <h3 className="text-sm font-black text-white tracking-widest uppercase leading-none">
-                                Pending {activeTab === 'leave' ? 'Absence Chronicles' : 'Short-Leave Vectors'}
-                            </h3>
+                <section className="overflow-hidden rounded-2xl border border-white/[0.08] bg-[#0c1a29]">
+                    <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.07] px-5 py-4 sm:px-6">
+                        <div className="flex items-center gap-2.5">
+                            <IconActivity size={17} className="text-cyan-100" />
+                            <h2 className="text-sm font-semibold text-white">Pending {activeTab === 'leave' ? 'absence requests' : 'short leave requests'}</h2>
                         </div>
-                        <div className="flex items-center gap-4">
-                             <div className="px-6 py-2.5 bg-[#070b14] border border-white/5 rounded-2xl flex items-center gap-3">
-                                 <IconActivity size={18} className="text-indigo-500 animate-pulse" />
-                                 <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">
-                                     Registry: {(activeTab === 'leave' ? leaveRequests : gateRequests).length} NODES
-                                 </span>
-                             </div>
-                        </div>
+                        <span className="rounded-full border border-white/[0.08] bg-white/[0.035] px-3 py-1.5 text-xs text-slate-400">{currentRequests.length} pending</span>
                     </div>
 
-                    <div className="flex-1 divide-y divide-white/5 relative z-10 font-sans">
-                        {loading ? (
-                            <div className="py-48 text-center flex flex-col items-center gap-10 grayscale opacity-40">
-                                <div className="p-12 bg-[#070b14] rounded-[3rem] border border-white/5 shadow-2xl">
-                                    <IconScan size={64} className="animate-pulse text-indigo-500" stroke={1} />
-                                </div>
-                                <p className="text-[11px] font-black uppercase tracking-[0.6em] text-slate-800 animate-pulse">Scanning identity nodes...</p>
-                            </div>
-                        ) : (activeTab === 'leave' ? leaveRequests : gateRequests).length > 0 ? (
-                            (activeTab === 'leave' ? leaveRequests : gateRequests).slice().reverse().map((request) => (
-                                <div key={request._id} className="p-12 group/item hover:bg-white/[0.02] transition-all relative overflow-hidden uppercase font-sans">
-                                    <div className="absolute top-0 right-0 w-[500px] h-full bg-indigo-600/0 group-hover/item:bg-indigo-600/[0.02] transition-colors skew-x-12 translate-x-40"></div>
-                                    <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-12 relative z-10">
-                                        <div className="flex items-start gap-10 font-sans">
-                                            <div className={`w-20 h-20 rounded-[2.5rem] flex items-center justify-center border border-white/5 shadow-2xl transition-all duration-700 group-hover/item:scale-110 group-hover/item:rotate-12 ${
-                                                activeTab === 'leave' ? 'bg-rose-500/10 text-rose-400' : 'bg-indigo-500/10 text-indigo-400'
-                                            }`}>
-                                                {activeTab === 'leave' ? <IconPlaneDeparture size={40} stroke={1.5} /> : <IconWalk size={40} stroke={1.5} />}
+                    {loading ? (
+                        <div className="flex flex-col items-center justify-center gap-3 px-5 py-14 text-center">
+                            <IconScan size={28} className="animate-pulse text-cyan-100" stroke={1.5} />
+                            <p className="text-sm text-slate-400">Loading requests…</p>
+                        </div>
+                    ) : currentRequests.length > 0 ? (
+                        <div className="divide-y divide-white/[0.06]">
+                            {currentRequests.slice().reverse().map((request) => (
+                                <article key={request._id} className="grid grid-cols-1 gap-5 p-5 transition hover:bg-white/[0.02] sm:p-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+                                    <div className="flex min-w-0 gap-3.5">
+                                        <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.07] ${activeTab === 'leave' ? 'bg-amber-300/10 text-amber-100' : 'bg-cyan-300/10 text-cyan-100'}`}>
+                                            {activeTab === 'leave' ? <IconPlaneDeparture size={19} /> : <IconWalk size={19} />}
+                                        </span>
+                                        <div className="min-w-0 flex-1">
+                                            <div className="flex flex-wrap items-center gap-2">
+                                                <h3 className="text-base font-semibold text-white">{request.studentName || request.userName}</h3>
+                                                <span className="rounded-md border border-white/[0.08] bg-white/[0.035] px-2 py-1 text-[11px] text-slate-400">{request.rollNo || 'N/A'}</span>
                                             </div>
-                                            <div className="space-y-4 uppercase tracking-tight font-sans">
-                                                <div className="flex items-center gap-6 font-sans">
-                                                    <h4 className="text-3xl font-black text-white tracking-tighter uppercase leading-none group-hover/item:text-indigo-400 transition-colors uppercase">{request.studentName || request.userName}</h4>
-                                                    <span className="text-[10px] font-black px-4 py-1.5 bg-white/5 text-slate-500 rounded-xl border border-white/5 shadow-inner uppercase tracking-widest">{request.rollNo || 'N/A'}</span>
-                                                </div>
-                                                <div className="flex flex-wrap items-center gap-10 text-slate-600 font-sans tracking-widest uppercase">
-                                                    <span className="flex items-center gap-3 text-[11px] font-black uppercase leading-none">
-                                                        <IconCalendarEvent size={18} className="text-indigo-500" stroke={2} /> 
-                                                        {activeTab === 'leave' ? `Chronicle: ${request.start_date} -> ${request.end_date}` : `Registry: ${request.date || 'Today'}`}
-                                                    </span>
-                                                    {activeTab === 'gate' && (
-                                                        <span className="flex items-center gap-3 text-[11px] font-black uppercase leading-none">
-                                                            <IconClock size={18} className="text-rose-500" stroke={2} /> Window: {request.departureTime || request.time}
-                                                        </span>
-                                                    )}
-                                                </div>
-                                                <div className="mt-8 p-8 bg-[#070b14]/50 rounded-[2.5rem] border border-white/5 transition-all text-[11px] font-bold text-slate-500 shadow-inner max-w-2xl leading-relaxed uppercase tracking-widest group-hover/item:border-indigo-500/20">
-                                                    <span className="font-black text-[9px] text-slate-700 block mb-3 opacity-60">RATIONALE VECTOR:</span>
-                                                    {request.reason}
-                                                </div>
+                                            <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-slate-400">
+                                                <span className="inline-flex items-center gap-1.5"><IconCalendarEvent size={14} className="text-cyan-100" />{activeTab === 'leave' ? `${request.start_date} – ${request.end_date}` : (request.date || 'Today')}</span>
+                                                {activeTab === 'gate' && <span className="inline-flex items-center gap-1.5"><IconClock size={14} className="text-amber-100" />{request.departureTime || request.time}</span>}
                                             </div>
-                                        </div>
-
-                                        <div className="flex lg:flex-col items-center gap-4 relative z-10">
-                                            <button 
-                                                onClick={() => activeTab === 'leave' ? handleLeaveAction(request._id, 'Rejected') : handleGateAction(request._id, 'Rejected')}
-                                                className="w-full lg:w-48 py-5 rounded-2xl border border-white/5 text-slate-700 hover:bg-rose-500/10 hover:text-rose-400 hover:border-rose-500/20 transition-all text-[10px] font-black uppercase tracking-[0.3em] active:scale-95 bg-[#070b14] shadow-xl"
-                                            >
-                                                Deny
-                                            </button>
-                                            <button 
-                                                onClick={() => activeTab === 'leave' ? handleLeaveAction(request._id, 'Approved') : handleGateAction(request._id, 'Approved')}
-                                                className="w-full lg:w-48 py-5 rounded-2xl bg-indigo-600 text-white hover:bg-emerald-600 transition-all text-[10px] font-black uppercase tracking-[0.3em] shadow-[0_20px_40px_rgba(79,70,229,0.3)] hover:shadow-emerald-600/30 active:scale-95 flex items-center justify-center gap-4 overflow-hidden group/btn font-sans"
-                                            >
-                                                <IconCheck size={20} stroke={2.5} className="group-hover/btn:scale-125 transition-transform" /> Authorize
-                                            </button>
+                                            <div className="mt-3 rounded-xl border border-white/[0.06] bg-[#081522]/70 px-4 py-3">
+                                                <p className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-slate-500">Reason</p>
+                                                <p className="break-words text-sm leading-relaxed text-slate-300">{request.reason}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))
-                        ) : (
-                            <div className="p-56 text-center space-y-12 flex flex-col items-center justify-center grayscale opacity-10 group">
-                                <div className="w-32 h-32 bg-[#070b14] rounded-[4rem] border-2 border-dashed border-white/5 flex items-center justify-center text-slate-800 transition-all group-hover:scale-110 group-hover:rotate-12 duration-700 shadow-3xl">
-                                    <IconShieldCheck size={72} stroke={1} />
-                                </div>
-                                <div className="space-y-4">
-                                    <p className="text-2xl font-black text-slate-800 uppercase tracking-[0.6em]">Perimeter Secured</p>
-                                    <p className="text-[11px] font-black text-slate-900 uppercase tracking-widest leading-none">No active nodes awaiting faculty authorization.</p>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                </div>
+                                    <div className="flex gap-2 lg:flex-col">
+                                        <button type="button" onClick={() => activeTab === 'leave' ? handleLeaveAction(request._id, 'Rejected') : handleGateAction(request._id, 'Rejected')} className="min-h-10 flex-1 rounded-lg border border-white/10 px-4 py-2 text-sm font-medium text-slate-300 transition hover:border-rose-300/25 hover:bg-rose-300/10 hover:text-rose-100 lg:min-w-32">Deny</button>
+                                        <button type="button" onClick={() => activeTab === 'leave' ? handleLeaveAction(request._id, 'Approved') : handleGateAction(request._id, 'Approved')} className="inline-flex min-h-10 flex-1 items-center justify-center gap-2 rounded-lg bg-cyan-200 px-4 py-2 text-sm font-semibold text-[#07111d] transition hover:bg-cyan-100 lg:min-w-32"><IconCheck size={16} /> Approve</button>
+                                    </div>
+                                </article>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="flex flex-col items-center justify-center px-5 py-14 text-center">
+                            <span className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl border border-emerald-200/10 bg-emerald-200/[0.06] text-emerald-100"><IconShieldCheck size={23} /></span>
+                            <h3 className="text-sm font-semibold text-slate-200">You&apos;re all caught up</h3>
+                            <p className="mt-1 text-xs text-slate-500">There are no pending {activeTab === 'leave' ? 'absence' : 'short leave'} requests.</p>
+                        </div>
+                    )}
+                </section>
             </div>
         </main>
     );

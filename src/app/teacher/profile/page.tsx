@@ -11,15 +11,16 @@ export default function TeacherProfilePage() {
     const { user } = useAuth();
 
     return (
-        <main className="min-h-screen bg-[#070b14] p-8 lg:p-10 space-y-10 font-sans text-slate-200">
-            <header className="flex flex-col md:flex-row md:items-center justify-between gap-8 pb-10 border-b border-white/5 relative overflow-hidden">
+        <main className="teacher-profile min-h-screen bg-[#07111d] p-5 space-y-6 font-sans text-slate-200 sm:p-7 xl:p-8">
+          <div className="mx-auto max-w-7xl space-y-6">
+            <header className="flex flex-col md:flex-row md:items-center justify-between gap-5 rounded-3xl border border-white/[0.08] bg-gradient-to-br from-[#102338] via-[#0d1b2b] to-[#10172a] p-5 sm:p-6 relative overflow-hidden">
                 <div className="absolute -top-10 -left-10 w-64 h-64 bg-indigo-600/10 blur-[120px] rounded-full"></div>
                 <div className="relative z-10">
-                    <h2 className="text-4xl font-black text-white tracking-tight uppercase leading-none">Security Profile</h2>
-                    <p className="text-slate-500 font-bold uppercase text-[9px] tracking-[0.2em] mt-3">Identity Management & Core Credentials</p>
+                    <h1 className="text-2xl font-semibold text-white tracking-tight leading-tight">My profile</h1>
+                    <p className="text-sm text-slate-400 mt-1">Manage your account and faculty information.</p>
                 </div>
-                <button className="bg-indigo-600 hover:bg-indigo-500 text-white font-black px-10 py-4 rounded-xl shadow-xl shadow-indigo-600/20 transition-all flex items-center justify-center gap-3 uppercase text-[10px] tracking-widest active:scale-95 relative z-10">
-                    <IconDeviceFloppy size={18} /> Update Registry
+                <button className="bg-cyan-200 hover:bg-cyan-100 text-[#07111d] font-semibold px-5 py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-sm relative z-10">
+                    <IconDeviceFloppy size={18} /> Save profile
                 </button>
             </header>
 
@@ -30,16 +31,16 @@ export default function TeacherProfilePage() {
                         <div className="absolute top-0 left-0 w-full h-32 bg-[#070b14] border-b border-white/5"></div>
                         
                         <div className="relative mt-12 mb-8">
-                            <div className="w-36 h-36 rounded-[3rem] bg-[#0f172a] border-8 border-[#0f172a] shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex items-center justify-center text-slate-700 overflow-hidden group-hover:scale-105 transition-all">
-                                <IconUser size={80} />
+                            <div className="w-24 h-24 rounded-2xl bg-[#0f172a] border-4 border-[#0f172a] flex items-center justify-center text-slate-400 overflow-hidden">
+                                <IconUser size={48} />
                             </div>
-                            <button className="absolute bottom-1 right-1 p-4 bg-indigo-600 text-white rounded-2xl shadow-2xl hover:bg-indigo-500 transition-all border-4 border-[#0f172a]">
+                            <button aria-label="Edit profile image" className="absolute bottom-1 right-1 p-2.5 bg-cyan-200 text-[#07111d] rounded-xl transition-all border-2 border-[#0f172a]">
                                 <IconCamera size={18} />
                             </button>
                         </div>
 
-                        <h3 className="text-3xl font-black text-white tracking-tight uppercase leading-none">{user?.name || "Academic Holder"}</h3>
-                        <p className="text-[10px] font-black text-indigo-400 uppercase tracking-widest mt-3 px-6 py-2 bg-indigo-400/5 rounded-full border border-indigo-400/10">Faculty • {user?.department || "CS"} Branch</p>
+                        <h2 className="text-xl font-semibold text-white tracking-tight">{user?.name || "Academic Holder"}</h2>
+                        <p className="text-xs font-medium text-cyan-100 mt-2 px-3 py-1.5 bg-cyan-100/[0.05] rounded-full border border-cyan-100/10">Faculty · {user?.department || "CS"} branch</p>
                         
                         <div className="w-full grid grid-cols-2 gap-4 mt-12 pt-12 border-t border-white/5 uppercase tracking-widest">
                             <div className="p-5 bg-[#070b14] rounded-2xl border border-white/5 shadow-xl">
@@ -72,7 +73,7 @@ export default function TeacherProfilePage() {
                 </div>
 
                 {/* Information Tabs */}
-                <div className="lg:col-span-8 bg-[#0f172a] rounded-[4rem] border border-white/5 p-12 shadow-[0_50px_100px_rgba(0,0,0,0.3)] space-y-14 relative overflow-hidden">
+                <div className="lg:col-span-8 bg-[#0c1a29] rounded-2xl border border-white/[0.08] p-5 sm:p-6 space-y-8 relative overflow-hidden">
                      <div className="absolute -bottom-10 -right-10 w-96 h-96 bg-indigo-600/5 blur-[120px] rounded-full"></div>
                      
                      <section className="space-y-10 relative z-10">
@@ -149,6 +150,7 @@ export default function TeacherProfilePage() {
                     </button>
                 </div>
             </div>
+          </div>
         </main>
     );
 }

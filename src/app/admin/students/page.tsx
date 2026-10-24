@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
 import { api, endpoints, API_URL } from "@/lib/api";
-import { 
-    IconPlus, IconTrash, IconSearch, IconPencil, 
+import {
+    IconPlus, IconTrash, IconSearch, IconPencil,
     IconUserPlus, IconUsers, IconCamera, IconDeviceCameraPhone,
     IconChevronRight, IconMail, IconId, IconPhone, IconUserCircle, IconCheck, IconX, IconLoader2
 } from "@tabler/icons-react";
@@ -11,6 +11,7 @@ import Webcam from "react-webcam";
 export default function AdminStudentsPage() {
   const [students, setStudents] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -67,9 +68,9 @@ export default function AdminStudentsPage() {
       department: dept,
       email: student.email,
       phone: student.phone,
-      password: "" 
+      password: ""
     });
-    setCaptures([]); 
+    setCaptures([]);
     setIsCameraOpen(false);
     setCameraReady(false);
     setCameraError("");
@@ -111,6 +112,12 @@ export default function AdminStudentsPage() {
     setCaptures([]);
   }
 
+  const filteredStudents = students.filter(student =>
+    [student.name, student.email, student.rollNo, student.department].some(value =>
+      String(value || "").toLowerCase().includes(search.toLowerCase())
+    )
+  );
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isEditMode && captures.length < 1) return alert("Please capture face samples for identity verification.");
@@ -120,10 +127,10 @@ export default function AdminStudentsPage() {
       if (isEditMode && editingId) {
         await api.put(endpoints.students.update(editingId), formData);
       } else {
-        const payload = { 
-            ...formData, 
+        const payload = {
+            ...formData,
             password: formData.password || formData.rollNo.toUpperCase(),
-            images: captures 
+            images: captures
         };
         await api.post(endpoints.students.add, payload);
       }
@@ -138,38 +145,50 @@ export default function AdminStudentsPage() {
   };
 
     return (
-    <main className="admin-students-page relative mx-auto w-full max-w-7xl space-y-8 px-5 py-8 text-slate-200 sm:px-8 lg:space-y-10 lg:px-10">
+    <main className="admin-students-page min-h-screen bg-[#07111d] p-5 font-sans text-slate-200 sm:p-7 xl:p-8">
+      <div className="mx-auto max-w-7xl space-y-6">
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-10 relative overflow-hidden">
-        <div className="absolute -top-20 -left-20 w-80 h-80 bg-cyan-600/5 blur-[150px] rounded-full pointer-events-none"></div>
-        <div className="relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-cyan-500/10 border border-cyan-500/20 rounded-full mb-4">
-               <IconUsers size={12} className="text-cyan-400" />
-               <span className="text-[10px] font-black text-cyan-400 tracking-widest leading-none">Global Registrar</span>
+      <header className="relative flex flex-col gap-5 overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-br from-[#102338] via-[#0d1b2b] to-[#10172a] p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+        <div aria-hidden="true" className="pointer-events-none absolute -right-10 -top-24 h-72 w-72 rounded-full bg-cyan-400/10 blur-3xl"></div>
+        <div className="relative min-w-0">
+          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-cyan-200/15 bg-cyan-200/[0.07] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-cyan-100">
+               <IconUsers size={13} />
+               <span>Student records</span>
           </div>
-          <h2 className="text-3xl font-semibold text-white tracking-tight sm:text-4xl">Student management</h2>
-          <p className="mt-2 text-sm text-slate-400">Manage student records, enrollment details, and face verification.</p>
+          <h1 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">Students</h1>
+          <p className="mt-2 text-sm text-slate-400">Manage enrollment details and face verification.</p>
         </div>
-        <button 
+        <button
           onClick={openAddModal}
-          className="relative z-10 flex items-center justify-center gap-2 rounded-full bg-cyan-200 px-6 py-3.5 text-sm font-bold text-[#07111d] shadow-lg shadow-cyan-950/25 transition hover:-translate-y-0.5 hover:bg-white active:scale-95"
+          className="relative inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-xl bg-cyan-200 px-5 py-3 text-sm font-semibold text-[#07111d] shadow-lg shadow-cyan-950/30 transition hover:bg-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
         >
-          <IconUserPlus size={19} /> Add student
+          <IconUserPlus size={18} /> Add student
         </button>
-      </div>
+      </header>
+
+      <section aria-label="Student statistics" className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        {[
+          { label: "Total students", value: students.length, detail: "Enrolled records", icon: IconUsers, tint: "text-cyan-200", bg: "bg-cyan-300/10" },
+          { label: "Departments", value: new Set(students.map(student => student.department || "General")).size, detail: "Branches represented", icon: IconId, tint: "text-violet-200", bg: "bg-violet-300/10" },
+          { label: "Face profiles", value: students.filter(student => student.profileImage).length, detail: "Identity images on file", icon: IconUserCircle, tint: "text-emerald-200", bg: "bg-emerald-300/10" },
+        ].map(({ label, value, detail, icon: Icon, tint, bg }) => <div key={label} className="flex min-w-0 items-center gap-4 rounded-2xl border border-white/[0.08] bg-[#0c1a29] p-5">
+          <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${bg} ${tint}`}><Icon size={21} stroke={1.8} /></div>
+          <div className="min-w-0"><p className="text-sm font-medium text-slate-400">{label}</p><p className="mt-1 text-2xl font-semibold tracking-tight text-white">{value}</p><p className="mt-1 text-xs text-slate-500">{detail}</p></div>
+        </div>)}
+      </section>
 
       {/* Registry Table */}
-      <div className="overflow-hidden rounded-3xl border border-white/10 bg-[#0d1a29]/75 shadow-2xl shadow-black/20 backdrop-blur-xl">
-        <div className="flex flex-col justify-between gap-5 border-b border-white/[0.08] bg-white/[0.025] p-5 sm:flex-row sm:items-center sm:p-7">
-          <h3 className="font-black text-white flex items-center gap-4 text-xs tracking-[0.4em] leading-none">
-            <span className="h-2 w-2 rounded-full bg-cyan-200 shadow-[0_0_10px_rgba(165,243,252,0.5)]"></span> Enrolled students
-          </h3>
-          <div className="relative group/search">
-            <IconSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 transition-colors group-focus-within/search:text-cyan-200" size={18} />
-            <input 
-              type="text" 
-              placeholder="Query identity..." 
-              className="w-full rounded-xl border border-white/10 bg-[#07111d]/80 py-3 pl-11 pr-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-200/40 focus:ring-4 focus:ring-cyan-200/10 md:w-80" 
+      <div className="overflow-hidden rounded-2xl border border-white/[0.08] bg-[#0c1a29]">
+        <div className="flex flex-col justify-between gap-4 border-b border-white/[0.07] px-5 py-4 sm:flex-row sm:items-center sm:px-6">
+          <div><h2 className="text-lg font-semibold text-white">Enrolled students</h2><p className="mt-1 text-xs text-slate-500">{filteredStudents.length} of {students.length} student records</p></div>
+          <div className="relative w-full sm:max-w-xs">
+            <IconSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" size={17} />
+            <input
+              type="text"
+              value={search}
+              onChange={event => setSearch(event.target.value)}
+              placeholder="Search students..."
+              className="w-full rounded-xl border border-white/10 bg-[#07111d]/80 py-2.5 pl-10 pr-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-200/40 focus:ring-4 focus:ring-cyan-200/10"
             />
           </div>
         </div>
@@ -177,57 +196,57 @@ export default function AdminStudentsPage() {
         <div className="overflow-x-auto overflow-y-auto max-h-[700px] scrollbar-hide">
           <table className="w-full text-left tracking-tight">
             <thead>
-              <tr className="border-b border-white/5 bg-[#07111d]/30">
-                <th className="px-12 py-8 text-[10px] font-black tracking-widest text-slate-600">Spatial Identity Profile</th>
-                <th className="px-12 py-8 text-[10px] font-black tracking-widest text-slate-600">Temporal Register</th>
-                <th className="px-12 py-8 text-[10px] font-black tracking-widest text-slate-600">Branch Node</th>
-                <th className="px-12 py-8 text-[10px] font-black tracking-widest text-slate-600 text-right">Actions</th>
+              <tr className="border-b border-white/[0.07] bg-white/[0.02]">
+                <th className="px-5 py-3.5 text-xs font-medium text-slate-400 sm:px-6">Student</th>
+                <th className="px-5 py-3.5 text-xs font-medium text-slate-400 sm:px-6">Roll number</th>
+                <th className="px-5 py-3.5 text-xs font-medium text-slate-400 sm:px-6">Department</th>
+                <th className="px-5 py-3.5 text-right text-xs font-medium text-slate-400 sm:px-6">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5 bg-[#0d1a29]">
-              {students.map((student) => (
+              {filteredStudents.map((student) => (
                 <tr key={student.id} className="group/row hover:bg-white/[0.04] transition-all duration-500">
-                  <td className="px-12 py-8">
-                    <div className="flex items-center gap-6 font-sans">
-                      <div className="w-16 h-16 rounded-[2rem] overflow-hidden bg-[#07111d] border border-white/5 flex items-center justify-center text-slate-800 shadow-2xl group-hover/row:border-cyan-500/50 group-hover/row:text-cyan-400 transition-all">
+                  <td className="px-5 py-4 sm:px-6">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-white/5 bg-[#07111d] text-slate-500 transition group-hover/row:border-cyan-200/20">
                         {student.profileImage ? (
                           <img
                             src={`${API_URL}${student.profileImage}`}
                             alt={student.name}
-                            className="w-full h-full object-cover"
+                            className="h-full w-full object-cover"
                             onError={(e) => (e.currentTarget.src = 'https://ui-avatars.com/api/?name=' + student.name)}
                           />
                         ) : (
-                          <IconUserCircle size={36} />
+                          <IconUserCircle size={23} />
                         )}
                       </div>
                       <div>
-                        <p className="font-black text-white text-lg tracking-tighter group-hover/row:text-cyan-400 transition-colors leading-none">{student.name}</p>
-                        <p className="text-[10px] font-bold text-slate-600 lowercase mt-3 tracking-normal leading-none">{student.email}</p>
+                        <p className="text-sm font-medium text-white transition-colors group-hover/row:text-cyan-100">{student.name}</p>
+                        <p className="mt-1 text-xs text-slate-500">{student.email}</p>
                       </div>
                     </div>
                   </td>
-                  <td className="px-12 py-8">
-                      <span className="font-black text-white text-xs tracking-widest bg-[#07111d] px-5 py-2 rounded-xl border border-white/5 shadow-inner">{student.rollNo}</span>
+                  <td className="px-5 py-4 sm:px-6">
+                      <span className="rounded-lg border border-white/[0.07] bg-[#07111d]/70 px-2.5 py-1.5 text-xs font-medium text-slate-300">{student.rollNo}</span>
                   </td>
-                  <td className="px-12 py-8">
-                    <span className="text-[11px] font-black text-slate-400 tracking-widest bg-white/[0.04] px-6 py-2 rounded-[1.5rem] border border-white/5">{student.department === "CS" ? "Core Branch CS" : student.department + " Node"}</span>
+                  <td className="px-5 py-4 sm:px-6">
+                    <span className="rounded-lg border border-white/[0.07] bg-white/[0.04] px-2.5 py-1.5 text-xs text-slate-300">{student.department || "General"}</span>
                   </td>
-                  <td className="px-12 py-8 text-right">
-                    <div className="flex justify-end gap-3 opacity-0 group-hover/row:opacity-100 transition-all scale-95 group-hover:scale-100">
-                      <button onClick={() => handleEdit(student)} className="p-4 bg-[#07111d] border border-white/5 rounded-2xl text-slate-700 hover:text-cyan-400 transition-all active:scale-90 shadow-2xl">
-                        <IconPencil size={24} stroke={1.5} />
+                  <td className="px-5 py-4 text-right sm:px-6">
+                    <div className="flex justify-end gap-2 opacity-100 transition sm:opacity-0 sm:group-hover/row:opacity-100 sm:group-focus-within/row:opacity-100">
+                      <button aria-label={`Edit ${student.name}`} onClick={() => handleEdit(student)} className="rounded-lg border border-white/[0.07] bg-[#07111d] p-2.5 text-slate-400 transition hover:text-cyan-200">
+                        <IconPencil size={16} stroke={1.7} />
                       </button>
-                      <button onClick={() => handleDelete(student.id)} className="p-4 bg-[#07111d] border border-white/5 rounded-2xl text-slate-700 hover:text-rose-500 transition-all active:scale-90 shadow-2xl">
-                        <IconTrash size={24} stroke={1.5} />
+                      <button aria-label={`Delete ${student.name}`} onClick={() => handleDelete(student.id)} className="rounded-lg border border-white/[0.07] bg-[#07111d] p-2.5 text-slate-400 transition hover:text-rose-300">
+                        <IconTrash size={16} stroke={1.7} />
                       </button>
                     </div>
                   </td>
                 </tr>
               ))}
-              {students.length === 0 && (
+              {filteredStudents.length === 0 && (
                 <tr>
-                  <td colSpan={4} className="px-12 py-32 text-center text-slate-900 font-black text-[11px] tracking-[0.5em] grayscale animate-pulse">Archives Empty. Registering Nodes Required.</td>
+                  <td colSpan={4} className="px-5 py-16 text-center text-sm text-slate-500">{search ? "No students match your search." : "No students have been added yet."}</td>
                 </tr>
               )}
             </tbody>
@@ -240,7 +259,7 @@ export default function AdminStudentsPage() {
         <div className="student-modal-overlay fixed inset-0 z-[60] flex items-center justify-center p-6 bg-[#07111d]/90 backdrop-blur-3xl animate-in fade-in duration-500 overflow-y-auto font-sans">
           <div className="student-modal bg-[#0d1a29] w-full max-w-3xl rounded-3xl p-6 sm:p-8 lg:p-10 shadow-[0_50px_200px_rgba(0,0,0,0.8)] border border-white/10 animate-in zoom-in-95 duration-500 my-auto relative overflow-hidden">
             <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-cyan-600/5 blur-[150px] rounded-full translate-x-12 -translate-y-12"></div>
-            
+
             <div className="student-modal-header flex justify-between items-center mb-16 relative z-10">
               <div className="flex items-center gap-10">
                  <div className="w-20 h-20 bg-cyan-600 text-white rounded-[2.5rem] flex items-center justify-center shadow-3xl">
@@ -393,6 +412,7 @@ export default function AdminStudentsPage() {
           </div>
         </div>
       )}
+      </div>
     </main>
   );
 }

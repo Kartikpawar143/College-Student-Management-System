@@ -1,6 +1,6 @@
 import os
 import shutil
-from fastapi import APIRouter, HTTPException, UploadFile, File, Form
+from fastapi import APIRouter, HTTPException, UploadFile, File
 from database import placements_collection, placement_applications_collection
 from models.placement_model import PlacementModel
 from typing import List
@@ -11,6 +11,22 @@ router = APIRouter(prefix="/placements", tags=["placements"])
 
 UPLOAD_ROOT = "public"
 RESUME_FOLDER = "uploads/resumes"
+NOTICE_FOLDER = "uploads/placement_notices"
+
+@router.post("/upload_notice")
+async def upload_placement_notice(file: UploadFile = File(...)):
+    if not file.filename or not file.filename.lower().endswith(".pdf"):
+        raise HTTPException(status_code=400, detail="Placement notices must be PDF files")
+
+    target_dir = os.path.join(UPLOAD_ROOT, NOTICE_FOLDER)
+    os.makedirs(target_dir, exist_ok=True)
+    file_name = f"{datetime.now().timestamp()}_{os.path.basename(file.filename).replace(' ', '_')}"
+    file_path = os.path.join(target_dir, file_name)
+
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+
+    return {"url": f"/{NOTICE_FOLDER}/{file_name}"}
 
 @router.post("/upload_resume")
 async def upload_resume(file: UploadFile = File(...)):
@@ -43,6 +59,16 @@ async def get_all_applications():
 async def add_placement(job: PlacementModel):
     result = placements_collection.insert_one(job.dict())
     return {"id": str(result.inserted_id), "message": "Placement opportunity posted"}
+
+@router.put("/{id}")
+async def update_placement(id: str, job: PlacementModel):
+    result = placements_collection.update_one(
+        {"_id": ObjectId(id)},
+        {"$set": job.dict(exclude={"postedAt"})}
+    )
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Placement not found")
+    return {"message": "Placement opportunity updated"}
 
 @router.get("/")
 async def get_placements():

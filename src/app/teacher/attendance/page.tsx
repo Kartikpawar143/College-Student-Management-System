@@ -73,46 +73,46 @@ export default function TeacherAttendancePage() {
     };
 
     return (
-        <main className="min-h-screen bg-[#070b14] p-8 lg:p-10 font-sans text-slate-200">
-            <div className="max-w-7xl mx-auto space-y-10">
+        <main className="teacher-attendance min-h-screen bg-[#07111d] p-5 font-sans text-slate-200 sm:p-7 xl:p-8">
+            <div className="max-w-7xl mx-auto space-y-6">
                 
                 {/* Header Area */}
                 <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pb-8 border-b border-white/5 relative">
                     <div className="absolute -top-10 -left-10 w-48 h-48 bg-indigo-600/10 blur-[100px] rounded-full"></div>
                     <div className="space-y-4 relative z-10">
-                         <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-indigo-500/10 border border-indigo-500/20 rounded-full">
-                             <IconSparkles size={12} className="text-indigo-400" />
-                             <span className="text-[9px] font-black text-indigo-400 uppercase tracking-widest leading-none">Attendance Log</span>
+                         <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-cyan-100/[0.06] border border-cyan-100/15 rounded-full">
+                             <IconSparkles size={13} className="text-cyan-100" />
+                             <span className="text-[10px] font-semibold text-cyan-100 uppercase tracking-widest leading-none">Attendance</span>
                         </div>
-                        <h2 className="text-4xl font-black text-white tracking-tight uppercase leading-none">Mark Attendance</h2>
-                        <p className="text-sm font-bold text-slate-500 leading-none">
-                            Daily roll call for <span className="text-indigo-400">{selectedDept} Branch</span>. Keep it updated!
+                        <h1 className="text-2xl font-semibold text-white tracking-tight leading-tight">Mark attendance</h1>
+                        <p className="text-sm text-slate-400 mt-1">
+                            Record and review the daily roll call for <span className="text-cyan-100">{selectedDept}</span>.
                         </p>
                     </div>
                     
                     <div className="flex gap-4 w-full md:w-auto relative z-10">
-                        <button className="flex-1 md:flex-none flex items-center justify-center gap-3 px-8 py-4 bg-[#0f172a] border border-white/5 rounded-2xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:bg-white/5 hover:text-white transition-all">
-                            <IconFileExport size={18} /> Export Data
+                        <button className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2.5 bg-[#0c1a29] border border-white/[0.08] rounded-xl text-sm font-medium text-slate-300 hover:bg-white/5 hover:text-white transition-all">
+                            <IconFileExport size={18} /> Export attendance
                         </button>
                         <button 
                             onClick={handleSave}
-                            className="flex-1 md:flex-none flex items-center justify-center gap-3 px-10 py-4 bg-indigo-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-indigo-500 transition-all shadow-2xl shadow-indigo-600/20 active:scale-95"
+                            className="flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-2.5 bg-cyan-200 text-[#07111d] rounded-xl text-sm font-semibold hover:bg-cyan-100 transition-all active:scale-95"
                         >
-                            <IconDeviceFloppy size={20} /> Deploy Registry
+                            <IconDeviceFloppy size={20} /> Save attendance
                         </button>
                     </div>
                 </header>
 
                 {/* Search & Sort Hub */}
-                <div className="flex flex-col md:flex-row gap-8 items-center justify-between relative z-10 bg-[#0f172a] p-10 rounded-[3.5rem] border border-white/5 shadow-2xl">
+                <div className="flex flex-col md:flex-row gap-4 items-center justify-between relative z-10 bg-[#0c1a29] p-4 sm:p-5 rounded-2xl border border-white/[0.08]">
                     <div className="relative w-full md:w-[450px] group/search">
                         <IconSearch className="absolute left-7 top-1/2 -translate-y-1/2 text-slate-700 group-focus-within/search:text-indigo-400 transition-colors" size={20} />
                         <input 
                             type="text" 
-                            placeholder="FIND MEMBER BY NAME..." 
+                            placeholder="Find student by name..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full bg-[#070b14] border border-white/5 rounded-3xl pl-16 pr-8 py-5 text-[10px] font-black uppercase tracking-widest focus:outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all shadow-xl text-white placeholder:text-slate-800"
+                            className="w-full bg-[#081522] border border-white/10 rounded-xl pl-12 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-100/10 transition-all text-white placeholder:text-slate-500"
                         />
                     </div>
 
@@ -122,7 +122,7 @@ export default function TeacherAttendancePage() {
                             <select 
                                 value={selectedDept}
                                 onChange={(e) => setSelectedDept(e.target.value)}
-                                className="w-full bg-[#070b14] border border-white/5 text-white rounded-2xl px-8 py-5 text-[10px] font-black uppercase tracking-widest outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all shadow-2xl cursor-pointer appearance-none"
+                                className="w-full bg-[#081522] border border-white/10 text-white rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-cyan-100/10 transition-all cursor-pointer appearance-none"
                             >
                                 {departments.map(dept => (
                                     <option key={dept} value={dept} className="bg-[#0f172a]">{dept} Branch Hub</option>
@@ -136,35 +136,35 @@ export default function TeacherAttendancePage() {
                 </div>
 
                 {/* Status Row */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
                     {[
                         { label: "Total Members", value: stats.total, icon: IconUsers, color: "text-indigo-400", bg: "bg-indigo-500/10" },
                         { label: "Active Presence", value: stats.present, icon: IconCircleCheck, color: "text-emerald-400", bg: "bg-emerald-500/10" },
                         { label: "Absentees", value: stats.absent, icon: IconCircleX, color: "text-rose-400", bg: "bg-rose-500/10" },
                         { label: "Presence Ratio", value: stats.avg, icon: IconActivity, color: "text-purple-400", bg: "bg-purple-500/10" },
                     ].map((stat, i) => (
-                        <div key={i} className="group p-10 rounded-[3.5rem] bg-[#0f172a] border border-white/5 shadow-2xl hover:border-indigo-500/20 transition-all duration-500 overflow-hidden relative">
+                        <div key={i} className="group p-5 rounded-2xl bg-[#0c1a29] border border-white/[0.08] transition-all duration-300 hover:border-cyan-100/20 overflow-hidden relative">
                              <div className={`absolute top-0 right-0 w-20 h-20 ${stat.color.replace('text', 'bg')} opacity-5 blur-3xl -translate-y-10 translate-x-10 rounded-full`}></div>
-                             <div className={`w-14 h-14 rounded-2xl ${stat.bg} ${stat.color} flex items-center justify-center mb-10 border border-white/5 shadow-2xl group-hover:scale-110 transition-all`}>
-                                <stat.icon size={32} />
+                             <div className={`w-10 h-10 rounded-xl ${stat.bg} ${stat.color} flex items-center justify-center mb-4 border border-white/5`}>
+                                <stat.icon size={20} />
                              </div>
                              <div>
-                                 <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest mb-3">{stat.label}</p>
-                                 <p className="text-4xl font-black text-white tracking-tight leading-none">{stat.value}</p>
+                                 <p className="text-xs font-medium text-slate-400 mb-1">{stat.label}</p>
+                                 <p className="text-2xl font-semibold text-white tracking-tight leading-none">{stat.value}</p>
                              </div>
                         </div>
                     ))}
                 </div>
 
                 {/* Student Table List */}
-                <div className="bg-[#0f172a] rounded-[4.5rem] border border-white/5 shadow-3xl overflow-hidden relative group">
-                    <div className="p-10 border-b border-white/5 flex items-center justify-between bg-[#070b14]/50">
+                <div className="bg-[#0c1a29] rounded-2xl border border-white/[0.08] overflow-hidden relative group">
+                    <div className="p-4 sm:px-5 border-b border-white/[0.07] flex items-center justify-between bg-white/[0.02]">
                          <div className="space-y-2">
                             <h3 className="text-xl font-black text-white tracking-tight uppercase flex items-center gap-4 leading-none">
-                                <span className="w-2.5 h-2.5 bg-indigo-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(99,102,241,0.8)]"></span>
-                                {selectedDept} Operational Registry
+                                <span className="w-2 h-2 bg-cyan-200 rounded-full"></span>
+                                {selectedDept} attendance register
                             </h3>
-                            <p className="text-[9px] font-black text-slate-700 uppercase tracking-[0.3em] leading-none ml-6">Secured Academic Data Hub</p>
+                            <p className="text-xs text-slate-500 leading-none ml-4">Attendance records</p>
                         </div>
                     </div>
 

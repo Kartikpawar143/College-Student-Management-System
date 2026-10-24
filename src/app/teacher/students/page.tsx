@@ -4,7 +4,7 @@ import { api, endpoints, API_URL } from "@/lib/api";
 import { 
     IconPlus, IconTrash, IconSearch, IconPencil, 
     IconUserPlus, IconUsers, IconCamera, IconDeviceCameraPhone,
-    IconChevronRight, IconMail, IconId, IconPhone, IconUserCircle, IconCheck, IconMapPin
+    IconChevronRight, IconMail, IconId, IconPhone, IconUserCircle, IconCheck, IconMapPin, IconX
 } from "@tabler/icons-react";
 import Webcam from "react-webcam";
 import Image from "next/image";
@@ -143,56 +143,57 @@ export default function TeacherStudentsPage() {
   };
 
   return (
-    <main className="p-8 lg:p-10 space-y-10 min-h-screen bg-[#070b14] text-slate-200">
+    <main className="teacher-students min-h-screen bg-[#07111d] p-5 text-slate-200 sm:p-7 xl:p-8">
+      <div className="mx-auto max-w-7xl space-y-6">
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative">
         <div className="absolute -top-10 -left-10 w-48 h-48 bg-indigo-600/10 blur-[100px] rounded-full"></div>
         <div className="relative z-10">
-          <div className="inline-flex items-center gap-2 px-2.5 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-full mb-4">
-               <IconUsers size={10} className="text-indigo-400" />
-               <span className="text-[8px] font-black text-indigo-400 uppercase tracking-widest leading-none">Student Hub</span>
+          <div className="inline-flex items-center gap-2 px-2.5 py-1 bg-cyan-100/[0.06] border border-cyan-100/15 rounded-full mb-3">
+               <IconUsers size={13} className="text-cyan-100" />
+               <span className="text-[10px] font-semibold text-cyan-100 uppercase tracking-widest leading-none">Student management</span>
           </div>
-          <h2 className="text-3xl font-black text-white tracking-tight uppercase leading-none">Student Registry</h2>
-          <p className="text-slate-500 font-bold uppercase text-[9px] tracking-widest mt-2 leading-none">Register and manage branch members</p>
+          <h1 className="text-2xl font-semibold text-white tracking-tight leading-tight">Students</h1>
+          <p className="text-slate-400 text-sm mt-1">Register and manage student records.</p>
         </div>
         <button 
           onClick={openAddModal}
-          className="bg-indigo-600 hover:bg-indigo-500 text-white font-black px-8 py-4 rounded-2xl shadow-xl shadow-indigo-600/20 transition-all flex items-center justify-center gap-3 uppercase text-[10px] tracking-widest active:scale-95 relative z-10"
+          className="bg-cyan-200 hover:bg-cyan-100 text-[#07111d] font-semibold px-5 py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-sm relative z-10"
         >
-          <IconUserPlus size={18} /> Enroll New Student
+          <IconUserPlus size={18} /> Add student
         </button>
       </div>
 
       {/* Stats Quick View */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {[
             { label: "Enrolled Cohort", val: students.length, icon: IconUsers, color: "text-indigo-400", bg: "bg-indigo-500/10" },
             { label: "Biometric Status", val: "AI Verified", icon: IconDeviceCameraPhone, color: "text-emerald-400", bg: "bg-emerald-500/10" },
             { label: "Branch Unit", val: "CS Core", icon: IconId, color: "text-purple-400", bg: "bg-purple-500/10" }
         ].map((stat, i) => (
-            <div key={i} className="bg-[#0f172a] p-8 rounded-[2.5rem] border border-white/5 shadow-xl flex items-center gap-6 group hover:border-indigo-500/20 transition-all">
-              <div className={`w-14 h-14 ${stat.bg} ${stat.color} rounded-2xl flex items-center justify-center border border-white/5 group-hover:rotate-3 transition-all`}>
-                <stat.icon size={28} />
+            <div key={i} className="bg-[#0c1a29] p-4 rounded-2xl border border-white/[0.08] flex items-center gap-3 transition-all">
+              <div className={`w-10 h-10 ${stat.bg} ${stat.color} rounded-xl flex items-center justify-center border border-white/5`}>
+                <stat.icon size={20} />
               </div>
               <div>
-                <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">{stat.label}</p>
-                <p className="text-2xl font-black text-white tracking-tight leading-none">{stat.val}</p>
+                <p className="text-xs font-medium text-slate-400 mb-1">{stat.label}</p>
+                <p className="text-lg font-semibold text-white leading-none">{stat.val}</p>
               </div>
             </div>
         ))}
       </div>
 
       {/* Student List Table */}
-      <div className="bg-[#0f172a] rounded-[3rem] border border-white/5 shadow-xl overflow-hidden relative group font-sans">
-        <div className="p-8 border-b border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-6 bg-[#070b14]/50">
-          <h3 className="font-black text-white flex items-center gap-2 text-sm uppercase tracking-widest leading-none">
-            <span className="w-2 h-2 bg-indigo-600 rounded-full animate-pulse"></span> Managed Students
-          </h3>
+      <div className="bg-[#0c1a29] rounded-2xl border border-white/[0.08] overflow-hidden relative group font-sans">
+        <div className="p-4 sm:px-5 border-b border-white/[0.07] flex flex-col md:flex-row md:items-center justify-between gap-3 bg-white/[0.02]">
+          <h2 className="font-semibold text-white flex items-center gap-2 text-sm leading-none">
+            <span className="w-2 h-2 bg-cyan-200 rounded-full"></span> Student records
+          </h2>
           <div className="relative w-full md:w-72 group/search">
             <IconSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within/search:text-indigo-400 transition-colors" size={16} />
             <input 
               type="text" 
-              placeholder="Search registry..." 
+              placeholder="Search students..."
               className="w-full bg-[#070b14] border border-white/5 rounded-xl pl-12 pr-4 py-2.5 text-[10px] font-black uppercase tracking-widest focus:outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all shadow-sm placeholder:text-slate-600" 
             />
           </div>
@@ -202,8 +203,8 @@ export default function TeacherStudentsPage() {
           <table className="w-full text-left uppercase tracking-tight">
             <thead>
               <tr className="border-b border-white/5">
-                <th className="px-8 py-6 text-[9px] font-black uppercase tracking-widest text-slate-500">Identity Profile</th>
-                <th className="px-8 py-6 text-[9px] font-black uppercase tracking-widest text-slate-500">Index Roll</th>
+                <th className="px-8 py-6 text-[9px] font-black uppercase tracking-widest text-slate-500">Student</th>
+                <th className="px-8 py-6 text-[9px] font-black uppercase tracking-widest text-slate-500">Roll number</th>
                 <th className="px-8 py-6 text-[9px] font-black uppercase tracking-widest text-slate-500">Branch</th>
                 <th className="px-8 py-6 text-[9px] font-black uppercase tracking-widest text-slate-500 text-right">Actions</th>
               </tr>
@@ -262,7 +263,7 @@ export default function TeacherStudentsPage() {
       {/* Enrollment Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-6 bg-[#070b14]/90 backdrop-blur-3xl animate-in fade-in duration-500 overflow-y-auto font-sans">
-          <div className="bg-[#0f172a] w-full max-w-2xl rounded-[4rem] p-12 lg:p-14 shadow-[0_50px_100px_rgba(0,0,0,0.8)] border border-white/10 animate-in zoom-in-95 duration-500 my-auto relative overflow-hidden">
+          <div className="bg-[#0c1a29] w-full max-w-2xl rounded-2xl p-5 sm:p-6 shadow-2xl border border-white/[0.08] animate-in zoom-in-95 duration-500 my-auto relative overflow-hidden">
             <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-600/10 blur-[120px] rounded-full translate-x-12 -translate-y-12"></div>
             
             <div className="flex justify-between items-center mb-12 relative z-10">
@@ -271,24 +272,24 @@ export default function TeacherStudentsPage() {
                     <IconUserPlus size={32} />
                  </div>
                  <div>
-                    <h3 className="text-3xl font-black text-white tracking-tight uppercase leading-none">{isEditMode ? "Modify Identity" : "Enrollment Node"}</h3>
-                    <p className="text-slate-500 font-bold uppercase text-[9px] tracking-widest mt-3 leading-none">Initializing Registry Update</p>
+                    <h3 className="text-lg font-semibold text-white leading-tight">{isEditMode ? "Edit student" : "Add student"}</h3>
+                    <p className="text-xs text-slate-400 mt-1">Student details and identity verification</p>
                  </div>
               </div>
-              <button onClick={() => setIsModalOpen(false)} className="text-slate-500 hover:text-rose-400 transition-all p-4 bg-[#070b14] rounded-2xl border border-white/5 shadow-xl">
-                <IconTrash size={24} />
+              <button onClick={() => setIsModalOpen(false)} aria-label="Close student form" className="text-slate-400 hover:text-rose-300 transition-all p-2.5 bg-[#081522] rounded-xl border border-white/[0.07]">
+                <IconX size={19} />
               </button>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-8 relative z-10 uppercase tracking-widest">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-700 uppercase tracking-widest ml-4">Candidate Identity</label>
+                  <label className="text-xs font-medium text-slate-400">Full name</label>
                   <input required type="text" placeholder="FULL NAME..." className="w-full bg-[#070b14] border border-white/5 rounded-[2.2rem] px-8 py-5 text-[10px] font-black text-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all shadow-xl placeholder:text-slate-800"
                     value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-700 uppercase tracking-widest ml-4">Registry Roll Node</label>
+                  <label className="text-xs font-medium text-slate-400">Roll number</label>
                   <input required type="text" placeholder="ROLL ID..." className="w-full bg-[#070b14] border border-white/5 rounded-[2.2rem] px-8 py-5 text-[10px] font-black text-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all shadow-xl placeholder:text-slate-800"
                     value={formData.rollNo} onChange={e => setFormData({ ...formData, rollNo: e.target.value })} />
                 </div>
@@ -296,25 +297,25 @@ export default function TeacherStudentsPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-700 uppercase tracking-widest ml-4">Email Channel</label>
+                  <label className="text-xs font-medium text-slate-400">Email</label>
                   <input required type="email" placeholder="EMAIL ADDRESS..." className="w-full bg-[#070b14] border border-white/5 rounded-[2.2rem] px-8 py-5 text-[10px] font-black text-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all shadow-xl placeholder:text-slate-800 lowercase tracking-normal"
                     value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-700 uppercase tracking-widest ml-4">Terminal Contact</label>
+                  <label className="text-xs font-medium text-slate-400">Phone</label>
                   <input required type="text" placeholder="PHONE ID..." className="w-full bg-[#070b14] border border-white/5 rounded-[2.2rem] px-8 py-5 text-[10px] font-black text-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all shadow-xl placeholder:text-slate-800"
                     value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-700 uppercase tracking-widest ml-4">Security Password (Defaults to Roll No)</label>
+                <label className="text-xs font-medium text-slate-400">Password (defaults to roll number)</label>
                 <input type="password" placeholder="LEAVE BLANK FOR ROLL NO..." className="w-full bg-[#070b14] border border-white/5 rounded-[2.2rem] px-8 py-5 text-[10px] font-black text-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all shadow-xl placeholder:text-slate-800"
                     value={formData.password} onChange={e => setFormData({ ...formData, password: e.target.value })} />
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-700 uppercase tracking-widest ml-4">Operational Branch</label>
+                <label className="text-xs font-medium text-slate-400">Branch</label>
                 <div className="relative">
                   <select className="w-full bg-[#070b14] border border-white/5 rounded-[2.2rem] px-8 py-5 text-[10px] font-black text-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all shadow-xl appearance-none cursor-pointer uppercase"
                     value={formData.department} onChange={e => setFormData({...formData, department: e.target.value})}>
@@ -333,7 +334,7 @@ export default function TeacherStudentsPage() {
                   {/* Location Capture for Campus Geofencing */}
                   <div className="pt-4 border-t border-white/5 space-y-4">
                     <div className="flex items-center justify-between">
-                      <label className="text-[10px] font-black text-slate-700 uppercase tracking-widest ml-4">Campus Geofencing</label>
+                      <label className="text-xs font-medium text-slate-300">Campus location</label>
                       {location && (
                         <span className="text-[8px] font-black text-emerald-500 uppercase flex items-center gap-1">
                           <IconCheck size={10} /> Sync Ready
@@ -354,7 +355,7 @@ export default function TeacherStudentsPage() {
                     </p>
                   </div>
 
-                  <label className="text-[10px] font-black text-slate-700 uppercase tracking-widest ml-4">Biometric Identity Setup</label>
+                  <label className="text-xs font-medium text-slate-300">Face identity samples</label>
                   <div className="bg-[#070b14] border border-white/5 rounded-[3rem] p-10 text-center group relative overflow-hidden shadow-2xl">
                     {isCameraOpen ? (
                       <div className="space-y-8 relative z-10">
@@ -406,14 +407,15 @@ export default function TeacherStudentsPage() {
               )}
 
               <div className="pt-8">
-                <button type="submit" disabled={loading} className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-black py-7 rounded-[4rem] shadow-2xl shadow-indigo-600/20 transition-all flex items-center justify-center gap-6 uppercase text-[11px] tracking-[0.4em] active:scale-95 disabled:opacity-50">
-                  {loading ? "SYNCHRONIZING..." : isEditMode ? "UPDATE IDENTITY CORE" : "FINALIZE ENROLLMENT"}
+                <button type="submit" disabled={loading} className="w-full bg-cyan-200 hover:bg-cyan-100 text-[#07111d] font-semibold py-3 rounded-xl transition-all flex items-center justify-center gap-2 text-sm active:scale-95 disabled:opacity-50">
+                  {loading ? "Saving..." : isEditMode ? "Save changes" : "Add student"}
                 </button>
               </div>
             </form>
           </div>
         </div>
       )}
+      </div>
     </main>
   );
 }

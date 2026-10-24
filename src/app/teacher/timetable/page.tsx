@@ -4,8 +4,8 @@ import { api, endpoints } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { 
     IconCalendarWeek, IconClock, IconUser, IconMapPin,
-    IconPlus, IconDownload, IconTrash, IconX, IconBook, IconCheck,
-    IconTableShortcut, IconLayoutDashboard, IconSchool, IconSettings
+    IconPlus, IconTrash, IconX, IconBook, IconCheck,
+    IconTableShortcut, IconLayoutDashboard
 } from "@tabler/icons-react";
 
 export default function TeacherTimetablePage() {
@@ -98,17 +98,18 @@ export default function TeacherTimetablePage() {
     const timeSlots = Array.from(new Set(fullSchedule.map(s => s.time))).sort();
 
     return (
-        <main className="min-h-screen bg-[#070b14] p-8 lg:p-10 space-y-12 font-sans text-slate-200">
-            <header className="flex flex-col md:flex-row md:items-center justify-between gap-8 pb-10 border-b border-white/5 relative overflow-hidden">
-                <div className="absolute -top-10 -left-10 w-64 h-64 bg-indigo-600/10 blur-[120px] rounded-full"></div>
+        <main className="teacher-timetable min-h-screen bg-[#07111d] p-5 font-sans text-slate-200 sm:p-7 xl:p-8">
+            <div className="mx-auto max-w-7xl space-y-6">
+            <header className="flex flex-col md:flex-row md:items-center justify-between gap-5 rounded-3xl border border-white/[0.08] bg-gradient-to-br from-[#102338] via-[#0d1b2b] to-[#10172a] p-5 sm:p-6 relative overflow-hidden">
+                <div className="absolute -top-10 -left-10 w-64 h-64 bg-cyan-300/[0.06] blur-[100px] rounded-full"></div>
                 
                 <div className="flex items-center gap-6 relative z-10 font-sans">
-                    <div className="w-16 h-16 bg-[#0f172a] border border-white/5 rounded-[2.2rem] flex items-center justify-center text-indigo-400 shadow-2xl transition-all hover:rotate-6 hover:scale-110">
-                        <IconCalendarWeek size={32} />
+                    <div className="w-11 h-11 bg-cyan-300/10 border border-cyan-100/10 rounded-xl flex items-center justify-center text-cyan-100">
+                        <IconCalendarWeek size={22} />
                     </div>
                     <div>
-                        <h2 className="text-3xl font-black text-white tracking-tight uppercase leading-none">Timetable</h2>
-                        <p className="text-slate-500 font-bold uppercase text-[9px] tracking-widest mt-2 leading-none">Update and manage your teaching schedule</p>
+                        <h1 className="text-2xl font-semibold text-white tracking-tight leading-tight">Teaching timetable</h1>
+                        <p className="text-slate-400 text-sm mt-1">Manage weekly classes and room assignments</p>
                     </div>
                 </div>
                 
@@ -116,20 +117,20 @@ export default function TeacherTimetablePage() {
                     <div className="flex bg-[#0f172a] p-1.5 rounded-2xl border border-white/5 shadow-xl">
                         <button 
                             onClick={() => setViewMode('grid')}
-                            className={`px-6 py-3 rounded-xl flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-all ${viewMode === 'grid' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/20' : 'text-slate-500 hover:text-white'}`}
+                            className={`px-4 py-2 rounded-lg flex items-center gap-2 text-xs font-medium transition-all ${viewMode === 'grid' ? 'bg-cyan-200 text-[#07111d]' : 'text-slate-400 hover:text-white'}`}
                         >
                             <IconTableShortcut size={16} /> Grid View
                         </button>
                         <button 
                             onClick={() => setViewMode('list')}
-                            className={`px-6 py-3 rounded-xl flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-all ${viewMode === 'list' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/20' : 'text-slate-500 hover:text-white'}`}
+                            className={`px-4 py-2 rounded-lg flex items-center gap-2 text-xs font-medium transition-all ${viewMode === 'list' ? 'bg-cyan-200 text-[#07111d]' : 'text-slate-400 hover:text-white'}`}
                         >
                             <IconLayoutDashboard size={16} /> List View
                         </button>
                     </div>
                     <button 
                         onClick={() => setIsModalOpen(true)}
-                        className="bg-indigo-600 hover:bg-indigo-500 text-white font-black px-8 py-4 rounded-2xl shadow-xl shadow-indigo-600/20 transition-all flex items-center justify-center gap-3 text-[10px] uppercase tracking-widest active:scale-95"
+                        className="bg-cyan-200 hover:bg-cyan-100 text-[#07111d] font-semibold px-4 py-2.5 rounded-xl transition-all flex items-center justify-center gap-2 text-sm"
                     >
                         <IconPlus size={18} stroke={3} /> Add Class
                     </button>
@@ -139,10 +140,10 @@ export default function TeacherTimetablePage() {
             {loading ? (
                 <div className="py-24 text-center text-[11px] font-black text-slate-600 uppercase tracking-[0.5em] animate-pulse">Loading all schedules...</div>
             ) : viewMode === 'grid' ? (
-                <div className="bg-[#0f172a] rounded-[3.5rem] border border-white/5 shadow-2xl overflow-hidden relative group">
-                    <div className="p-10 border-b border-white/5 bg-[#070b14]/50 flex items-center gap-4">
-                        <div className="w-3 h-3 bg-indigo-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(99,102,241,0.5)]"></div>
-                        <h3 className="text-sm font-black text-white uppercase tracking-widest leading-none">Weekly Timetable</h3>
+                <div className="bg-[#0c1a29] rounded-2xl border border-white/[0.08] overflow-hidden relative">
+                    <div className="p-4 sm:px-5 border-b border-white/[0.07] bg-white/[0.02] flex items-center justify-between gap-3">
+                        <h2 className="text-sm font-semibold text-white">Weekly schedule</h2>
+                        <span className="text-xs text-slate-400">{fullSchedule.length} classes</span>
                     </div>
                     
                     <div className="overflow-x-auto custom-scrollbar relative z-10">
@@ -214,7 +215,7 @@ export default function TeacherTimetablePage() {
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan={7} className="p-32 text-center">
+                                            <td colSpan={7} className="p-10 text-center">
                                             <div className="flex flex-col items-center gap-6">
                                                 <div className="w-20 h-20 bg-[#070b14] rounded-[2.5rem] flex items-center justify-center border border-white/5 shadow-2xl text-slate-800">
                                                     <IconBook size={40} />
@@ -233,10 +234,10 @@ export default function TeacherTimetablePage() {
                     {days.map(day => {
                         const daySchedule = fullSchedule.filter(s => s.day === day).sort((a,b) => a.time.localeCompare(b.time));
                         return (
-                            <div key={day} className="bg-[#0f172a] rounded-[3rem] border border-white/5 shadow-xl overflow-hidden group hover:border-indigo-500/20 transition-all flex flex-col min-h-[400px]">
-                                <div className="p-8 border-b border-white/5 bg-[#070b14]/50 flex items-center justify-between">
-                                    <h3 className="text-xs font-black text-white uppercase tracking-widest">{day}</h3>
-                                    <span className="text-[9px] font-black text-indigo-400 bg-indigo-500/10 px-4 py-1.5 rounded-xl border border-indigo-500/20">{daySchedule.length} Classes</span>
+                            <div key={day} className="bg-[#0c1a29] rounded-2xl border border-white/[0.08] overflow-hidden group hover:border-cyan-100/20 transition-all flex flex-col min-h-0">
+                                <div className="p-4 border-b border-white/[0.07] bg-white/[0.02] flex items-center justify-between">
+                                    <h3 className="text-sm font-semibold text-white">{day}</h3>
+                                    <span className="text-xs text-slate-400">{daySchedule.length} classes</span>
                                 </div>
                                 <div className="p-8 space-y-4 flex-1">
                                     {daySchedule.length > 0 ? daySchedule.map(slot => (
@@ -266,7 +267,7 @@ export default function TeacherTimetablePage() {
                                         </div>
                                     )}
                                 </div>
-                                <div className="p-8 pt-0">
+                                <div className="px-5 pb-5">
                                     <button 
                                         onClick={() => {
                                             setNewSlot({...newSlot, day});
@@ -398,6 +399,7 @@ export default function TeacherTimetablePage() {
                     </div>
                 </div>
             )}
+            </div>
         </main>
     );
 }

@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 from datetime import datetime
-from typing import Optional
+from typing import List, Optional
 
 class PlacementModel(BaseModel):
     company: str
@@ -10,4 +10,8 @@ class PlacementModel(BaseModel):
     deadline: str
     link: Optional[str] = ""
     status: Optional[str] = "Active"
+    location: Optional[str] = ""
+    contactInfo: Optional[str] = ""
+    eligibilityCriteria: List[str] = Field(default_factory=list)
+    noticeUrl: Optional[str] = ""
     postedAt: datetime = Field(default_factory=datetime.now)

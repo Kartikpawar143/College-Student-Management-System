@@ -4,7 +4,7 @@ import { api, endpoints } from "@/lib/api";
 import Link from "next/link";
 import { 
     IconBriefcase, IconBuilding, IconCurrencyDollar, IconCalendarTime, 
-    IconSearch, IconChevronRight, IconActivity, IconExternalLink
+    IconSearch, IconChevronRight, IconActivity
 } from "@tabler/icons-react";
 
 export default function TeacherPlacementsPage() {
@@ -27,88 +27,65 @@ export default function TeacherPlacementsPage() {
     }, []);
 
     return (
-        <main className="min-h-screen bg-[#070b14] p-8 lg:p-10 space-y-12">
-            <header className="flex flex-col md:flex-row md:items-center justify-between gap-8 pb-10 border-b border-white/5 relative overflow-hidden">
-                <div className="absolute -top-10 -left-10 w-64 h-64 bg-rose-600/10 blur-[120px] rounded-full"></div>
-                <div className="flex items-center gap-6 relative z-10">
-                    <div className="w-16 h-16 bg-[#0f172a] border border-white/5 rounded-[2.2rem] flex items-center justify-center text-rose-400 shadow-2xl">
-                        <IconBriefcase size={32} />
+        <main className="min-h-screen bg-[#07111d] p-5 font-sans text-slate-200 sm:p-7 xl:p-8">
+            <div className="mx-auto max-w-7xl space-y-6">
+                <header className="flex flex-col gap-5 rounded-3xl border border-white/[0.08] bg-gradient-to-br from-[#102338] via-[#0d1b2b] to-[#10172a] p-6 sm:flex-row sm:items-center sm:justify-between sm:p-7">
+                    <div className="flex items-center gap-4">
+                        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-cyan-100/10 bg-cyan-100/[0.06] text-cyan-100"><IconBriefcase size={21} /></span>
+                        <div>
+                            <span className="text-[10px] font-semibold uppercase tracking-[0.15em] text-cyan-100">Career opportunities</span>
+                            <h1 className="mt-1 text-2xl font-semibold tracking-tight text-white sm:text-3xl">Placements</h1>
+                            <p className="mt-1 text-sm text-slate-400">Recruitment drives and company information.</p>
+                        </div>
                     </div>
-                    <div>
-                        <h2 className="text-3xl font-black text-white tracking-tight uppercase leading-none">Career Matrix</h2>
-                        <p className="text-slate-500 font-bold uppercase text-[9px] tracking-[0.2em] mt-3 mr-4">Corporate Acquisitions & Recruitment Drives</p>
-                    </div>
-                </div>
-            </header>
+                    <span className="w-fit rounded-full border border-white/[0.08] bg-white/[0.035] px-3 py-1.5 text-xs text-slate-300">{jobs.length} drives</span>
+                </header>
 
-            <div className="bg-[#0f172a] rounded-[4.5rem] border border-white/5 shadow-[0_50px_100px_rgba(0,0,0,0.3)] overflow-hidden min-h-[500px] flex flex-col relative group">
-                <div className="p-10 border-b border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-8 bg-[#070b14]/50">
-                    <h3 className="font-black text-white flex items-center gap-4 text-sm uppercase tracking-widest leading-none">
-                        <span className="w-2.5 h-2.5 bg-rose-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(244,63,94,0.8)]"></span> Transmission Feed
-                    </h3>
-                    <div className="relative group/search w-full md:w-80 uppercase tracking-widest shadow-2xl rounded-2xl overflow-hidden border border-white/5 bg-[#070b14]">
-                        <IconSearch className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-700 group-focus-within/search:text-rose-400 transition-colors" size={16} />
-                        <input type="text" placeholder="FILTER CORPORATE..." className="w-full bg-transparent border-0 pl-14 pr-6 py-4 text-[10px] font-black uppercase tracking-widest outline-none text-white focus:ring-4 focus:ring-rose-500/10 transition-all placeholder:text-slate-800" />
+                <section className="overflow-hidden rounded-2xl border border-white/[0.08] bg-[#0c1a29]">
+                    <div className="flex flex-col gap-3 border-b border-white/[0.07] p-4 sm:flex-row sm:items-center sm:justify-between sm:px-5">
+                        <h2 className="flex items-center gap-2 text-sm font-semibold text-white"><IconActivity size={17} className="text-cyan-100" /> Recruitment drives</h2>
+                        <div className="relative w-full sm:max-w-xs">
+                            <IconSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
+                            <input type="text" aria-label="Filter companies" placeholder="Filter companies" className="w-full rounded-xl border border-white/10 bg-[#081522] py-2.5 pl-10 pr-3 text-sm text-white placeholder:text-slate-500 focus:border-cyan-100/30 focus:outline-none focus:ring-2 focus:ring-cyan-100/10" />
+                        </div>
                     </div>
-                </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 p-12 flex-1 relative z-10">
                     {loading ? (
-                        <div className="col-span-full py-24 text-center text-[10px] font-black text-slate-700 uppercase tracking-[0.5em] animate-pulse">Syncing corporate database...</div>
+                        <div className="px-5 py-14 text-center text-sm text-slate-400 animate-pulse">Loading recruitment drives…</div>
                     ) : jobs.length > 0 ? (
-                        jobs.map((job) => (
-                            <div key={job._id} className="bg-[#070b14] border border-white/5 p-10 rounded-[3.5rem] hover:bg-[#0f172a] hover:shadow-[0_40px_80px_rgba(0,0,0,0.5)] hover:border-rose-500/20 transition-all group relative overflow-hidden flex flex-col font-sans uppercase tracking-widest">
-                                <div className="absolute top-0 right-0 w-32 h-32 bg-rose-600/5 rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                
-                                <div className="relative z-10 flex flex-col h-full uppercase tracking-widest">
-                                    <div className="flex justify-between items-start mb-10">
-                                        <div className="w-16 h-16 bg-[#0f172a] rounded-3xl flex items-center justify-center shadow-2xl border border-white/5 text-rose-500 group-hover:scale-110 group-hover:bg-rose-500 group-hover:text-white transition-all duration-500">
-                                            <IconBuilding size={32} />
+                        <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-2 xl:grid-cols-3 sm:p-5">
+                            {jobs.map((job) => (
+                                <article key={job._id} className="flex min-w-0 flex-col rounded-2xl border border-white/[0.07] bg-[#081522] p-5 transition hover:border-cyan-100/20 hover:bg-[#0d1d2d]">
+                                    <div className="flex items-start justify-between gap-3">
+                                        <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/[0.07] bg-white/[0.035] text-cyan-100"><IconBuilding size={19} /></span>
+                                        <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200/10 bg-emerald-200/[0.05] px-2.5 py-1 text-[11px] text-emerald-100"><span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />Active drive</span>
+                                    </div>
+                                    <div className="mt-4 min-w-0">
+                                        <h3 className="break-words text-lg font-semibold text-white">{job.company}</h3>
+                                        <p className="mt-1 break-words text-sm text-slate-400">{job.role}</p>
+                                    </div>
+                                    <div className="mt-4 grid grid-cols-2 gap-2">
+                                        <div className="rounded-xl border border-white/[0.06] bg-white/[0.025] p-3">
+                                            <p className="text-[11px] text-slate-500">Package</p>
+                                            <p className="mt-1 flex items-center gap-1.5 text-sm font-medium text-slate-200"><IconCurrencyDollar size={15} className="text-cyan-100" />{job.package}</p>
+                                        </div>
+                                        <div className="rounded-xl border border-white/[0.06] bg-white/[0.025] p-3">
+                                            <p className="text-[11px] text-slate-500">Apply by</p>
+                                            <p className="mt-1 flex items-center gap-1.5 text-sm font-medium text-slate-200"><IconCalendarTime size={15} className="text-cyan-100" />{job.deadline}</p>
                                         </div>
                                     </div>
-                                    
-                                    <div className="space-y-3 mb-12">
-                                        <h4 className="text-3xl font-black text-white tracking-tight group-hover:text-rose-400 transition-colors leading-[1]">{job.company}</h4>
-                                        <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{job.role}</p>
-                                    </div>
-
-                                    <div className="grid grid-cols-2 gap-4 mb-10">
-                                        <div className="p-5 bg-[#0f172a] border border-white/5 rounded-2xl shadow-xl">
-                                            <p className="text-[8px] font-black text-slate-600 uppercase tracking-widest mb-2 leading-none">Yield</p>
-                                            <p className="text-xs font-black text-white uppercase leading-none tracking-widest">{job.package}</p>
-                                        </div>
-                                        <div className="p-5 bg-[#0f172a] border border-white/5 rounded-2xl shadow-xl">
-                                            <p className="text-[8px] font-black text-slate-600 uppercase tracking-widest mb-2 leading-none">Protocol</p>
-                                            <p className="text-[8px] font-black text-emerald-400 uppercase leading-none tracking-widest">ACTIVE DRIVE</p>
-                                        </div>
-                                    </div>
-
-                                    <div className="mt-auto pt-10 border-t border-white/5 flex items-center justify-between">
-                                        <span className="flex items-center gap-3 text-[9px] font-black text-slate-600 uppercase tracking-widest leading-none">
-                                            <IconCalendarTime size={18} className="text-rose-500" /> SEAL: {job.deadline}
-                                        </span>
-                                        <Link 
-                                            href={`/teacher/placements/${job._id}`}
-                                            className="bg-rose-600 text-white rounded-xl px-6 py-4 text-[9px] font-black uppercase tracking-widest hover:bg-rose-500 transition-all shadow-xl shadow-rose-600/20 active:scale-95 flex items-center gap-3"
-                                        >
-                                            RECORDS <IconChevronRight size={14} />
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
-                        ))
+                                    <Link href={`/teacher/placements/${job._id}`} className="mt-4 inline-flex min-h-10 items-center justify-center gap-2 rounded-lg bg-cyan-200 px-4 py-2 text-sm font-semibold text-[#07111d] transition hover:bg-cyan-100">View drive <IconChevronRight size={16} /></Link>
+                                </article>
+                            ))}
+                        </div>
                     ) : (
-                        <div className="col-span-full py-32 text-center space-y-10 flex flex-col items-center justify-center border-t border-white/5 font-sans">
-                            <div className="w-24 h-24 bg-[#070b14] rounded-[3.5rem] border border-white/5 flex items-center justify-center text-slate-900 shadow-2xl">
-                                <IconBriefcase size={64} />
-                            </div>
-                            <div className="space-y-4">
-                                <p className="text-xs font-black text-slate-700 uppercase tracking-[0.5em]">Network Offline</p>
-                                <p className="text-[10px] font-black text-slate-700 uppercase tracking-widest leading-none">No recruitment signals detected in the matrix</p>
-                            </div>
+                        <div className="flex flex-col items-center justify-center px-5 py-14 text-center">
+                            <span className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/[0.04] text-slate-400"><IconBriefcase size={22} /></span>
+                            <h3 className="text-sm font-semibold text-slate-200">No recruitment drives</h3>
+                            <p className="mt-1 text-xs text-slate-500">There are no placement opportunities available right now.</p>
                         </div>
                     )}
-                </div>
+                </section>
             </div>
         </main>
     );

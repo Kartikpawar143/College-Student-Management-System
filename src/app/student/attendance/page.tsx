@@ -94,36 +94,36 @@ export default function StudentAttendancePage() {
     }, [webcamRef, location, user]);
 
     return (
-        <main className="min-h-screen bg-[#070b14] p-8 lg:p-10 font-sans text-slate-200">
-            <div className="max-w-7xl mx-auto space-y-12 relative text-left">
-                <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-600/10 blur-[150px] rounded-full pointer-events-none"></div>
+        <main className="min-h-screen bg-[#07111d] p-5 font-sans text-slate-200 sm:p-7 xl:p-8">
+            <div className="mx-auto max-w-7xl space-y-6 relative text-left">
                 
-                <header className="flex flex-col md:flex-row md:items-center justify-between gap-10 pb-12 border-b border-white/5 relative">
-                    <div className="space-y-4 relative z-10">
-                         <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-indigo-500/10 border border-indigo-500/20 rounded-full">
-                              <IconShieldCheck size={12} className="text-indigo-400" />
-                              <span className="text-[9px] font-black text-indigo-400 uppercase tracking-widest leading-none">SECURE ATTENDANCE V2</span>
+                <header className="relative flex flex-col gap-5 overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-br from-[#102338] via-[#0d1b2b] to-[#10172a] p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+                    <div aria-hidden="true" className="pointer-events-none absolute -right-10 -top-24 h-72 w-72 rounded-full bg-cyan-400/10 blur-3xl" />
+                    <div className="relative z-10">
+                         <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-cyan-200/15 bg-cyan-200/[0.07] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-cyan-100">
+                              <IconShieldCheck size={13} />
+                              <span>Attendance</span>
                          </div>
-                        <h2 className="text-5xl font-black text-white tracking-tighter uppercase leading-none">Mark Presence</h2>
-                        <p className="text-sm font-bold text-slate-500 leading-none">Scan your face within campus boundaries to mark attendance.</p>
+                        <h1 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">Mark attendance</h1>
+                        <p className="mt-2 text-sm text-slate-400">Verify your location and scan your face to record attendance.</p>
                     </div>
 
-                    <div className={`flex items-center gap-6 px-10 py-5 rounded-[2.5rem] border shadow-2xl relative z-10 transition-all ${
-                        location ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' : 'bg-rose-500/10 border-rose-500/20 text-rose-400'
+                    <div className={`relative z-10 flex items-center gap-3 rounded-xl border px-4 py-3 transition-all ${
+                        location ? 'bg-emerald-300/[0.06] border-emerald-200/15 text-emerald-200' : 'bg-rose-300/[0.06] border-rose-200/15 text-rose-200'
                     }`}>
                         {location ? <IconMapPin size={24} className="animate-bounce" /> : <IconMapPinOff size={24} className="animate-pulse" />}
                         <div className="text-left font-sans">
-                            <p className="text-[10px] font-black uppercase tracking-widest leading-none mb-1">{location ? 'Location Synced' : 'Location Required'}</p>
-                            <p className="text-[8px] font-black uppercase tracking-[0.2em] opacity-60 leading-none">
-                                {location ? `${location.lat.toFixed(4)}, ${location.lng.toFixed(4)}` : 'Access Denied'}
+                            <p className="text-xs font-semibold leading-none mb-1">{location ? 'Location connected' : 'Location required'}</p>
+                            <p className="text-[11px] text-slate-400 leading-none">
+                                {location ? `${location.lat.toFixed(4)}, ${location.lng.toFixed(4)}` : 'Enable location access'}
                             </p>
                         </div>
                     </div>
                 </header>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-                    <div className="lg:col-span-8 bg-[#0f172a] rounded-[4.5rem] border border-white/5 shadow-3xl overflow-hidden relative group overflow-hidden font-sans">
-                        <div className="relative h-[600px] bg-[#070b14] overflow-hidden">
+                <div className="grid grid-cols-1 items-start gap-5 xl:grid-cols-[minmax(0,1.65fr)_minmax(19rem,1fr)]">
+                    <div className="min-w-0 overflow-hidden rounded-2xl border border-white/[0.08] bg-[#0c1a29] relative group font-sans">
+                        <div className="relative h-[360px] bg-[#07111d] overflow-hidden sm:h-[440px]">
                             <Webcam
                                 ref={webcamRef}
                                 audio={false}
@@ -133,21 +133,21 @@ export default function StudentAttendancePage() {
                             />
 
                             {/* Scanner Architecture */}
-                            <div className="absolute inset-0 border-[40px] border-[#070b14] pointer-events-none"></div>
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 border-2 border-indigo-500/20 rounded-[4rem] animate-pulse">
-                                 <div className="absolute top-0 left-0 w-12 h-12 border-t-8 border-l-8 border-indigo-600 rounded-tl-3xl"></div>
-                                 <div className="absolute top-0 right-0 w-12 h-12 border-t-8 border-r-8 border-indigo-600 rounded-tr-3xl"></div>
-                                 <div className="absolute bottom-0 left-0 w-12 h-12 border-b-8 border-l-8 border-indigo-600 rounded-bl-3xl"></div>
-                                 <div className="absolute bottom-0 right-0 w-12 h-12 border-b-8 border-r-8 border-indigo-600 rounded-br-3xl"></div>
+                            <div className="absolute inset-0 border-[24px] border-[#07111d]/70 pointer-events-none sm:border-[36px]"></div>
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-56 w-56 border-2 border-cyan-200/30 rounded-3xl animate-pulse sm:h-72 sm:w-72">
+                                 <div className="absolute top-0 left-0 w-12 h-12 border-t-4 border-l-4 border-cyan-200 rounded-tl-2xl"></div>
+                                 <div className="absolute top-0 right-0 w-12 h-12 border-t-4 border-r-4 border-cyan-200 rounded-tr-2xl"></div>
+                                 <div className="absolute bottom-0 left-0 w-12 h-12 border-b-4 border-l-4 border-cyan-200 rounded-bl-2xl"></div>
+                                 <div className="absolute bottom-0 right-0 w-12 h-12 border-b-4 border-r-4 border-cyan-200 rounded-br-2xl"></div>
                             </div>
                             
                             {loading && (
                                 <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#070b14]/95 z-30 backdrop-blur-3xl animate-in fade-in duration-700">
-                                    <div className="relative w-32 h-32 mb-10 translate-y-[-2rem]">
-                                         <IconLoader2 size={128} className="animate-spin text-indigo-600 opacity-20" />
-                                         <IconUserScan size={56} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-indigo-500 animate-pulse" />
+                                    <div className="relative mb-6 h-20 w-20">
+                                         <IconLoader2 size={80} className="animate-spin text-cyan-200 opacity-25" />
+                                         <IconUserScan size={36} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-cyan-100 animate-pulse" />
                                     </div>
-                                    <p className="text-[12px] font-black text-white uppercase tracking-[0.6em] animate-pulse">Syncing Presence Node...</p>
+                                    <p className="text-sm font-medium text-white animate-pulse">Verifying attendance...</p>
                                 </div>
                             )}
 
@@ -172,45 +172,45 @@ export default function StudentAttendancePage() {
                             )}
                         </div>
 
-                        <div className="p-12 bg-[#070b14]/80 flex flex-col md:flex-row items-center justify-between gap-12 font-sans">
-                            <div className="flex items-center gap-8 text-left">
-                                 <div className="w-16 h-16 bg-[#0f172a] rounded-[2rem] flex items-center justify-center shadow-2xl border border-white/5 text-indigo-500">
-                                    <IconMapPin size={32} />
+                        <div className="flex flex-col items-start justify-between gap-5 border-t border-white/[0.07] bg-white/[0.02] p-5 sm:flex-row sm:items-center sm:p-6 font-sans">
+                            <div className="flex items-center gap-3 text-left">
+                                 <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/[0.07] bg-white/[0.035] text-cyan-100">
+                                    <IconMapPin size={19} />
                                  </div>
                                  <div className="space-y-2">
-                                     <p className="text-[10px] font-black text-slate-800 uppercase tracking-widest leading-none">Security Protocol</p>
-                                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Your location is verified for campus boundaries.</p>
+                                     <p className="text-sm font-medium text-slate-200">Campus location check</p>
+                                     <p className="mt-1 text-xs text-slate-400">Your location is checked before attendance is recorded.</p>
                                  </div>
                             </div>
                             <button 
                                 onClick={capture}
                                 disabled={loading || !!result || !location}
-                                className="w-full md:w-auto bg-indigo-600 hover:bg-indigo-500 text-white font-black px-20 py-8 rounded-[3rem] shadow-[0_30px_60px_rgba(79,70,229,0.3)] transition-all flex items-center justify-center gap-6 uppercase text-[12px] tracking-[0.4em] active:scale-95 disabled:grayscale disabled:opacity-30"
+                                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-cyan-200 px-5 py-3 text-sm font-semibold text-[#07111d] transition hover:bg-cyan-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 disabled:cursor-not-allowed disabled:opacity-40 sm:w-auto"
                             >
                                 <IconCamera size={28} stroke={3} /> Mark Attendance
                             </button>
                         </div>
                     </div>
 
-                    <div className="lg:col-span-4 space-y-12">
-                         <div className="bg-[#0f172a] rounded-[4rem] p-12 text-white shadow-3xl border border-white/5 relative overflow-hidden group font-sans text-left">
+                    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-1">
+                         <div className="rounded-2xl border border-white/[0.08] bg-[#0c1a29] p-5 text-white sm:p-6 relative overflow-hidden group font-sans text-left">
                             <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-600/5 blur-[120px] rounded-full"></div>
-                            <h3 className="font-extrabold text-2xl tracking-tighter uppercase mb-14 flex items-center gap-6 relative z-10">
-                                <IconShieldCheck size={32} className="text-indigo-500" /> Anti-Proxy Rules
+                            <h3 className="mb-4 flex items-center gap-2 text-base font-semibold text-white relative z-10">
+                                <IconShieldCheck size={19} className="text-cyan-100" /> Attendance requirements
                             </h3>
-                            <div className="space-y-10 relative z-10">
+                            <div className="space-y-3 relative z-10">
                                 {[
                                     { title: "Physical Presence", desc: "You must be within 500m of the college campus node." },
                                     { title: "Location Access", desc: "Keep GPS/Location enabled while marking attendance." },
                                     { title: "Face Recognition", desc: "Live camera scan must match your registered profile." },
                                 ].map((item, i) => (
-                                    <div key={i} className="flex gap-8 group/item">
-                                        <div className="w-12 h-12 rounded-[2rem] bg-indigo-600/10 text-indigo-400 flex items-center justify-center font-black text-[12px] border border-indigo-600/20 shadow-2xl group-hover/item:bg-indigo-600 group-hover/item:text-white transition-all">
+                                    <div key={i} className="flex gap-3 rounded-xl border border-white/[0.06] bg-white/[0.025] p-3 group/item">
+                                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-cyan-300/10 text-cyan-100 text-xs font-semibold">
                                             {i + 1}
                                         </div>
-                                        <div className="pt-2">
-                                            <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-white leading-none mb-3">{item.title}</h4>
-                                            <p className="text-[10px] text-slate-700 font-bold uppercase tracking-widest leading-relaxed">{item.desc}</p>
+                                        <div>
+                                            <h4 className="text-sm font-medium text-slate-200">{item.title}</h4>
+                                            <p className="mt-1 text-xs leading-relaxed text-slate-400">{item.desc}</p>
                                         </div>
                                     </div>
                                 ))}
@@ -218,20 +218,20 @@ export default function StudentAttendancePage() {
                         </div>
 
                         {attendanceHistory.length > 0 && (
-                            <div className="bg-[#0f172a] rounded-[4rem] p-12 text-white shadow-3xl border border-white/5 relative overflow-hidden group font-sans text-left">
-                                <h3 className="font-extrabold text-2xl tracking-tighter uppercase mb-10 flex items-center gap-6 relative z-10">
-                                    <IconHistory size={32} className="text-emerald-500" /> Recent Logs
+                            <div className="rounded-2xl border border-white/[0.08] bg-[#0c1a29] p-5 text-white relative overflow-hidden group font-sans text-left sm:p-6">
+                                <h3 className="mb-4 flex items-center gap-2 text-base font-semibold relative z-10">
+                                    <IconHistory size={19} className="text-emerald-200" /> Recent attendance
                                 </h3>
-                                <div className="space-y-6 relative z-10">
+                                <div className="space-y-3 relative z-10">
                                     {attendanceHistory.map((log, i) => (
-                                        <div key={i} className="p-6 bg-[#070b14]/60 border border-white/5 rounded-3xl flex items-center justify-between hover:border-emerald-500/20 transition-all group/log">
+                                        <div key={i} className="rounded-xl border border-white/[0.06] bg-white/[0.025] p-4 flex items-center justify-between hover:border-emerald-200/20 transition-all group/log">
                                             <div className="space-y-1">
-                                                <p className="text-[11px] font-black text-white uppercase tracking-tight leading-none">{log.date}</p>
-                                                <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest leading-none">{log.time}</p>
+                                                <p className="text-sm font-medium text-slate-200">{log.date}</p>
+                                                <p className="mt-1 text-xs text-slate-400">{log.time}</p>
                                             </div>
                                             <div className="flex items-center gap-3">
                                                  <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
-                                                 <span className="text-[9px] font-black text-emerald-400 uppercase tracking-widest">MARKED</span>
+                                                 <span className="text-xs font-medium text-emerald-200">Marked</span>
                                             </div>
                                         </div>
                                     ))}
@@ -240,9 +240,9 @@ export default function StudentAttendancePage() {
                         )}
 
                         {locationError && (
-                            <div className="bg-rose-500/10 border-2 border-rose-500/20 rounded-[3rem] p-10 flex flex-col items-center gap-6 animate-pulse">
-                                <IconMapPinOff size={48} className="text-rose-500" />
-                                <p className="text-[10px] font-black text-rose-500 uppercase tracking-widest text-center">{locationError}</p>
+                            <div className="flex flex-col items-center gap-3 rounded-2xl border border-rose-200/15 bg-rose-300/[0.06] p-5">
+                                <IconMapPinOff size={24} className="text-rose-200" />
+                                <p className="text-sm text-rose-100 text-center">{locationError}</p>
                             </div>
                         )}
                     </div>

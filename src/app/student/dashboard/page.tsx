@@ -2,11 +2,10 @@
 import { API_URL } from "@/lib/api";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { 
-    IconCalendarEvent, IconUsers, IconBriefcase, IconFileText, 
-    IconCheck, IconUserCircle, IconArrowRight, IconBell,
-    IconClock, IconBooks, IconSmartHome, IconUserCheck,
-    IconSparkles, IconTarget, IconStar, IconChevronRight, IconSchool, IconPaperclip
+import {
+    IconCalendarEvent, IconBriefcase, IconFileText, IconBell,
+    IconClock, IconBooks, IconUserCheck, IconSparkles,
+    IconTarget, IconChevronRight, IconSchool, IconPaperclip, IconArrowUpRight
 } from "@tabler/icons-react";
 import Link from "next/link";
 
@@ -60,158 +59,59 @@ export default function StudentDashboard() {
     }, [user]);
 
     return (
-        <div className="min-h-screen bg-[#070b14] p-8 lg:p-10 font-sans text-slate-200">
-            <div className="max-w-7xl mx-auto space-y-10">
-                
-                <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pb-8 border-b border-white/5 relative text-left">
-                    <div className="absolute -top-10 -left-10 w-48 h-48 bg-indigo-600/10 blur-[100px] rounded-full"></div>
-                    <div className="space-y-2 relative z-10">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-full">
-                             <IconSparkles size={10} className="text-indigo-400" />
-                             <span className="text-[8px] font-black text-indigo-400 uppercase tracking-widest leading-none">Student Portal</span>
-                        </div>
-                        <h1 className="text-3xl font-black text-white tracking-tight uppercase leading-none">My Dashboard</h1>
-                        <p className="text-xs font-bold text-slate-500 leading-none">
-                            Welcome, <span className="text-indigo-400">{user?.name?.split(' ')[0]}</span> 👋 • Here's your study update.
-                        </p>
+        <main className="min-h-screen bg-[#07111d] p-5 font-sans text-slate-200 sm:p-7 xl:p-8">
+            <div className="mx-auto max-w-7xl space-y-6">
+                <header className="relative flex flex-col gap-5 overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-br from-[#102338] via-[#0d1b2b] to-[#10172a] p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+                    <div aria-hidden="true" className="pointer-events-none absolute -right-10 -top-24 h-72 w-72 rounded-full bg-cyan-400/10 blur-3xl" />
+                    <div className="relative min-w-0">
+                        <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-cyan-200/15 bg-cyan-200/[0.07] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-cyan-100"><IconSparkles size={13} /> Student workspace</div>
+                        <h1 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">Good to see you, {user?.name || "Student"}</h1>
+                        <p className="mt-2 text-sm text-slate-400">Your classes, academic progress, and campus updates at a glance.</p>
                     </div>
-                    
-                    <div className="flex items-center gap-4 bg-[#0f172a] p-3 px-6 rounded-[2rem] shadow-2xl border border-white/5 relative z-10 font-sans">
-                        <div className="w-12 h-12 rounded-2xl bg-[#070b14] text-indigo-400 flex items-center justify-center border border-white/5">
-                            <IconUserCircle size={28} stroke={1.5} />
-                        </div>
-                        <div className="text-left">
-                            <p className="text-[11px] font-black text-white uppercase tracking-[0.2em]">{user?.department || "BRANCH NOT ASSIGNED"}</p>
-                            <p className="text-[9px] text-slate-800 font-black uppercase tracking-[0.4em]">ROLL NO: {user?.rollNo || "N/A"}</p>
-                        </div>
-                    </div>
+                    <Link href="/student/profile" className="relative inline-flex min-h-11 shrink-0 items-center gap-3 rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-3 transition hover:border-cyan-100/20 hover:bg-white/[0.07]">
+                        <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-cyan-300/10 text-cyan-100"><IconSchool size={19} /></span>
+                        <span><span className="block text-sm font-semibold text-white">{user?.department || "Department not assigned"}</span><span className="mt-0.5 block text-xs text-slate-400">Semester {user?.semester || 1} <span className="px-1 text-slate-600">·</span> Roll no. {user?.rollNo || "N/A"}</span></span>
+                    </Link>
                 </header>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 font-sans">
+                <section aria-label="Academic overview" className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
                     {[
-                        { label: "ATTENDANCE", val: stats?.attendance || "0%", icon: IconUserCheck, color: "text-indigo-400", bg: "bg-indigo-500/10", desc: "PRESENCE RATE" },
-                        { label: "EXAM FORM", val: stats?.exams || "DONE", icon: IconFileText, color: "text-purple-400", bg: "bg-purple-500/10", desc: "CURRENT STATUS" },
-                        { label: "NEW JOBS", val: placements.length, icon: IconBriefcase, color: "text-emerald-400", bg: "bg-emerald-500/10", desc: "OPEN JOBS" },
-                        { label: "SEMESTER", val: user?.semester || 1, icon: IconSchool, color: "text-amber-400", bg: "bg-amber-500/10", desc: "CURRENT SECTIONS" },
-                    ].map((stat, i) => (
-                        <div key={i} className="group p-10 rounded-[3.5rem] bg-[#0f172a] border border-white/5 shadow-2xl hover:border-indigo-500/20 transition-all duration-700 cursor-default overflow-hidden relative">
-                            <div className={`w-14 h-14 rounded-2xl ${stat.bg} ${stat.color} flex items-center justify-center mb-10 group-hover:scale-110 transition-all duration-700 border border-white/5 shadow-2xl group-hover:bg-indigo-600 group-hover:text-white`}>
-                                <stat.icon size={28} stroke={1.5} />
+                        { title: "Attendance", value: stats?.attendance || "0%", label: "Your presence rate", icon: IconUserCheck, color: "text-cyan-200", bg: "bg-cyan-300/10", href: "/student/attendance" },
+                        { title: "Exam form", value: stats?.exams || "Done", label: "Current status", icon: IconFileText, color: "text-violet-200", bg: "bg-violet-300/10", href: "/student/exam_form" },
+                        { title: "New placements", value: placements.length, label: "Open opportunities", icon: IconBriefcase, color: "text-emerald-200", bg: "bg-emerald-300/10", href: "/student/placements" },
+                        { title: "Semester", value: user?.semester || 1, label: "Current semester", icon: IconSchool, color: "text-amber-200", bg: "bg-amber-300/10", href: "/student/timetable" },
+                    ].map((stat) => <Link key={stat.title} href={stat.href} className="group flex min-w-0 items-center gap-4 rounded-2xl border border-white/[0.08] bg-[#0c1a29] p-5 transition hover:border-cyan-100/20 hover:bg-[#102033]">
+                        <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${stat.bg} ${stat.color}`}><stat.icon size={21} stroke={1.8} /></div>
+                        <div className="min-w-0 flex-1"><p className="text-sm font-medium text-slate-400">{stat.title}</p><p className="mt-1 truncate text-2xl font-semibold tracking-tight text-white">{stat.value}</p><p className="mt-1 text-xs text-slate-500">{stat.label}</p></div>
+                        <IconArrowUpRight size={17} className="shrink-0 text-slate-600 transition group-hover:text-cyan-100" />
+                    </Link>)}
+                </section>
+
+                <div className="grid grid-cols-1 items-start gap-5 xl:grid-cols-[minmax(0,1.65fr)_minmax(19rem,1fr)]">
+                    <section className="min-w-0 overflow-hidden rounded-2xl border border-white/[0.08] bg-[#0c1a29]">
+                        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.07] px-5 py-4 sm:px-6"><div><h2 className="text-lg font-semibold text-white">Today&apos;s schedule</h2><p className="mt-1 text-xs text-slate-500">Your classes for today</p></div><Link href="/student/timetable" className="inline-flex items-center gap-1 rounded-lg px-3 py-2 text-xs font-semibold text-cyan-100 transition hover:bg-cyan-100/10">Open timetable <IconChevronRight size={15} /></Link></div>
+                        {timetable.length ? <div className="divide-y divide-white/[0.06] px-5 sm:px-6">{timetable.map((item, i) => <article key={i} className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between"><div className="flex min-w-0 items-center gap-3"><span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.07] bg-white/[0.035] text-cyan-100"><IconClock size={18} /></span><div className="min-w-0"><h3 className="truncate text-sm font-semibold text-white">{item.subject}</h3><p className="mt-1 truncate text-xs text-slate-500">{item.teacher} <span className="px-1 text-slate-700">·</span> Room {item.room}</p></div></div><span className="ml-[3.25rem] inline-flex w-fit rounded-lg border border-cyan-100/10 bg-cyan-100/[0.06] px-3 py-1.5 text-xs font-medium tabular-nums text-cyan-100 sm:ml-0">{item.time}</span></article>)}</div> : <div className="flex flex-col items-center justify-center px-5 py-12 text-center"><span className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-white/[0.04] text-slate-400"><IconCalendarEvent size={21} /></span><p className="text-sm font-medium text-slate-300">No classes scheduled today</p><p className="mt-1 text-xs text-slate-500">Your schedule will appear here when classes are listed.</p></div>}
+                    </section>
+
+                    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-1">
+                        <section className="rounded-2xl border border-white/[0.08] bg-[#0c1a29] p-5 sm:p-6">
+                            <div className="mb-4 flex items-center justify-between"><div><h2 className="text-base font-semibold text-white">Recent updates</h2><p className="mt-1 text-xs text-slate-500">Notices and request status</p></div><IconBell size={19} className="text-cyan-100" /></div>
+                            <div className="space-y-3">
+                                {recentLeave && <Link href="/student/gatepass" className="block rounded-xl border border-cyan-100/10 bg-cyan-100/[0.04] p-4 transition hover:border-cyan-100/20"><div className="flex items-center justify-between gap-2"><h3 className="text-sm font-medium text-slate-200">{recentLeave.type || "Leave request"}</h3><span className={`rounded-md px-2 py-1 text-[10px] font-semibold ${recentLeave.status === "Approved" ? "bg-emerald-300/10 text-emerald-200" : recentLeave.status === "Rejected" ? "bg-rose-300/10 text-rose-200" : "bg-amber-300/10 text-amber-200"}`}>{recentLeave.status}</span></div><p className="mt-1.5 truncate text-xs text-slate-400">{recentLeave.reason}</p></Link>}
+                                {notices.length > 0 ? notices.map((notice, i) => <article key={i} className="rounded-xl border border-white/[0.06] bg-white/[0.025] p-4"><div className="mb-2 flex items-start justify-between gap-2"><p className="text-[10px] font-semibold uppercase tracking-wider text-cyan-100">{notice.type || "Notice"}</p>{notice.pdfUrl && <IconPaperclip size={14} className="shrink-0 text-slate-500" />}</div><h3 className="text-sm font-medium text-slate-200">{notice.title}</h3><p className="mt-1.5 line-clamp-2 text-xs leading-relaxed text-slate-400">{notice.content}</p></article>) : !recentLeave && <p className="py-5 text-center text-sm text-slate-400">No recent updates</p>}
                             </div>
-                            <h4 className="text-[10px] font-black text-slate-800 uppercase tracking-[0.5em] mb-4 transition-colors group-hover:text-indigo-500 leading-none">{stat.label}</h4>
-                            <p className="text-4xl font-black text-white tracking-tighter mb-4 uppercase leading-none">{stat.val}</p>
-                            <p className="text-[9px] font-black text-slate-900 uppercase tracking-widest leading-none">{stat.desc}</p>
-                        </div>
-                    ))}
-                </div>
+                            <Link href="/student/notices" className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-white/10 px-4 py-2.5 text-xs font-semibold text-slate-300 transition hover:border-cyan-100/20 hover:bg-cyan-100/[0.05] hover:text-white">View all notices <IconChevronRight size={15} /></Link>
+                        </section>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-                    <div className="lg:col-span-8 bg-[#0f172a] p-12 rounded-[4rem] shadow-[0_40px_100px_rgba(0,0,0,0.6)] border border-white/5 relative overflow-hidden group">
-                         <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-600/5 blur-[150px] rounded-full"></div>
-                        <div className="flex justify-between items-center mb-12 relative z-10">
-                            <div className="text-left space-y-4">
-                                <h3 className="text-3xl font-black text-white tracking-tight uppercase leading-none">Today's schedule</h3>
-                                <p className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-800 leading-none">Your classes for today</p>
-                            </div>
-                            <Link href="/student/timetable" className="flex items-center gap-4 px-8 py-4 bg-[#070b14] text-indigo-400 border border-white/5 rounded-[2rem] font-black text-[10px] uppercase tracking-[0.3em] hover:bg-indigo-600 hover:text-white transition-all shadow-2xl active:scale-95 group/btn">
-                                VIEW ALL <IconChevronRight size={16} stroke={3} className="transition-transform group-hover/btn:translate-x-1" />
-                            </Link>
-                        </div>
-
-                        {timetable.length > 0 ? (
-                            <div className="space-y-6 relative z-10 max-h-[500px] overflow-y-auto pr-4 custom-scrollbar">
-                                {timetable.map((item, i) => (
-                                    <div key={i} className="flex items-center justify-between p-8 bg-[#070b14]/50 rounded-[2.5rem] border border-white/5 hover:border-indigo-500/20 hover:bg-[#070b14] transition-all duration-500 group/item cursor-pointer text-left">
-                                        <div className="flex items-center gap-8">
-                                            <div className="w-16 h-16 rounded-[2rem] bg-[#0f172a] border border-white/5 flex items-center justify-center text-slate-900 group-hover/item:bg-indigo-600 group-hover/item:text-white transition-all duration-700 shadow-2xl">
-                                                <IconClock size={32} stroke={1.5} />
-                                            </div>
-                                            <div className="text-left space-y-3">
-                                                <h4 className="text-white font-black uppercase text-xl tracking-tight leading-none">{item.subject}</h4>
-                                                <p className="text-slate-800 text-[10px] font-black uppercase tracking-[0.4em] leading-none">{item.teacher} • Room {item.room}</p>
-                                            </div>
-                                        </div>
-                                        <div className="text-right">
-                                            <p className="font-black text-indigo-400 text-[12px] uppercase tracking-widest">{item.time}</p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        ) : (
-                            <div className="flex-1 flex flex-col items-center justify-center py-32 bg-[#070b14]/40 rounded-[3rem] border-2 border-dashed border-white/5">
-                                <IconCalendarEvent size={72} stroke={0.5} className="text-slate-900 mb-8" />
-                                <p className="text-[10px] font-black text-slate-800 uppercase tracking-[0.5em]">NO CLASSES SCHEDULED TODAY</p>
-                             </div>
-                        )}
-                    </div>
-
-                    <div className="lg:col-span-4 space-y-10">
-                        <div className="bg-[#0f172a] p-12 rounded-[4rem] shadow-2xl border border-white/5 relative overflow-hidden group">
-                            <div className="relative z-10 space-y-12">
-                                <div className="flex justify-between items-center">
-                                    <h3 className="text-2xl font-black text-white tracking-tight uppercase">Latest News</h3>
-                                    <IconBell size={24} className="text-amber-500" />
-                                </div>
-                                
-                                {recentLeave && (
-                                    <div className="p-8 bg-indigo-500/10 border border-indigo-500/20 rounded-[3rem] relative overflow-hidden group/leave">
-                                         <div className="flex items-center justify-between mb-4">
-                                              <span className="text-[9px] font-black text-indigo-400 uppercase tracking-widest">Active Verification Node</span>
-                                              <span className={`px-4 py-1.5 rounded-full text-[8px] font-black uppercase tracking-widest border ${
-                                                  recentLeave.status === 'Approved' ? 'bg-emerald-500/20 border-emerald-400/30 text-emerald-400' :
-                                                  recentLeave.status === 'Rejected' ? 'bg-rose-500/20 border-rose-400/30 text-rose-400' :
-                                                  'bg-amber-500/20 border-amber-400/30 text-amber-500'
-                                              }`}>
-                                                  {recentLeave.status}
-                                              </span>
-                                         </div>
-                                         <h4 className="text-sm font-black text-white uppercase tracking-tight mb-2 leading-none">{recentLeave.type}</h4>
-                                         <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest leading-none truncate pr-4">{recentLeave.reason}</p>
-                                         <Link href="/student/gatepass" className="absolute top-0 right-0 p-4 opacity-0 group-hover/leave:opacity-100 transition-opacity">
-                                              <IconChevronRight size={16} />
-                                         </Link>
-                                    </div>
-                                )}
-                                
-                                <div className="space-y-6">
-                                    {notices.length > 0 ? notices.map((notice, i) => (
-                                        <div key={i} className="p-8 bg-[#070b14]/60 border border-white/5 rounded-[2.5rem] hover:border-indigo-500/20 transition-all duration-500 cursor-default text-left relative overflow-hidden">
-                                            <div className="flex justify-between items-start mb-4">
-                                                <p className="text-[9px] font-black text-indigo-500 uppercase tracking-[0.4em]">{notice.type}</p>
-                                                {notice.pdfUrl && <IconPaperclip size={14} className="text-slate-600" />}
-                                            </div>
-                                            <h4 className="font-black text-white text-[13px] leading-tight mb-4 tracking-tight uppercase">{notice.title}</h4>
-                                            <p className="text-[11px] text-slate-800 font-bold leading-relaxed line-clamp-2 uppercase">{notice.content}</p>
-                                        </div>
-                                    )) : (
-                                        <p className="text-[10px] font-black text-slate-800 text-center uppercase py-8">No notices today</p>
-                                    )}
-                                </div>
-
-                                <Link href="/student/notices" className="w-full py-6 bg-indigo-600 text-white rounded-[2.5rem] text-[11px] font-black uppercase tracking-[0.5em] hover:bg-indigo-500 transition-all shadow-[0_20px_40px_rgba(79,70,229,0.3)] flex items-center justify-center gap-4">
-                                     READ ALL <IconChevronRight size={18} stroke={4} />
-                                </Link>
-                            </div>
-                        </div>
-
-                        <div className="bg-[#0f172a] p-12 rounded-[4rem] shadow-2xl border border-white/5 relative overflow-hidden group">
-                             <div className="grid grid-cols-2 gap-6 relative z-10">
-                                 {[
-                                     { label: "EXAM FORM", href: "/student/exam_form", icon: IconFileText, color: "text-blue-400" },
-                                     { label: "OLD PAPERS", href: "/student/pyqs", icon: IconBooks, color: "text-amber-400" },
-                                     { label: "STUDY NOTES", href: "/student/notes", icon: IconFileText, color: "text-indigo-400" },
-                                     { label: "LEAVE", href: "/student/gatepass", icon: IconTarget, color: "text-rose-400" },
-                                 ].map((btn, i) => (
-                                     <Link key={i} href={btn.href} className="flex flex-col items-center gap-6 p-8 bg-[#070b14]/80 rounded-[3rem] hover:bg-indigo-600 transition-all duration-700 border border-white/5 shadow-2xl group/link">
-                                         <btn.icon size={28} className={`${btn.color} group-hover/link:text-white transition-all`} stroke={1.5} />
-                                         <span className="text-[10px] font-black text-slate-800 uppercase tracking-[0.2em] group-hover/link:text-white text-center leading-none transition-colors">{btn.label}</span>
-                                     </Link>
-                                 ))}
-                             </div>
-                        </div>
+                        <section className="rounded-2xl border border-white/[0.08] bg-[#0c1a29] p-5 sm:p-6"><div className="mb-4"><h2 className="text-base font-semibold text-white">Quick access</h2><p className="mt-1 text-xs text-slate-500">Frequently used student tools</p></div><div className="grid grid-cols-2 gap-2.5">{[
+                            { label: "Exam form", href: "/student/exam_form", icon: IconFileText, color: "text-blue-200" },
+                            { label: "Past papers", href: "/student/pyqs", icon: IconBooks, color: "text-amber-200" },
+                            { label: "Study notes", href: "/student/notes", icon: IconFileText, color: "text-violet-200" },
+                            { label: "Leave request", href: "/student/gatepass", icon: IconTarget, color: "text-rose-200" },
+                        ].map((tool) => <Link key={tool.label} href={tool.href} className="flex min-h-20 flex-col justify-between rounded-xl border border-white/[0.06] bg-white/[0.025] p-3 transition hover:border-cyan-100/20 hover:bg-cyan-100/[0.05]"><tool.icon size={18} className={tool.color} /><span className="text-xs font-medium text-slate-300">{tool.label}</span></Link>)}</div></section>
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
     );
 }

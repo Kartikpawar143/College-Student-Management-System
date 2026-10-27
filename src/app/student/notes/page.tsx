@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { api, endpoints, API_URL } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
-import { 
-    IconFileDescription, IconSearch, IconFileDownload, 
+import {
+    IconFileDescription, IconSearch, IconFileDownload,
     IconBook, IconChevronRight, IconFilter, IconLoader2
 } from "@tabler/icons-react";
 
@@ -18,8 +18,8 @@ export default function StudentNotesPage() {
         try {
             const branch = user?.department || "";
             const res = await api.get(`${endpoints.documents.getAll("note")}${branch ? `&branch=${branch}` : ""}`);
-            
-            const filtered = user?.department 
+
+            const filtered = user?.department
                 ? res.data.filter((f: any) => {
                     const studentDept = user.department?.trim().toUpperCase() || "";
                     const noteDept = f.branch?.trim().toUpperCase() || "";
@@ -39,121 +39,114 @@ export default function StudentNotesPage() {
     }, [user]);
 
     const filteredFiles = files.filter(file => {
-        const matchesSearch = file.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+        const matchesSearch = file.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                                file.subject.toLowerCase().includes(searchTerm.toLowerCase());
         const matchesSem = selectedSemester === "all" || file.semester.toString() === selectedSemester;
         return matchesSearch && matchesSem;
     });
 
     return (
-        <main className="min-h-screen bg-[#070b14] p-8 lg:p-10 font-sans text-slate-200">
-            <div className="max-w-7xl mx-auto space-y-12">
-                <header className="flex flex-col md:flex-row md:items-center justify-between gap-8 pb-10 border-b border-white/5 relative">
-                    <div className="absolute -top-10 -left-10 w-48 h-48 bg-indigo-600/10 blur-[100px] rounded-full"></div>
-                    <div className="space-y-4 relative z-10">
-                         <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-indigo-500/10 border border-indigo-500/20 rounded-full">
-                              <IconBook size={12} className="text-indigo-400" />
-                              <span className="text-[9px] font-black text-indigo-400 uppercase tracking-widest leading-none">Study Materials</span>
+        <main className="min-h-screen bg-[#07111d] p-5 font-sans text-slate-200 sm:p-7 xl:p-8">
+            <div className="mx-auto max-w-7xl space-y-6">
+                <header className="relative overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-br from-[#102338] via-[#0d1b2b] to-[#10172a] p-6 sm:p-8">
+                    <div aria-hidden="true" className="pointer-events-none absolute -right-10 -top-24 h-72 w-72 rounded-full bg-cyan-400/10 blur-3xl" />
+                    <div className="relative z-10">
+                         <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-cyan-200/15 bg-cyan-200/[0.07] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-cyan-100">
+                              <IconBook size={13} /> Study materials
                          </div>
-                        <h2 className="text-4xl font-black text-white tracking-tight uppercase leading-none">Study Notes</h2>
-                        <p className="text-sm font-bold text-slate-500 leading-none">Download and read study notes shared by your teachers for your subjects.</p>
+                        <h1 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">Study notes</h1>
+                        <p className="mt-2 text-sm text-slate-400">Notes shared by your teachers for your subjects.</p>
                     </div>
                 </header>
 
-                <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
+                <div className="grid grid-cols-1 gap-5 lg:grid-cols-12">
                     {/* Filters Column */}
-                    <div className="lg:col-span-1 space-y-10">
-                        <div className="bg-[#0f172a] rounded-[3.5rem] p-12 border border-white/5 shadow-2xl relative overflow-hidden group">
-                             <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-600/5 rounded-bl-[5rem] translate-x-12 -translate-y-12"></div>
-                             <h4 className="text-[11px] font-black text-slate-700 uppercase tracking-[0.4em] mb-12 flex items-center justify-between uppercase tracking-widest leading-none">
+                    <div className="lg:col-span-3">
+                        <section className="rounded-2xl border border-white/[0.08] bg-[#0c1a29] p-5 relative overflow-hidden">
+                             <h2 className="mb-4 flex items-center justify-between text-sm font-semibold text-white">
                                  Select Semester
-                                 <IconFilter size={18} />
-                             </h4>
-                             <div className="space-y-3 font-black tracking-widest uppercase">
+                                 <IconFilter size={17} className="text-cyan-100" />
+                             </h2>
+                             <div className="grid grid-cols-2 gap-2 lg:grid-cols-1">
                                 {["all", "1", "2", "3", "4", "5", "6", "7", "8"].map(sem => (
-                                    <button 
+                                    <button
                                         key={sem}
                                         onClick={() => setSelectedSemester(sem)}
-                                        className={`w-full text-left px-8 py-5 rounded-[2rem] text-[10px] uppercase tracking-[0.2em] transition-all duration-500 border-2 ${
-                                            selectedSemester === sem 
-                                            ? 'bg-indigo-600 border-indigo-600 text-white shadow-[0_20px_40px_rgba(79,70,229,0.3)]' 
-                                            : 'bg-[#070b14]/40 text-slate-700 border-white/5 hover:border-indigo-500/30 hover:bg-[#070b14]/80'
+                                        className={`w-full rounded-xl border px-3 py-2.5 text-left text-xs font-medium transition ${
+                                            selectedSemester === sem
+                                            ? 'border-cyan-100/20 bg-cyan-100/[0.08] text-cyan-100'
+                                            : 'border-white/[0.06] bg-white/[0.025] text-slate-400 hover:border-cyan-100/20 hover:text-white'
                                         }`}
                                     >
                                         {sem === "all" ? "All Semesters" : `Semester ${sem}`}
                                     </button>
                                 ))}
                              </div>
-                        </div>
+                        </section>
                     </div>
 
                     {/* Main Content Column */}
-                    <div className="lg:col-span-3 space-y-10">
+                    <div className="space-y-5 lg:col-span-9">
                          <div className="relative group w-full">
-                            <IconSearch className="absolute left-8 top-1/2 -translate-y-1/2 text-slate-800 group-focus-within:text-indigo-500 transition-colors" size={24} />
-                            <input 
-                                type="text" 
-                                placeholder="SEARCH NOTES..." 
-                                className="w-full bg-[#0f172a] border border-white/5 rounded-[3rem] pl-20 pr-10 py-7 text-[11px] font-black uppercase tracking-[0.3em] outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all font-sans placeholder:text-slate-900"
+                            <IconSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-cyan-100 transition-colors" size={17} />
+                            <input
+                                type="text"
+                                placeholder="Search notes"
+                                aria-label="Search notes"
+                                className="w-full rounded-xl border border-white/10 bg-[#0c1a29] py-3 pl-10 pr-3 text-sm text-white placeholder:text-slate-500 focus:border-cyan-100/30 focus:outline-none focus:ring-2 focus:ring-cyan-100/10"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
 
-                        <div className="bg-[#0f172a] rounded-[4rem] border border-white/5 shadow-2xl overflow-hidden min-h-[600px] flex flex-col relative">
-                             <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-600/5 blur-[120px] rounded-full"></div>
-                            <div className="p-10 border-b border-white/5 flex items-center justify-between bg-white/2 relative z-10 uppercase tracking-widest uppercase font-black">
-                                 <h3 className="text-[11px] font-black text-slate-700 flex items-center gap-4 uppercase tracking-[0.4em]">
-                                    <IconFileDescription size={20} className="text-indigo-500" /> ALL NOTES ({filteredFiles.length})
-                                </h3>
+                        <section className="overflow-hidden rounded-2xl border border-white/[0.08] bg-[#0c1a29] min-h-[360px] flex flex-col relative">
+                            <div className="flex items-center justify-between gap-3 border-b border-white/[0.07] bg-white/[0.02] p-4 sm:px-5">
+                                 <h2 className="flex items-center gap-2 text-sm font-semibold text-white">
+                                    <IconFileDescription size={17} className="text-cyan-100" /> Study notes
+                                </h2>
+                                <span className="text-xs text-slate-400">{filteredFiles.length} files</span>
                             </div>
 
-                            <div className="divide-y divide-white/5 font-sans relative z-10">
+                            <div className="divide-y divide-white/[0.06] font-sans relative z-10">
                                 {loading ? (
-                                    <div className="py-48 text-center flex flex-col items-center gap-8">
-                                        <div className="p-8 bg-[#070b14] rounded-full border border-white/5 shadow-2xl">
-                                            <IconLoader2 size={44} className="animate-spin text-indigo-500" stroke={1.5} />
-                                        </div>
-                                        <p className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-800">Loading notes...</p>
+                                    <div className="flex flex-col items-center gap-3 px-5 py-14 text-center">
+                                        <IconLoader2 size={24} className="animate-spin text-cyan-100" stroke={1.5} />
+                                        <p className="text-sm text-slate-400">Loading notes…</p>
                                     </div>
                                 ) : filteredFiles.length > 0 ? (
                                     filteredFiles.map((file) => (
-                                        <div key={file._id} className="p-12 group hover:bg-white/5 transition-all duration-500 flex flex-col md:flex-row items-center justify-between gap-12 cursor-default">
-                                            <div className="flex items-center gap-10 w-full md:w-auto">
-                                                <div className="w-20 h-20 rounded-[2.5rem] bg-[#070b14] text-indigo-500 flex items-center justify-center border border-white/5 group-hover:scale-110 group-hover:rotate-6 transition-all duration-700 shadow-2xl group-hover:text-white group-hover:bg-indigo-600 group-hover:border-indigo-600">
-                                                    <IconFileDescription size={40} stroke={1.5} />
+                                        <article key={file._id} className="group flex flex-col items-start justify-between gap-4 p-5 transition hover:bg-white/[0.02] sm:flex-row sm:items-center sm:p-6">
+                                            <div className="flex min-w-0 items-start gap-3">
+                                                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/[0.07] bg-cyan-300/10 text-cyan-100">
+                                                    <IconFileDescription size={20} />
                                                 </div>
-                                                <div className="space-y-4 uppercase tracking-tighter">
-                                                    <h4 className="text-2xl font-black text-white group-hover:text-indigo-400 transition-colors uppercase leading-none">{file.title}</h4>
-                                                    <div className="flex flex-wrap items-center gap-8">
-                                                        <span className="text-[10px] font-black text-slate-700 tracking-[0.2em] group-hover:text-slate-400 transition-colors">{file.subject}</span>
-                                                        <span className="text-[10px] font-black text-slate-800 tracking-[0.2em]">SEM {file.semester}</span>
-                                                        <span className="text-[10px] font-black text-slate-800 tracking-[0.2em]">TEACHER: {file.uploaderName}</span>
+                                                <div className="min-w-0">
+                                                    <h3 className="break-words text-sm font-semibold text-white transition-colors group-hover:text-cyan-100">{file.title}</h3>
+                                                    <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-slate-400">
+                                                        <span className="rounded-md border border-cyan-100/10 bg-cyan-100/[0.06] px-2 py-1 text-cyan-100">{file.subject}</span>
+                                                        <span className="rounded-md border border-white/[0.07] bg-white/[0.025] px-2 py-1">Semester {file.semester}</span>
+                                                        <span>{file.uploaderName}</span>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <a 
+                                            <a
                                                 href={`${API_URL}/public${file.filePath}`}
                                                 target="_blank"
-                                                className="w-full md:w-auto bg-indigo-600 text-white rounded-[2.5rem] px-14 py-6 text-[11px] font-black uppercase tracking-[0.4em] hover:bg-indigo-500 transition-all shadow-[0_20px_40px_rgba(79,70,229,0.3)] active:scale-95 flex items-center justify-center gap-4 group-hover:shadow-indigo-500/40"
+                                                className="inline-flex min-h-10 w-full shrink-0 items-center justify-center gap-2 rounded-xl bg-cyan-200 px-4 py-2.5 text-sm font-semibold text-[#07111d] transition hover:bg-cyan-100 sm:w-auto"
                                             >
-                                                DOWNLOAD <IconFileDownload size={22} stroke={2.5} />
+                                                Download <IconFileDownload size={17} />
                                             </a>
-                                        </div>
+                                        </article>
                                     ))
                                 ) : (
-                                    <div className="py-60 text-center space-y-10 flex flex-col items-center justify-center group">
-                                         <div className="p-12 bg-[#070b14] rounded-[3.5rem] border border-white/5 shadow-2xl group-hover:scale-110 transition-all duration-700">
-                                            <IconBook size={80} stroke={1} className="text-slate-800" />
-                                        </div>
-                                        <div className="space-y-4">
-                                            <p className="text-xl font-black text-slate-800 uppercase tracking-[0.5em]">No Notes Found</p>
-                                            <p className="text-[10px] font-black text-slate-900 uppercase tracking-widest">We couldn't find any notes for your search.</p>
-                                        </div>
+                                    <div className="flex flex-col items-center px-5 py-14 text-center">
+                                        <span className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/[0.04] text-slate-400"><IconBook size={22} /></span>
+                                        <p className="text-sm font-semibold text-slate-200">No notes found</p>
+                                        <p className="mt-1 text-xs text-slate-500">Try another search or semester.</p>
                                     </div>
                                 )}
                             </div>
-                        </div>
+                        </section>
                     </div>
                 </div>
             </div>

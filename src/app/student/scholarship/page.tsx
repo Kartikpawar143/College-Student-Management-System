@@ -46,23 +46,23 @@ export default function StudentScholarshipPage() {
 
     if (submitted) {
         return (
-            <main className="min-h-screen bg-[#070b14] flex items-center justify-center p-8 font-sans">
-                <div className="bg-[#0f172a] p-20 rounded-[4rem] text-center shadow-[0_40px_100px_rgba(0,0,0,0.6)] space-y-10 animate-in zoom-in-95 max-w-2xl border border-white/5 relative overflow-hidden group">
-                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-transparent to-emerald-500/10"></div>
-                    <div className="w-28 h-28 bg-[#070b14] text-emerald-500 rounded-[3rem] flex items-center justify-center mx-auto shadow-2xl border border-white/5 group-hover:scale-110 group-hover:rotate-6 transition-all duration-700 group-hover:bg-emerald-600 group-hover:text-white group-hover:border-emerald-600">
-                        <IconCheck size={56} stroke={2} />
+            <main className="min-h-screen bg-[#07111d] flex items-center justify-center p-5 font-sans sm:p-7">
+                <div className="relative w-full max-w-2xl overflow-hidden rounded-3xl border border-white/[0.08] bg-[#0c1a29] p-6 text-center shadow-2xl animate-in zoom-in-95 sm:p-10">
+                    <div aria-hidden="true" className="pointer-events-none absolute -right-10 -top-20 h-64 w-64 rounded-full bg-emerald-300/[0.06] blur-3xl"></div>
+                    <div className="relative z-10 mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-emerald-200/10 bg-emerald-300/10 text-emerald-100">
+                        <IconCheck size={26} />
                     </div>
-                    <div className="space-y-6 relative z-10">
-                        <h3 className="text-4xl font-black text-white tracking-tighter uppercase leading-none">Application Submitted</h3>
-                        <p className="text-[11px] font-black text-slate-700 tracking-[0.3em] uppercase leading-relaxed px-12">
+                    <div className="relative z-10 mt-5 space-y-2">
+                        <h3 className="text-xl font-semibold text-white">Application submitted</h3>
+                        <p className="text-sm leading-relaxed text-slate-400">
                             Your scholarship request has been successfully sent to the college office for review.
                         </p>
                     </div>
                     <button 
                         onClick={() => setSubmitted(false)}
-                        className="px-12 py-5 bg-[#070b14] text-slate-600 rounded-[2rem] text-[10px] font-black uppercase tracking-[0.4em] border border-white/5 hover:bg-white/5 hover:text-white transition-all shadow-2xl active:scale-95 relative z-10"
+                        className="relative z-10 mt-6 rounded-xl border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-slate-200 transition hover:border-cyan-100/20 hover:bg-cyan-100/[0.05] active:scale-[0.99]"
                     >
-                        GO BACK
+                        Back to scholarships
                     </button>
                 </div>
             </main>
@@ -70,75 +70,72 @@ export default function StudentScholarshipPage() {
     }
 
     return (
-        <main className="min-h-screen bg-[#070b14] p-8 lg:p-10 font-sans text-slate-200">
-            <div className="max-w-7xl mx-auto space-y-12">
-                <header className="flex flex-col md:flex-row md:items-center justify-between gap-8 pb-10 border-b border-white/5 relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-600/5 blur-[120px] rounded-full"></div>
-                    <div className="space-y-4">
-                        <h2 className="text-4xl font-black text-white tracking-tight uppercase leading-none">Scholarship Hub</h2>
-                        <p className="text-sm font-bold text-slate-500 leading-none uppercase tracking-widest">Apply for scholarships and view your grant status.</p>
+        <main className="min-h-screen bg-[#07111d] p-5 font-sans text-slate-200 sm:p-7 xl:p-8">
+            <div className="mx-auto max-w-7xl space-y-6">
+                <header className="relative flex flex-col gap-5 overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-br from-[#102338] via-[#0d1b2b] to-[#10172a] p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+                    <div aria-hidden="true" className="pointer-events-none absolute -right-10 -top-24 h-72 w-72 rounded-full bg-cyan-400/10 blur-3xl" />
+                    <div className="relative z-10">
+                        <span className="inline-flex items-center gap-2 rounded-full border border-cyan-200/15 bg-cyan-200/[0.07] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-cyan-100"><IconCertificate size={13} /> Financial assistance</span>
+                        <h1 className="mt-3 text-2xl font-semibold tracking-tight text-white sm:text-3xl">Scholarships</h1>
+                        <p className="mt-2 text-sm text-slate-400">Apply for financial assistance and review eligibility details.</p>
                     </div>
                     <div className="flex items-center gap-6 relative z-10">
-                        <span className="px-8 py-4 bg-[#0f172a] text-indigo-400 rounded-2xl text-[10px] font-black uppercase tracking-[0.4em] border border-white/5 font-sans shadow-2xl">
-                            CYCLE 2024-V
+                        <span className="relative z-10 inline-flex min-h-11 items-center rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-2.5 text-sm font-medium text-slate-300 font-sans">
+                            Scholarship cycle
                         </span>
                     </div>
                 </header>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 font-sans tracking-tight">
+                <div className="grid grid-cols-1 items-start gap-5 font-sans xl:grid-cols-[minmax(19rem,0.8fr)_minmax(0,1.6fr)]">
                     {/* Guidelines Column */}
-                    <div className="lg:col-span-4 space-y-10">
-                        <div className="bg-[#0f172a] rounded-[4rem] p-12 text-white shadow-2xl relative overflow-hidden group border border-white/5">
-                            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-transparent to-rose-500/5 opacity-50"></div>
-                            <h3 className="text-[11px] font-black tracking-[0.5em] uppercase mb-12 text-slate-700 relative z-10 font-sans">
-                                ELIGIBILITY CRITERIA
-                            </h3>
+                    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-1">
+                        <section className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-[#0c1a29] p-5 text-white sm:p-6">
+                            <h2 className="relative z-10 mb-4 text-base font-semibold text-white">
+                                Eligibility criteria
+                            </h2>
                             
-                            <div className="space-y-12 relative z-10 font-sans uppercase">
-                                 <div className="p-10 bg-[#070b14]/50 border border-white/5 rounded-[2.5rem] space-y-6 shadow-inner group-hover:border-indigo-500/20 transition-all duration-700">
-                                     <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-[0.4em]">
-                                          <span className="text-slate-700 group-hover:text-indigo-500 transition-colors">Minimum CGPA Required</span>
-                                          <span className="text-3xl font-black text-white group-hover:text-indigo-400 transition-all">8.0</span>
+                            <div className="relative z-10 space-y-3 font-sans">
+                                 <div className="rounded-xl border border-white/[0.06] bg-white/[0.025] p-4 space-y-3">
+                                     <div className="flex items-center justify-between gap-3">
+                                          <span className="text-sm text-slate-300">Minimum CGPA required</span>
+                                          <span className="text-lg font-semibold text-cyan-100">8.0</span>
                                      </div>
-                                     <div className="h-2 bg-[#070b14] rounded-full overflow-hidden border border-white/5 shadow-inner p-0.5">
-                                         <div className="h-full bg-indigo-500 w-[80%] rounded-full shadow-[0_0_20px_rgba(79,70,229,0.5)] group-hover:w-[85%] transition-all duration-1000"></div>
+                                     <div className="h-2 overflow-hidden rounded-full bg-white/[0.06]">
+                                         <div className="h-full w-[80%] rounded-full bg-cyan-200"></div>
                                      </div>
                                  </div>
 
-                                 <div className="space-y-4 px-4">
-                                     <p className="text-[10px] font-black text-slate-900 leading-relaxed uppercase tracking-[0.3em] font-sans">
+                                 <div>
+                                     <p className="text-sm leading-relaxed text-slate-400 font-sans">
                                          Scholarships depend on your college grades and family income certificates.
                                      </p>
                                  </div>
                             </div>
-                        </div>
+                        </section>
 
-                        <div className="bg-[#0f172a] rounded-[4rem] border border-white/5 p-12 shadow-2xl flex flex-col items-center text-center space-y-10 group transition-all duration-700 hover:bg-white/5 cursor-default relative overflow-hidden">
-                            <div className="absolute top-0 left-0 w-24 h-24 bg-emerald-600/5 blur-2xl"></div>
-                            <div className="w-24 h-24 rounded-[3rem] bg-[#070b14] text-emerald-500 flex items-center justify-center border border-white/5 shadow-inner group-hover:scale-110 group-hover:rotate-12 transition-all duration-700 group-hover:bg-emerald-600 group-hover:text-white group-hover:border-emerald-600 group-hover:shadow-[0_20px_40px_rgba(16,185,129,0.3)]">
-                                <IconHistory size={48} stroke={1.5} />
+                        <section className="rounded-2xl border border-white/[0.08] bg-[#0c1a29] p-5 sm:p-6">
+                            <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-300/10 text-emerald-100">
+                                <IconHistory size={21} />
                             </div>
-                            <div className="space-y-4 px-4 uppercase font-sans">
-                                <h4 className="text-[11px] font-black uppercase tracking-[0.5em] text-slate-700 group-hover:text-white transition-colors leading-none">PAST APPLICATIONS</h4>
-                                <p className="text-[10px] text-slate-900 font-black leading-relaxed tracking-widest uppercase">Check the status of your previous scholarship forms.</p>
+                            <div className="font-sans">
+                                <h2 className="text-sm font-semibold text-white">Past applications</h2>
+                                <p className="mt-1 text-xs leading-relaxed text-slate-400">Check the status of your previous scholarship forms.</p>
                             </div>
-                            <button className="w-full py-6 bg-[#070b14] text-slate-800 rounded-[2rem] text-[10px] font-black uppercase tracking-[0.4em] border border-white/5 hover:bg-white/5 hover:text-white transition-all shadow-2xl active:scale-95 font-sans">
-                                VIEW HISTORY
+                            <button className="mt-4 inline-flex min-h-10 w-full items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2.5 text-sm font-medium text-slate-300 transition hover:border-cyan-100/20 hover:text-white font-sans">
+                                View history
                             </button>
-                        </div>
+                        </section>
                     </div>
 
                     {/* Main Form Column */}
-                    <form onSubmit={handleSubmit} className="lg:col-span-8 bg-[#0f172a] rounded-[5rem] border border-white/5 p-16 shadow-[0_40px_100px_rgba(0,0,0,0.6)] space-y-16 relative overflow-hidden group">
-                         <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-indigo-600/5 blur-[150px] rounded-full -translate-y-1/2 translate-x-1/2"></div>
-                         <div className="space-y-12 relative z-10">
-                             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 font-sans">
-                                 <div className="space-y-4">
-                                     <label className="text-[10px] font-black text-slate-700 uppercase tracking-[0.5em] ml-8 flex items-center gap-3">
-                                         <span className="w-2 h-2 bg-indigo-500 rounded-full"></span> Select Scholarship Type
-                                     </label>
+                    <form onSubmit={handleSubmit} className="relative space-y-5 overflow-hidden rounded-2xl border border-white/[0.08] bg-[#0c1a29] p-5 sm:p-6">
+                         <div aria-hidden="true" className="pointer-events-none absolute -right-10 -top-20 h-64 w-64 rounded-full bg-cyan-300/[0.04] blur-3xl"></div>
+                         <div className="relative z-10 space-y-5">
+                             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 font-sans">
+                                 <div className="space-y-2">
+                                     <label className="text-sm font-medium text-slate-300">Scholarship type</label>
                                      <select 
-                                        className="w-full bg-[#070b14] border border-white/5 rounded-[2.5rem] px-12 py-7 text-[11px] font-black text-white hover:text-indigo-400 outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all appearance-none cursor-pointer uppercase tracking-[0.2em] shadow-inner"
+                                        className="w-full rounded-xl border border-white/10 bg-[#081522] px-4 py-3 text-sm text-white outline-none transition focus:border-cyan-100/30 focus:ring-2 focus:ring-cyan-100/10 appearance-none cursor-pointer"
                                         value={formData.scholarshipType}
                                         onChange={(e) => setFormData({...formData, scholarshipType: e.target.value})}
                                      >
@@ -149,52 +146,49 @@ export default function StudentScholarshipPage() {
                                      </select>
                                  </div>
 
-                                 <div className="space-y-4">
-                                     <label className="text-[10px] font-black text-slate-700 uppercase tracking-[0.5em] ml-8 flex items-center gap-3">
-                                         <span className="w-2 h-2 bg-rose-500 rounded-full"></span> Annual Family Income
-                                     </label>
+                                 <div className="space-y-2">
+                                     <label className="text-sm font-medium text-slate-300">Annual family income</label>
                                      <input 
                                         required
                                         type="text"
-                                        placeholder="EX: 1,50,000"
-                                        className="w-full bg-[#070b14] border border-white/5 rounded-[2.5rem] px-12 py-7 text-[11px] font-black text-white outline-none focus:ring-4 focus:ring-rose-500/10 transition-all uppercase tracking-[0.2em] shadow-inner placeholder:text-slate-900"
+                                        placeholder="Example: 150000"
+                                        className="w-full rounded-xl border border-white/10 bg-[#081522] px-4 py-3 text-sm text-white placeholder:text-slate-500 outline-none transition focus:border-cyan-100/30 focus:ring-2 focus:ring-cyan-100/10"
                                         value={formData.income}
                                         onChange={(e) => setFormData({...formData, income: e.target.value})}
                                      />
                                  </div>
                              </div>
 
-                             <div className="p-12 bg-[#070b14]/80 rounded-[4rem] text-white space-y-12 relative overflow-hidden font-sans border border-white/5 group/docs shadow-2xl">
-                                 <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-600/5 rounded-full blur-2xl"></div>
-                                 <div className="flex items-center gap-8 relative z-10">
-                                     <div className="w-20 h-20 bg-[#0f172a] text-indigo-500 rounded-[2rem] flex items-center justify-center shadow-2xl border border-white/5 transition-all duration-700 group-hover/docs:scale-110 group-hover/docs:rotate-12 group-hover/docs:bg-indigo-600 group-hover/docs:text-white group-hover/docs:border-indigo-600 shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
-                                         <IconFileUpload size={40} stroke={1.5} />
+                             <div className="relative overflow-hidden rounded-xl border border-white/[0.07] bg-white/[0.025] p-4 text-white font-sans">
+                                 <div className="relative z-10 flex items-center gap-3">
+                                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-300/10 text-cyan-100">
+                                         <IconFileUpload size={19} />
                                      </div>
-                                     <div className="space-y-2 uppercase font-sans">
-                                         <h4 className="text-2xl font-black tracking-tighter uppercase leading-none">Required Documents</h4>
-                                         <p className="text-[10px] font-black text-slate-700 tracking-[0.4em] leading-none uppercase">Please upload your income and ID certificates</p>
+                                     <div className="space-y-1 font-sans">
+                                         <h2 className="text-sm font-semibold">Required documents</h2>
+                                         <p className="text-xs text-slate-400">Income and identity certificates are linked.</p>
                                      </div>
                                  </div>
                                  
-                                 <div className="flex gap-6 relative z-10 font-black uppercase tracking-[0.4em] text-[10px]">
-                                     <div className="px-8 py-4 bg-[#0f172a] border border-emerald-500/20 rounded-2xl text-emerald-500 flex items-center gap-4 shadow-2xl">
-                                         <IconCheck size={18} stroke={3} /> Documents Linked
+                                 <div className="relative z-10 mt-4 flex flex-wrap gap-2 text-xs font-medium">
+                                     <div className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-200/10 bg-emerald-300/[0.06] px-3 py-2 text-emerald-100">
+                                         <IconCheck size={15} /> Documents linked
                                      </div>
-                                     <button type="button" className="px-8 py-4 bg-[#0f172a] text-slate-500 rounded-2xl hover:bg-white/5 hover:text-white transition-all uppercase tracking-[0.4em] border border-white/5 font-sans">EDIT Docs</button>
+                                     <button type="button" className="rounded-lg border border-white/[0.07] bg-white/[0.035] px-3 py-2 text-slate-300 transition hover:text-white font-sans">Edit docs</button>
                                  </div>
                              </div>
                          </div>
 
-                         <div className="pt-12 border-t border-white/5 space-y-10 uppercase font-black tracking-tight relative z-10 font-sans">
+                         <div className="relative z-10 space-y-3 border-t border-white/[0.07] pt-5 font-sans">
                              <button 
                                 type="submit"
                                 disabled={loading}
-                                className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-black py-10 rounded-[3rem] shadow-[0_30px_60px_rgba(79,70,229,0.3)] transition-all flex items-center justify-center gap-6 uppercase text-[12px] tracking-[0.6em] active:scale-95 disabled:opacity-50 group-hover:shadow-indigo-500/40"
+                                className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-cyan-200 px-5 py-3 text-sm font-semibold text-[#07111d] transition hover:bg-cyan-100 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
                              >
                                 {loading ? <IconLoader2 className="animate-spin text-white" size={28} /> : <IconCertificate size={28} stroke={1.5} />}
-                                {loading ? "SUBMITTING..." : "SUBMIT FORM"}
+                                {loading ? "Submitting…" : "Submit scholarship application"}
                              </button>
-                             <p className="text-[10px] font-black text-slate-900 uppercase tracking-[0.3em] text-center leading-relaxed px-20">Please check all details before submitting your form.</p>
+                             <p className="text-center text-xs leading-relaxed text-slate-400">Please check all details before submitting your application.</p>
                          </div>
                     </form>
                 </div>

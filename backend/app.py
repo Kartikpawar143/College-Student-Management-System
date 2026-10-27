@@ -272,15 +272,6 @@ class StudentAddRequest(BaseModel):
 
 @app.post("/students/add")
 async def add_student(student: StudentAddRequest):
-    # Update campus location if provided (Admin/Teacher is enrolling while on campus)
-    if student.lat and student.lng:
-        config_collection.update_one(
-            {"key": "campus_location"},
-            {"$set": {"lat": student.lat, "lng": student.lng, "updatedAt": datetime.now()}},
-            upsert=True
-        )
-        print(f"[CONFIG] Campus location updated to {student.lat}, {student.lng}")
-
     if students_collection.find_one({"rollNo": student.rollNo}):
         raise HTTPException(status_code=400, detail="Student already exists")
     if students_collection.find_one({"email": student.email}):
@@ -431,9 +422,8 @@ class AttendanceRequest(BaseModel):
 
 def get_campus_config():
     config = config_collection.find_one({"key": "campus_location"})
-    if config:
-        return config["lat"], config["lng"], config.get("radius", 500)
-    return 18.5204, 73.8567, 500
+    radius = config.get("radius", 500) if config else 500
+    return 18.573699074746216, 73.98405091545511, radius
 
 def calculate_distance(lat1, lon1, lat2, lon2):
     from math import radians, cos, sin, asin, sqrt
@@ -454,7 +444,7 @@ async def get_campus_location():
         "lat": lat,
         "lng": lng,
         "radius": radius,
-        "source": "database" if config_collection.find_one({"key": "campus_location"}) else "default"
+        "source": "fixed campus coordinates"
     }
 
 # ==== FACE RECOGNITION (LIVE CHECK) ROUTE ====
